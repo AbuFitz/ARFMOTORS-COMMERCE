@@ -67,26 +67,26 @@ export default function AboutPage() {
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-neutral-950/95 via-neutral-950/75 to-neutral-950/35" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-neutral-950/80 to-transparent" />
-        <div className="mx-auto flex min-h-[440px] max-w-7xl flex-col justify-center px-4 py-16 sm:min-h-[520px] sm:px-6 lg:min-h-[600px] lg:px-8">
+        <div className="mx-auto flex min-h-[260px] max-w-7xl flex-col justify-center px-4 py-8 sm:min-h-[300px] sm:px-6 sm:py-10 lg:min-h-[340px] lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-500">About us</p>
-          <h1 className="mt-3 max-w-2xl font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+          <h1 className="mt-2 max-w-3xl font-display text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">
             Car accessories and tools, packed and shipped from the UK
           </h1>
-          <p className="mt-4 max-w-xl text-base sm:text-lg text-neutral-200 leading-relaxed">
+          <p className="mt-3 max-w-xl text-sm sm:text-base text-neutral-200 leading-relaxed">
             ARF Commerce is an independent online retailer. We keep a focused range, hold real stock and look after
             every order from our shelves to your door.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/shop" className="inline-flex items-center gap-2 rounded-lg bg-primary-500 px-5 py-3 text-sm font-semibold text-white hover:bg-primary-600">
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="/shop" className="inline-flex items-center gap-2 rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-600">
               Shop products <ArrowRight className="h-4 w-4" />
             </Link>
-            <a href="#how-we-work" className="inline-flex items-center rounded-lg border border-white/30 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm hover:bg-white/15">
+            <a href="#how-we-work" className="inline-flex items-center rounded-lg border border-white/30 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm hover:bg-white/15">
               How we work
             </a>
           </div>
         </div>
         <div className="border-t border-white/10 bg-neutral-950/60 backdrop-blur-sm">
-          <ul className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-3 px-4 py-5 sm:px-6 lg:grid-cols-4 lg:px-8">
+          <ul className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-3 px-4 py-4 sm:px-6 lg:grid-cols-4 lg:px-8">
             {facts.map((f) => (
               <li key={f.label} className="flex items-center gap-2.5 text-sm text-neutral-200">
                 <f.icon className="h-4 w-4 flex-shrink-0 text-primary-500" />
@@ -98,10 +98,10 @@ export default function AboutPage() {
       </section>
 
       {/* Who we are */}
-      <section className="py-12 sm:py-16">
+      <section className="py-10 sm:py-12">
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
-          <div className="space-y-4 text-base sm:text-lg text-neutral-700 leading-relaxed">
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-neutral-900">Who we are</h2>
+          <div className="space-y-3 text-base text-neutral-700 leading-relaxed">
+            <h2 className="font-display text-2xl font-bold text-neutral-900">Who we are</h2>
             <p>
               We&apos;re an independent UK retailer of car accessories, in-car tech and tools. We source products that
               do their job well and sell them at a fair price.
@@ -119,7 +119,7 @@ export default function AboutPage() {
           <div className="relative">
             <SlotImage
               id="about-stock"
-              className="aspect-[4/3] rounded-2xl shadow-xl ring-1 ring-black/5 lg:aspect-[5/4]"
+              className="aspect-[16/9] rounded-2xl shadow-xl ring-1 ring-black/5 lg:aspect-[2/1]"
               sizes="(min-width: 1024px) 600px, 100vw"
             />
             <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-neutral-950/85 px-3.5 py-2 text-xs font-semibold text-white backdrop-blur sm:text-sm">

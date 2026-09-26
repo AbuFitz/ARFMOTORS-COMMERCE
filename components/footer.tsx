@@ -42,7 +42,6 @@ function LinkColumn({ title, links }: { title: string; links: { name: string; hr
 export function Footer() {
   const shopLinks = [
     { name: "All products", href: "/shop" },
-    { name: "New arrivals", href: "/shop?sort=newest" },
     ...getActiveCategories().map((c) => ({ name: c.name, href: `/shop/${c.id}` })),
   ];
 

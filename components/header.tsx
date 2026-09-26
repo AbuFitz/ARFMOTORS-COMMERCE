@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingCart, Menu, X, Search, Heart, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCartStore } from "@/lib/cart-store";
 import { useWishlistStore } from "@/lib/wishlist-store";
 import { useHydrated } from "@/lib/use-hydrated";
@@ -12,12 +12,8 @@ import { getActiveCategories } from "@/lib/products";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
-const navigation = [
-  { name: "Shop all", href: "/shop" },
-  { name: "Categories", href: "/categories" },
-  { name: "New arrivals", href: "/shop?sort=newest" },
-  { name: "Featured", href: "/shop?featured=1" },
-  { name: "In-car tech", href: "/shop/in-car-tech" },
+// Secondary links, shown on the right of the desktop nav and in the menu
+const infoNav = [
   { name: "Installation", href: "/installation" },
   { name: "Guides", href: "/blog" },
   { name: "About", href: "/about" },
@@ -77,10 +73,51 @@ export function Header() {
   const totalItems = hydrated ? cartCount : 0;
   const wishlistItems = hydrated ? wishlistCount : 0;
   const categories = getActiveCategories();
+  const shopNav = [{ name: "Shop all", href: "/shop" }, ...categories.map((c) => ({ name: c.name, href: `/shop/${c.id}` }))];
 
   const isActive = (href: string) => !href.includes("?") && pathname === href;
 
+  // Close the menu and search whenever the page changes (links, back button, search)
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setMobileSearchOpen(false);
+  }, [pathname]);
+
+  // While the menu is open: Escape closes it and the page behind doesn't scroll
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMobileMenuOpen(false);
+    document.addEventListener("keydown", onKey);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [mobileMenuOpen]);
+
+  const toggleMenu = () => {
+    setMobileSearchOpen(false);
+    setMobileMenuOpen((v) => !v);
+  };
+  const toggleSearch = () => {
+    setMobileMenuOpen(false);
+    setMobileSearchOpen((v) => !v);
+  };
+
   return (
+    <>
+    {/* Tap outside the menu to close it */}
+    {mobileMenuOpen && (
+      <button
+        type="button"
+        aria-label="Close menu"
+        tabIndex={-1}
+        onClick={() => setMobileMenuOpen(false)}
+        className="lg:hidden fixed inset-0 z-[45] bg-neutral-950/40"
+      />
+    )}
+
     <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
       {/* Main row */}
       <div className="mx-auto flex max-w-7xl items-center gap-4 lg:gap-8 px-4 sm:px-6 lg:px-8 h-16 lg:h-[72px]">
@@ -104,9 +141,10 @@ export function Header() {
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <button
             type="button"
-            onClick={() => setMobileSearchOpen((v) => !v)}
+            onClick={toggleSearch}
             className="md:hidden p-2 text-neutral-700 hover:text-neutral-900"
-            aria-label="Search"
+            aria-label={mobileSearchOpen ? "Close search" : "Search"}
+            aria-expanded={mobileSearchOpen}
           >
             <Search className="h-5 w-5" />
           </button>
@@ -125,33 +163,50 @@ export function Header() {
           </Link>
           <button
             type="button"
-            className="xl:hidden p-2 text-neutral-700"
-            onClick={() => setMobileMenuOpen((v) => !v)}
+            className="lg:hidden p-2 text-neutral-700"
+            onClick={toggleMenu}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
-      {/* Desktop navigation row */}
-      <nav className="hidden xl:block border-t border-neutral-100" aria-label="Main">
-        <div className="mx-auto flex max-w-7xl items-center gap-7 px-8 h-11">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "relative text-sm font-medium transition-colors hover:text-neutral-900",
-                isActive(item.href) ? "text-neutral-900" : "text-neutral-600",
-                isActive(item.href) &&
-                  "after:absolute after:-bottom-[13px] after:left-0 after:right-0 after:h-0.5 after:bg-primary-500"
-              )}
-            >
-              {item.name}
-            </Link>
-          ))}
+      {/* Desktop navigation row: shop links left, information right */}
+      <nav className="hidden lg:block border-t border-neutral-100" aria-label="Main">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-8 h-11">
+          <div className="flex items-center gap-5 xl:gap-7">
+            {shopNav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "relative whitespace-nowrap text-sm font-semibold transition-colors hover:text-neutral-900",
+                  isActive(item.href) ? "text-neutral-900" : "text-neutral-700",
+                  isActive(item.href) &&
+                    "after:absolute after:-bottom-[13px] after:left-0 after:right-0 after:h-0.5 after:bg-primary-500"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-4 xl:gap-6">
+            {infoNav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "whitespace-nowrap text-sm transition-colors hover:text-neutral-900",
+                  isActive(item.href) ? "font-medium text-neutral-900" : "text-neutral-600"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </nav>
 
@@ -178,17 +233,21 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="xl:hidden overflow-hidden border-t border-neutral-200 bg-white"
+            id="mobile-menu"
+            className="lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-neutral-200 bg-white"
           >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4 grid gap-6 sm:grid-cols-2">
               <div>
                 <p className="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-neutral-400">Shop</p>
-                {navigation.slice(0, 4).map((item) => (
+                {[{ name: "Shop all", href: "/shop" }].map((item) => (
                   <Link
-                    key={item.name}
+                    key={item.href}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-neutral-800 hover:bg-neutral-50"
+                    className={cn(
+                      "flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium hover:bg-neutral-50",
+                      isActive(item.href) ? "bg-neutral-50 text-neutral-900" : "text-neutral-800"
+                    )}
                   >
                     {item.name}
                     <ChevronRight className="h-4 w-4 text-neutral-300" />
@@ -199,7 +258,10 @@ export function Header() {
                     key={c.id}
                     href={`/shop/${c.id}`}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-neutral-600 hover:bg-neutral-50"
+                    className={cn(
+                      "flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-neutral-50",
+                      isActive(`/shop/${c.id}`) ? "bg-neutral-50 font-medium text-neutral-900" : "text-neutral-600"
+                    )}
                   >
                     {c.name}
                     <span className="text-xs text-neutral-400">{c.count}</span>
@@ -208,7 +270,7 @@ export function Header() {
               </div>
               <div>
                 <p className="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-neutral-400">ARF Commerce</p>
-                {navigation.slice(5).map((item) => (
+                {infoNav.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
@@ -235,6 +297,8 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+
     </header>
+    </>
   );
 }

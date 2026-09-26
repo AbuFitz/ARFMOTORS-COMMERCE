@@ -61,7 +61,7 @@ Already uploaded to `public/images/categories/` (in-car-tech, accessories, roads
 
 | Upload to | Size (px) | Notes |
 |---|---|---|
-| `public/images/banners/*.jpg` | 2172 x 724 (3:1) | Keep all text in the left 80% and away from the top and bottom 12%: desktop shows 4:1 (centre) and mobile 5:2 (from the left). Add each banner to `lib/banners.ts` with its link. Current: supply-and-fit, offers-and-savings, trusted-ordering. |
+| `public/images/banners/*.jpg` | 2172 x 724 (3:1) | Keep text away from the top and bottom 17%: desktop shows a 4.5:1 centre crop; mobile shows the full banner. Add each banner to `lib/banners.ts` with its link. Current: supply-and-fit, offers-and-savings, trusted-ordering. |
 
 Marketing photos get a gentle colour grade by default, and hero backgrounds a light 1px blur. Pass `soft={false}` to `SlotImage` for real photography.
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Wrench, Heart, Clock, Eye } from "lucide-react";
+import { Wrench, Heart, Clock, Eye } from "lucide-react";
 import { Product } from "@/types/product";
 import { formatPrice, calculateDiscount } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -208,26 +208,6 @@ export function ProductCard({ product, showQuickView = false }: ProductCardProps
         </div>
       </Link>
 
-      {/* Quick add button - Larger touch target for mobile */}
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className={cn(
-          "mt-3 w-full flex items-center justify-center gap-2",
-          "border border-neutral-900 text-neutral-900 py-2.5 rounded-lg",
-          "font-medium text-sm transition-colors",
-          "hover:bg-neutral-900 hover:text-white active:scale-95",
-          "min-h-[44px] touch-manipulation"
-        )}
-        onClick={(e) => {
-          e.preventDefault();
-          window.location.href = `/product/${product.slug}`;
-        }}
-        aria-label={`View details for ${product.title}`}
-      >
-        <ShoppingCart className="h-4 w-4" />
-        View product
-      </motion.button>
     </motion.div>
   );
 }

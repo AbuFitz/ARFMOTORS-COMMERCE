@@ -88,7 +88,7 @@ export function BannerSlideshow({ banners }: { banners: Banner[] }) {
         resumeTimer.current = setTimeout(() => setPaused(false), RESUME_AFTER_TOUCH);
       }}
     >
-      <div ref={track} className="flex snap-x snap-mandatory overflow-x-auto scrollbar-hide rounded-2xl bg-neutral-100">
+      <div ref={track} className="flex snap-x snap-mandatory overflow-x-auto scrollbar-hide bg-neutral-100 sm:rounded-2xl">
         {slides.map((b, i) => (
           <Link
             key={`${b.src}-${i}`}
@@ -96,14 +96,14 @@ export function BannerSlideshow({ banners }: { banners: Banner[] }) {
             aria-hidden={i === n || undefined}
             tabIndex={i === n ? -1 : undefined}
             aria-label={`${b.label}: slide ${(i % n) + 1} of ${n}`}
-            className="relative block w-full flex-shrink-0 snap-start aspect-[5/2] sm:aspect-[4/1]"
+            className="relative block w-full flex-shrink-0 snap-start aspect-[3/1] sm:aspect-[9/2]"
           >
             <Image
               src={b.src}
               alt={i === n ? "" : b.alt}
               fill
               sizes="(min-width: 1280px) 1216px, 100vw"
-              className="object-cover object-left sm:object-center"
+              className="object-cover object-center"
             />
           </Link>
         ))}

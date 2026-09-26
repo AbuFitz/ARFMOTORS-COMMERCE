@@ -49,7 +49,7 @@ export default function SuppliersPage() {
 
       {/* Hero */}
       <section className="relative isolate overflow-hidden bg-neutral-950 text-white">
-        <Image src={hero.src} alt="" fill priority sizes="100vw" className="-z-20 scale-110 object-cover object-[70%_center] blur-[3px] brightness-75 saturate-[.8]" />
+        <Image src={hero.src} alt="" fill priority sizes="100vw" className="-z-20 scale-[1.02] object-cover object-[70%_center] blur-[1px] brightness-[.8] saturate-[.85]" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-neutral-950/95 via-neutral-950/75 to-neutral-950/35" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-28">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-500">Suppliers & distributors</p>

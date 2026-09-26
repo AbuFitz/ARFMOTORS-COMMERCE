@@ -51,7 +51,7 @@ All 9 heroes are uploaded. Still to do: the inline `1.jpg` photos, plus higher r
 
 | Upload to | Size (px) | Notes |
 |---|---|---|
-| `public/images/products/<slug>/...` or a URL in the product data | 1200 x 1200 (square) | Clean light or white background, product centred, plus 2 to 4 extra angles or in-use shots. Update `images` in `data/products.ts` (or the CSV import). |
+| `public/images/products/<slug>.jpg` or a URL in the product data | 1200 x 1200 (square) | The demo catalogue uses Creative Commons photos from Wikimedia Commons, credited on `/credits` (`data/image-credits.ts`). Replace them with photos of the exact products you sell, then delete the matching credit. Clean light background, product centred, plus 2 to 4 extra angles. |
 
 ## Categories
 
@@ -61,9 +61,9 @@ Already uploaded to `public/images/categories/` (in-car-tech, accessories, roads
 
 | Upload to | Size (px) | Notes |
 |---|---|---|
-| `public/images/banners/*.jpg` | 2172 x 724 (3:1) | Keep all text in the left 60%, because mobile crops to 2:1 from the left edge. Add each banner to `lib/banners.ts` with its link. Current: supply-and-fit, offers-and-savings, trusted-ordering. |
+| `public/images/banners/*.jpg` | 2172 x 724 (3:1) | Keep all text in the left 80% and away from the top and bottom 12%: desktop shows 4:1 (centre) and mobile 5:2 (from the left). Add each banner to `lib/banners.ts` with its link. Current: supply-and-fit, offers-and-savings, trusted-ordering. |
 
-AI-generated photos are shown slightly softened (a light blur and colour grade) by default. Pass `soft={false}` to `SlotImage` for real photography.
+Marketing photos get a gentle colour grade by default, and hero backgrounds a light 1px blur. Pass `soft={false}` to `SlotImage` for real photography.
 
 ## Social sharing and icons
 

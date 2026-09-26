@@ -10,6 +10,7 @@ export type BlogBlock =
   | { type: "tip"; title: string; text: string }
   | { type: "warning"; title: string; text: string }
   | { type: "image"; src: string; alt: string; caption?: string }
+  | { type: "video"; youtubeId: string; title: string; caption?: string }
   | { type: "products"; slugs: string[] };
 
 export interface BlogPostMeta {

@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/warranty", 0.3, "yearly"],
     ["/terms", 0.2, "yearly"],
     ["/privacy", 0.2, "yearly"],
+    ["/credits", 0.1, "yearly"],
   ];
 
   return [

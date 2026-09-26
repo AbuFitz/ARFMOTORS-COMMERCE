@@ -19,6 +19,7 @@ const policyLinks = [
   { name: "Warranty", href: "/warranty" },
   { name: "Terms & conditions", href: "/terms" },
   { name: "Privacy policy", href: "/privacy" },
+  { name: "Image credits", href: "/credits" },
 ];
 
 function LinkColumn({ title, links }: { title: string; links: { name: string; href: string }[] }) {

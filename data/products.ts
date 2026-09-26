@@ -16,7 +16,9 @@ import { Product } from "@/types/product";
 //  isFeatured       shown in "Featured products"
 // ============================================================
 
-const demo = (slug: string) => [`/images/products/demo/${slug}.png`];
+// Demo photos are Creative Commons images (see data/image-credits.ts). Replace
+// them with your own product photos before launch.
+const demo = (slug: string) => [`/images/products/${slug}.jpg`];
 
 type Seed = Omit<Product, "images" | "isActive" | "discountType" | "discountValue" | "inStockUK" | "imported" | "deliveryEstimate" | "fittingEligible" | "updatedAt"> &
   Partial<Pick<Product, "discountType" | "discountValue" | "inStockUK" | "imported" | "deliveryEstimate" | "fittingEligible">>;

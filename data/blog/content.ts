@@ -244,6 +244,12 @@ export const BLOG_CONTENT: Record<string, BlogBlock[]> = {
       ],
     },
     { type: "image", src: img("how-to-use-a-jump-starter", "1.jpg"), alt: "Red and black jump starter clamps on car battery terminals" },
+    {
+      type: "video",
+      youtubeId: "z0QZNrX8fxI",
+      title: "How to jump start a car with a portable jump starter",
+      caption: "Watch: using a portable jump starter, step by step.",
+    },
     { type: "h2", text: "After the jump start" },
     {
       type: "p",

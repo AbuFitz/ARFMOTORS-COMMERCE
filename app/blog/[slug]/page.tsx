@@ -72,10 +72,21 @@ export default function GuidePage({ params }: { params: { slug: string } }) {
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
     keywords: post.keyword,
   };
+  const videos = blocks.flatMap((b) => (b.type === "video" ? [b] : []));
+  const videoLd = videos.map((v) => ({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: v.title,
+    description: v.caption ?? v.title,
+    thumbnailUrl: `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`,
+    embedUrl: `https://www.youtube.com/embed/${v.youtubeId}`,
+    contentUrl: `https://www.youtube.com/watch?v=${v.youtubeId}`,
+    uploadDate: post.publishedAt,
+  }));
 
   return (
     <article className="bg-white">
-      <JsonLd data={[articleLd, breadcrumbJsonLd(crumbs), ...(post.faqs?.length ? [faqJsonLd(post.faqs)] : [])]} />
+      <JsonLd data={[articleLd, breadcrumbJsonLd(crumbs), ...videoLd, ...(post.faqs?.length ? [faqJsonLd(post.faqs)] : [])]} />
 
       <header className="border-b border-neutral-200">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 pt-6 pb-8 sm:pb-10">
@@ -103,7 +114,7 @@ export default function GuidePage({ params }: { params: { slug: string } }) {
       </header>
 
       <div className="mx-auto max-w-5xl px-4 sm:px-6 pt-6 sm:pt-8">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-neutral-100">
+        <div className="relative aspect-[2/1] overflow-hidden rounded-2xl bg-neutral-100 sm:aspect-[5/2] lg:aspect-[3/1]">
           <Image src={hero.src} alt={hero.alt} fill priority sizes="(min-width: 1024px) 1000px, 100vw" className="object-cover" />
         </div>
       </div>

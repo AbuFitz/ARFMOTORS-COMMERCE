@@ -63,11 +63,11 @@ export default function AboutPage() {
           fill
           priority
           sizes="100vw"
-          className="-z-20 scale-110 object-cover object-[65%_center] blur-[3px] brightness-75 saturate-[.8]"
+          className="-z-20 scale-[1.02] object-cover object-center blur-[1px] brightness-[.8] saturate-[.85]"
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-neutral-950/95 via-neutral-950/75 to-neutral-950/35" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-neutral-950/80 to-transparent" />
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
+        <div className="mx-auto flex min-h-[440px] max-w-7xl flex-col justify-center px-4 py-16 sm:min-h-[520px] sm:px-6 lg:min-h-[600px] lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-500">About us</p>
           <h1 className="mt-3 max-w-2xl font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             Car accessories and tools, packed and shipped from the UK
@@ -116,21 +116,13 @@ export default function AboutPage() {
               installed by our fitting partner, {SITE_CONFIG.fitting.partner}.
             </p>
           </div>
-          {/* Layered collage: stock photo, packing photo inset, brand accent */}
-          <div className="relative mx-auto w-full max-w-xl pb-14 pl-6 sm:pb-16 sm:pl-10 lg:max-w-none">
-            <div aria-hidden className="absolute right-0 top-6 h-[78%] w-[82%] rounded-3xl bg-primary-500" />
-            <div aria-hidden className="absolute -left-1 top-0 h-24 w-24 rounded-2xl bg-[radial-gradient(#d4d4d4_1.5px,transparent_1.5px)] [background-size:10px_10px]" />
+          <div className="relative">
             <SlotImage
               id="about-stock"
-              className="relative mr-5 aspect-[4/3] -rotate-1 rounded-3xl shadow-2xl ring-1 ring-black/5 sm:mr-8"
-              sizes="(min-width: 1024px) 560px, 90vw"
+              className="aspect-[4/3] rounded-2xl shadow-xl ring-1 ring-black/5 lg:aspect-[5/4]"
+              sizes="(min-width: 1024px) 600px, 100vw"
             />
-            <SlotImage
-              id="about-packing"
-              className="absolute bottom-0 left-0 aspect-[4/3] w-[48%] rotate-2 rounded-2xl border-4 border-white shadow-2xl sm:border-[6px]"
-              sizes="(min-width: 1024px) 280px, 45vw"
-            />
-            <div className="absolute right-2 bottom-3 flex items-center gap-2 rounded-full bg-neutral-950/90 px-3.5 py-2 text-xs font-semibold text-white shadow-lg backdrop-blur sm:right-4 sm:bottom-5 sm:text-sm">
+            <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-neutral-950/85 px-3.5 py-2 text-xs font-semibold text-white backdrop-blur sm:text-sm">
               <span className="h-2 w-2 rounded-full bg-primary-500" />
               UK stock, ready to ship
             </div>
@@ -155,35 +147,41 @@ export default function AboutPage() {
       </section>
 
       {/* From our shelves to your door */}
-      <section className="relative isolate overflow-hidden bg-neutral-950 py-14 text-white sm:py-20">
-        <div aria-hidden className="absolute -right-32 -top-32 -z-10 h-96 w-96 rounded-full bg-primary-500/25 blur-3xl" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
+      <section className="relative isolate overflow-hidden bg-neutral-950 text-white">
+        <div aria-hidden className="absolute -left-32 -top-32 -z-10 h-96 w-96 rounded-full bg-primary-500/20 blur-3xl" />
+        <div className="grid lg:grid-cols-2">
+          <div className="relative aspect-[16/10] lg:order-2 lg:aspect-auto">
+            <SlotImage id="about-packing" className="absolute inset-0" sizes="(min-width: 1024px) 50vw, 100vw" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent lg:bg-gradient-to-r lg:from-neutral-950 lg:via-neutral-950/30" />
+          </div>
+          <div className="px-4 pb-14 pt-4 sm:px-6 sm:pb-16 lg:py-20 lg:pl-8 lg:pr-12 xl:pl-[max(2rem,calc((100vw-80rem)/2+2rem))]">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-500">Every order</p>
             <h2 className="mt-2 font-display text-2xl sm:text-3xl lg:text-4xl font-bold">From our shelves to your door</h2>
-            <p className="mt-3 text-neutral-400">Orders from our UK stock are picked, packed and sent by our own team.</p>
+            <p className="mt-3 max-w-md text-neutral-400">Orders from our UK stock are picked, packed and sent by our own team.</p>
+            <ol className="relative mt-8 space-y-7">
+              <div aria-hidden className="absolute bottom-5 left-5 top-5 w-px bg-gradient-to-b from-primary-500 to-primary-500/0" />
+              {journey.map((j, i) => (
+                <li key={j.title} className="relative flex gap-4">
+                  <span className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-500 text-white ring-8 ring-neutral-950">
+                    <j.icon className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-500">Step 0{i + 1}</p>
+                    <h3 className="mt-1 text-lg font-semibold">{j.title}</h3>
+                    <p className="mt-1.5 max-w-md text-sm leading-relaxed text-neutral-400">{j.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
-          <ol className="relative mt-10 grid gap-8 md:grid-cols-3 md:gap-6">
-            <div aria-hidden className="absolute left-5 top-5 bottom-5 w-px bg-gradient-to-b from-primary-500 to-primary-500/0 md:left-5 md:right-5 md:top-5 md:bottom-auto md:h-px md:w-auto md:bg-gradient-to-r" />
-            {journey.map((j, i) => (
-              <li key={j.title} className="relative flex gap-4 md:flex-col md:gap-5">
-                <span className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-500 text-white ring-8 ring-neutral-950">
-                  <j.icon className="h-4 w-4" />
-                </span>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-500">Step 0{i + 1}</p>
-                  <h3 className="mt-1 text-lg font-semibold">{j.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-neutral-400">{j.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          {range && (
-            <div className="relative mt-12 aspect-[21/9] overflow-hidden rounded-2xl bg-neutral-900">
+        </div>
+        {range && (
+          <div className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
+            <div className="relative aspect-[21/9] overflow-hidden rounded-2xl bg-neutral-900">
               <Image src={range.src} alt={range.alt} fill sizes="100vw" className="object-cover" />
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </section>
 
       {/* Where we sell, fitting, suppliers */}

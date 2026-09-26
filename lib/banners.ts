@@ -1,5 +1,6 @@
 // Homepage banner slideshow. Banners are 3:1 artwork with the text on the
-// left, so on mobile they're cropped to 2:1 from the left edge to keep it.
+// left. Desktop shows them at 4:1 (trimming a little top and bottom); mobile
+// shows 5:2 from the left edge so the text stays in view.
 // Add a slide by uploading to /public/images/banners/ and adding it here.
 
 export interface Banner {

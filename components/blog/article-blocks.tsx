@@ -61,6 +61,23 @@ export function ArticleBlocks({ blocks }: { blocks: BlogBlock[] }) {
               </figure>
             );
           }
+          case "video":
+            return (
+              <figure key={i} className="py-2">
+                <div className="relative aspect-video overflow-hidden rounded-xl bg-neutral-900">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${block.youtubeId}?rel=0`}
+                    title={block.title}
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    className="absolute inset-0 h-full w-full"
+                  />
+                </div>
+                {block.caption && <figcaption className="mt-2 text-sm text-neutral-500">{block.caption}</figcaption>}
+              </figure>
+            );
           case "products": {
             const products = block.slugs.map((s) => getProductBySlug(s)).filter((p): p is Product => Boolean(p));
             if (products.length === 0) return null;

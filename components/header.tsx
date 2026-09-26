@@ -86,12 +86,12 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center gap-4 lg:gap-8 px-4 sm:px-6 lg:px-8 h-16 lg:h-[72px]">
         <Link href="/" className="flex-shrink-0" aria-label="ARF Commerce home">
           <Image
-            src="/logo.svg"
+            src="/logo.png"
             alt="ARF Commerce"
-            width={1381}
-            height={524}
+            width={1484}
+            height={559}
             priority
-            unoptimized
+            sizes="200px"
             className="h-10 lg:h-12 w-auto"
           />
         </Link>

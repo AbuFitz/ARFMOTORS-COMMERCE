@@ -20,14 +20,11 @@ Every image slot on the site, where to upload it and what to shoot.
 
 ## Suppliers page (`/suppliers`)
 
-Until these are uploaded, the page borrows the About photos (warehouse for the hero, packing desk for listings, dispatch for dispatch) and the in-car tech photo for fitting.
+Until this is uploaded, the hero borrows the About warehouse photo.
 
 | Upload to | Size (px) | What to shoot |
 |---|---|---|
 | `public/images/suppliers/hero.jpg` | 2400 x 1000 | Wide banner. Pallets or cartons of product, or a shelf of boxed stock. Dark, moody, orange accent. Keep the left side calm for the headline. |
-| `public/images/suppliers/listing.jpg` | 1600 x 1200 | A product being photographed on a clean background, or a laptop showing a product page. |
-| `public/images/suppliers/dispatch.jpg` | 1600 x 1200 | A stack of packed parcels with shipping labels, or a courier collection. |
-| `public/images/suppliers/fitting.jpg` | 1600 x 1200 | An in-car product being installed: dash cam, reversing camera or wiring. |
 
 ## Guides (`/blog`)
 
@@ -36,7 +33,7 @@ Each guide has a **hero** (shown at the top of the article, on guide cards and w
 - Hero: `hero.jpg`, **1600 x 900** (16:9). Keep the subject central, because cards crop slightly.
 - Inline: `1.jpg`, **1500 x 1000** (3:2). If this isn't uploaded, it's simply left out of the article.
 
-Until a hero is uploaded, the guide uses its category photo.
+All 9 heroes are uploaded. Still to do: the inline `1.jpg` photos, plus higher resolution heroes for `basic-car-tool-kit` (513 x 255) and `how-to-use-a-jump-starter` (480 x 320). Until an inline photo is uploaded it is left out of the article.
 
 | Guide | Hero: `public/images/blog/<slug>/hero.jpg` | Inline: `public/images/blog/<slug>/1.jpg` |
 |---|---|---|
@@ -59,6 +56,14 @@ Until a hero is uploaded, the guide uses its category photo.
 ## Categories
 
 Already uploaded to `public/images/categories/` (in-car-tech, accessories, roadside, tools). Replace any at **1600 x 1200** to update the homepage, categories page, shop category pages and guide fallbacks.
+
+## Homepage banner slideshow
+
+| Upload to | Size (px) | Notes |
+|---|---|---|
+| `public/images/banners/*.jpg` | 2172 x 724 (3:1) | Keep all text in the left 60%, because mobile crops to 2:1 from the left edge. Add each banner to `lib/banners.ts` with its link. Current: supply-and-fit, offers-and-savings, trusted-ordering. |
+
+AI-generated photos are shown slightly softened (a light blur and colour grade) by default. Pass `soft={false}` to `SlotImage` for real photography.
 
 ## Social sharing and icons
 

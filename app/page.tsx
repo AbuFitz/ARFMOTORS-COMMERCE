@@ -20,7 +20,8 @@ import { SITE_CONFIG } from "@/lib/site-config";
 import { formatPrice, calculateDiscount } from "@/lib/utils";
 import { GuideCard } from "@/components/blog/guide-card";
 import { getAllPosts } from "@/lib/blog";
-import { uploadedSlotImage } from "@/lib/image-slots";
+import { BannerSlideshow } from "@/components/banner-slideshow";
+import { BANNERS } from "@/lib/banners";
 
 export const metadata: Metadata = {
   title: { absolute: "ARF Commerce | Car Accessories, In-Car Tech & Tools" },
@@ -68,7 +69,6 @@ export default function HomePage() {
   const heroProducts = getFeaturedProducts(3);
   const fittingProducts = getAllProducts().filter((p) => p.fittingEligible);
   const guides = getAllPosts().slice(0, 3);
-  const whyImage = uploadedSlotImage("about-stock");
 
   return (
     <div className="bg-white">
@@ -126,16 +126,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── Featured products ─────────────────────────────────── */}
-      <section className="py-10 sm:py-14">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading title="Featured products" href="/shop?featured=1" />
-          <ProductRail products={featured} />
+      {/* ─── Trust strip ───────────────────────────────────────── */}
+      <section className="border-b border-neutral-200 bg-white">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-4 px-4 py-5 sm:px-6 lg:grid-cols-4 lg:px-8">
+          {[
+            { icon: Truck, title: "UK delivery", text: "Delivery times shown on every product" },
+            { icon: ShieldCheck, title: "Secure checkout", text: "Payments processed by Stripe" },
+            { icon: RotateCcw, title: "14-day returns", text: "Change your mind? See our returns policy" },
+            { icon: MessageCircle, title: "Here to help", text: "Email us and we'll reply within 24 hours" },
+          ].map((item) => (
+            <div key={item.title} className="flex items-start gap-3">
+              <item.icon className="h-5 w-5 flex-shrink-0 text-neutral-900" />
+              <div>
+                <p className="text-sm font-semibold text-neutral-900">{item.title}</p>
+                <p className="text-xs text-neutral-500 leading-relaxed">{item.text}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ─── Shop by category ──────────────────────────────────── */}
-      <section className="pb-10 sm:pb-14">
+      <section className="py-10 sm:py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="Shop by category" href="/categories" linkText="All categories" />
           {/* Swipeable row on mobile, grid from md up */}
@@ -167,65 +179,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── Why shop with ARF Commerce ────────────────────────── */}
-      <section className="border-y border-neutral-200 bg-neutral-50 py-10 sm:py-14">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-8 lg:grid-cols-[1fr_2fr] lg:gap-12">
-          <div>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-neutral-900">Why shop with ARF Commerce</h2>
-            <p className="mt-3 text-sm sm:text-base text-neutral-600 leading-relaxed">
-              We&apos;re an independent UK retailer. We keep our range focused, describe products plainly and
-              make it easy to get help when you need it.
-            </p>
-            <Link
-              href="/about"
-              className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-neutral-900 hover:text-primary-500"
-            >
-              About us <ArrowRight className="h-4 w-4" />
-            </Link>
-            {whyImage && (
-              <div className="relative mt-6 aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900">
-                <Image src={whyImage.src} alt={whyImage.alt} fill sizes="(min-width: 1024px) 400px, 100vw" className="object-cover" />
-              </div>
-            )}
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:content-center">
-            {[
-              {
-                icon: ListChecks,
-                title: "A focused range",
-                text: "Car accessories and tools picked for quality and value, not thousands of near-identical listings.",
-              },
-              {
-                icon: Info,
-                title: "Clear product information",
-                text: "Every product page shows what's included, what it works with and when it will arrive.",
-              },
-              {
-                icon: Building2,
-                title: "A registered UK company",
-                text: "ARF Commerce Ltd is registered in England and Wales. You'll always know who you're buying from.",
-              },
-              {
-                icon: Wrench,
-                title: "Fitting when you need it",
-                text: "Selected products can be professionally installed by our fitting partner.",
-              },
-            ].map((item) => (
-              <div key={item.title} className="flex gap-3 rounded-xl bg-white p-4 border border-neutral-200">
-                <item.icon className="h-5 w-5 flex-shrink-0 text-primary-500 mt-0.5" />
-                <div>
-                  <h3 className="text-sm font-semibold text-neutral-900">{item.title}</h3>
-                  <p className="mt-1 text-sm text-neutral-600 leading-relaxed">{item.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* ─── Featured products ─────────────────────────────────── */}
+      <section className="pb-10 sm:pb-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading title="Featured products" href="/shop?featured=1" />
+          <ProductRail products={featured} />
         </div>
       </section>
 
       {/* ─── Optional fitting ──────────────────────────────────── */}
       {fittingProducts.length > 0 && (
-        <section className="py-10 sm:py-14">
+        <section className="pb-10 sm:pb-14">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div
               className="grid gap-6 rounded-2xl border border-neutral-200 p-5 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:items-center"
@@ -293,9 +257,67 @@ export default function HomePage() {
         </section>
       )}
 
+      {/* ─── Banner slideshow ─────────────────────────────────── */}
+      <section className="pb-10 sm:pb-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <BannerSlideshow banners={BANNERS} />
+        </div>
+      </section>
+
+      {/* ─── Why shop with ARF Commerce ────────────────────────── */}
+      <section className="border-y border-neutral-200 bg-neutral-50 py-10 sm:py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-8 lg:grid-cols-[1fr_2fr] lg:gap-12">
+          <div>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-neutral-900">Why shop with ARF Commerce</h2>
+            <p className="mt-3 text-sm sm:text-base text-neutral-600 leading-relaxed">
+              We&apos;re an independent UK retailer. We keep our range focused, describe products plainly and
+              make it easy to get help when you need it.
+            </p>
+            <Link
+              href="/about"
+              className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-neutral-900 hover:text-primary-500"
+            >
+              About us <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                icon: ListChecks,
+                title: "A focused range",
+                text: "Car accessories and tools picked for quality and value, not thousands of near-identical listings.",
+              },
+              {
+                icon: Info,
+                title: "Clear product information",
+                text: "Every product page shows what's included, what it works with and when it will arrive.",
+              },
+              {
+                icon: Building2,
+                title: "A registered UK company",
+                text: "ARF Commerce Ltd is registered in England and Wales. You'll always know who you're buying from.",
+              },
+              {
+                icon: Wrench,
+                title: "Fitting when you need it",
+                text: "Selected products can be professionally installed by our fitting partner.",
+              },
+            ].map((item) => (
+              <div key={item.title} className="flex gap-3 rounded-xl bg-white p-4 border border-neutral-200">
+                <item.icon className="h-5 w-5 flex-shrink-0 text-primary-500 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-semibold text-neutral-900">{item.title}</h3>
+                  <p className="mt-1 text-sm text-neutral-600 leading-relaxed">{item.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── Guides ────────────────────────────────────────────── */}
       {guides.length > 0 && (
-        <section className="border-t border-neutral-200 bg-neutral-50 py-10 sm:py-14">
+        <section className="py-10 sm:py-14">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <SectionHeading title="Guides & advice" subtitle="Help choosing and using car tech, accessories and tools" href="/blog" linkText="All guides" />
             <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-2 scrollbar-hide sm:-mx-6 sm:gap-5 sm:scroll-px-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0 lg:pb-0">
@@ -308,26 +330,6 @@ export default function HomePage() {
           </div>
         </section>
       )}
-
-      {/* ─── Trust strip ───────────────────────────────────────── */}
-      <section className="border-t border-neutral-200">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-6 px-4 py-8 sm:px-6 lg:grid-cols-4 lg:px-8">
-          {[
-            { icon: Truck, title: "UK delivery", text: "Delivery times shown on every product" },
-            { icon: ShieldCheck, title: "Secure checkout", text: "Payments processed by Stripe" },
-            { icon: RotateCcw, title: "14-day returns", text: "Change your mind? See our returns policy" },
-            { icon: MessageCircle, title: "Here to help", text: "Email us and we'll reply within 24 hours" },
-          ].map((item) => (
-            <div key={item.title} className="flex items-start gap-3">
-              <item.icon className="h-5 w-5 flex-shrink-0 text-neutral-900" />
-              <div>
-                <p className="text-sm font-semibold text-neutral-900">{item.title}</p>
-                <p className="text-xs text-neutral-500 leading-relaxed">{item.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

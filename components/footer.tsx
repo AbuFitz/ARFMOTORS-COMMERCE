@@ -53,11 +53,11 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-4">
             <Link href="/" className="inline-block" aria-label="ARF Commerce home">
               <Image
-                src="/logo-white.svg"
+                src="/logo-white.png"
                 alt="ARF Commerce"
-                width={1381}
-                height={524}
-                unoptimized
+                width={1484}
+                height={559}
+                sizes="200px"
                 className="h-10 lg:h-12 w-auto"
               />
             </Link>

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowRight, Check, X, Store, ShoppingBag, Wrench, Truck, Camera, BadgePoundSterling } from "lucide-react";
 import { SupplierEnquiryForm } from "./enquiry-form";
-import { SlotImage } from "@/components/slot-image";
 import { JsonLd } from "@/components/json-ld";
 import { CATEGORIES } from "@/lib/products";
 import { slotImage } from "@/lib/image-slots";
@@ -50,8 +49,8 @@ export default function SuppliersPage() {
 
       {/* Hero */}
       <section className="relative isolate overflow-hidden bg-neutral-950 text-white">
-        <Image src={hero.src} alt={hero.alt} fill priority sizes="100vw" className="-z-10 object-cover object-[70%_center]" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-neutral-950 via-neutral-950/75 to-neutral-950/0" />
+        <Image src={hero.src} alt="" fill priority sizes="100vw" className="-z-20 scale-110 object-cover object-[70%_center] blur-[3px] brightness-75 saturate-[.8]" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-neutral-950/95 via-neutral-950/75 to-neutral-950/35" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-28">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-500">Suppliers & distributors</p>
           <h1 className="mt-3 max-w-2xl font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
@@ -121,18 +120,6 @@ export default function SuppliersPage() {
                 <h3 className="mt-3 font-semibold text-neutral-900">{o.title}</h3>
                 <p className="mt-1 text-sm text-neutral-600 leading-relaxed">{o.text}</p>
               </div>
-            ))}
-          </div>
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {([
-              ["suppliers-listing", "Proper listings"],
-              ["suppliers-dispatch", "UK dispatch"],
-              ["suppliers-fitting", "Fitting on eligible products"],
-            ] as const).map(([id, caption]) => (
-              <figure key={id}>
-                <SlotImage id={id} className="aspect-[4/3] rounded-xl" sizes="(min-width: 768px) 33vw, 100vw" />
-                <figcaption className="mt-2 text-sm text-neutral-500">{caption}</figcaption>
-              </figure>
             ))}
           </div>
         </div>

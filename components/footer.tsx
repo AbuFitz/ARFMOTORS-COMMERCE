@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
-import { SITE_CONFIG } from "@/lib/site-config";
+import { SITE_CONFIG, COMPANY, COMPANY_STATEMENT } from "@/lib/site-config";
 
 const footerLinks = {
   shop: [
@@ -11,7 +11,7 @@ const footerLinks = {
     { name: "Performance", href: "/shop?category=performance" },
   ],
   company: [
-    { name: "About ARFMODS", href: "/about" },
+    { name: "About ARF Motors", href: "/about" },
     { name: "FixNow Fitting", href: "/#fitting" },
     { name: "Track Order", href: "/track-order" },
     { name: "Support", href: "/support" },
@@ -32,8 +32,7 @@ export function Footer() {
         {/* Brand */}
         <div className="text-center pb-4 border-b border-neutral-800">
           <Link href="/" className="inline-block">
-            <span className="text-lg font-display font-bold tracking-tight text-white">ARFMODS</span>
-            <span className="ml-2 text-[9px] font-medium text-neutral-400 tracking-wide">AUTOMOTIVE</span>
+            <span className="text-lg font-display font-bold tracking-tight text-white">ARF <span className="text-primary-500">MOTORS</span></span>
           </Link>
           <p className="text-[10px] text-neutral-500 mt-2">Premium BMW Retrofits & Performance</p>
         </div>
@@ -62,17 +61,17 @@ export function Footer() {
 
         {/* Contact */}
         <div className="py-3 flex justify-center border-t border-neutral-800">
-          <a href="mailto:info@arfmods.co.uk" className="flex items-center gap-2 text-xs text-neutral-400 hover:text-primary-400 transition-colors">
+          <a href="mailto:info@arfmotors.co.uk" className="flex items-center gap-2 text-xs text-neutral-400 hover:text-primary-400 transition-colors">
             <Mail className="h-3 w-3" />
-            info@arfmods.co.uk
+            info@arfmotors.co.uk
           </a>
         </div>
 
         {/* Copyright */}
         <div className="pt-3 border-t border-neutral-800">
           <p className="text-[10px] text-neutral-500 text-center leading-relaxed">
-            &copy; {new Date().getFullYear()} ARFMODS<br />
-            Official ARF Automotive Division
+            &copy; {new Date().getFullYear()} ARF Motors<br />
+            {COMPANY.legalName} · Co. no. {COMPANY.companyNumber}
           </p>
         </div>
       </div>
@@ -83,14 +82,13 @@ export function Footer() {
           {/* Brand section */}
           <div>
             <Link href="/" className="inline-block">
-              <span className="text-2xl font-display font-bold tracking-tight text-white">ARFMODS</span>
-              <span className="ml-2 text-xs font-medium text-neutral-400 tracking-wide">AUTOMOTIVE</span>
+              <span className="text-2xl font-display font-bold tracking-tight text-white">ARF <span className="text-primary-500">MOTORS</span></span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-neutral-400">
-              The official BMW retrofit, styling, and performance division of ARF Automotive Group.
+              BMW styling and performance parts, sold direct and on eBay.
             </p>
             <p className="mt-4 text-xs text-neutral-500">
-              Official fitting division:<br />
+              Fitting partner:<br />
               <a
                 href={SITE_CONFIG.fitting.url}
                 target="_blank"
@@ -154,9 +152,9 @@ export function Footer() {
               ))}
             </ul>
             <div className="mt-6">
-              <a href="mailto:info@arfmods.co.uk" className="flex items-center gap-2 text-sm text-neutral-400 hover:text-primary-400 transition-colors">
+              <a href="mailto:info@arfmotors.co.uk" className="flex items-center gap-2 text-sm text-neutral-400 hover:text-primary-400 transition-colors">
                 <Mail className="h-4 w-4" />
-                info@arfmods.co.uk
+                info@arfmotors.co.uk
               </a>
             </div>
           </div>
@@ -165,7 +163,7 @@ export function Footer() {
         {/* Bottom section */}
         <div className="mt-12 border-t border-neutral-800 pt-8">
           <p className="text-xs text-neutral-500">
-            &copy; {new Date().getFullYear()} ARFMODS Automotive. Part of ARF Automotive Group. All rights reserved.
+            &copy; {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved. {COMPANY_STATEMENT}
           </p>
         </div>
       </div>

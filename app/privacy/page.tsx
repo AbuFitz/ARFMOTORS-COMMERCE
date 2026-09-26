@@ -1,3 +1,4 @@
+import { COMPANY } from "@/lib/site-config";
 export default function PrivacyPage() {
   return (
     <div className="bg-white min-h-screen">
@@ -17,10 +18,10 @@ export default function PrivacyPage() {
           <div>
             <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">1. Introduction</h2>
             <p className="text-neutral-700 leading-relaxed mb-3">
-              ARFMODS Automotive ("we", "our", "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website arfmods.co.uk or make a purchase from us.
+              ARF Motors ("we", "our", "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website arfmotors.co.uk or make a purchase from us.
             </p>
             <p className="text-neutral-700 leading-relaxed">
-              We are part of ARF Automotive Group and operate in accordance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
+              The data controller is {COMPANY.legalName} (company number {COMPANY.companyNumber}), trading as ARF Motors. We operate in accordance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
             </p>
           </div>
 
@@ -122,8 +123,8 @@ export default function PrivacyPage() {
             </ul>
             <p className="text-neutral-700 leading-relaxed mt-3">
               To exercise these rights, contact us at{" "}
-              <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                info@arfmods.co.uk
+              <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                info@arfmotors.co.uk
               </a>
             </p>
           </div>
@@ -169,12 +170,13 @@ export default function PrivacyPage() {
               If you have questions about this Privacy Policy or wish to exercise your data rights, contact us:
             </p>
             <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
-              <p className="font-semibold text-neutral-900 mb-2">ARFMODS Automotive</p>
-              <p className="text-neutral-700">Part of ARF Automotive Group</p>
+              <p className="font-semibold text-neutral-900 mb-2">ARF Motors</p>
+              <p className="text-neutral-700">{COMPANY.legalName} (company no. {COMPANY.companyNumber})</p>
+              {COMPANY.registeredOffice && <p className="text-neutral-700">{COMPANY.registeredOffice}</p>}
               <p className="text-neutral-700">
                 Email:{" "}
-                <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                  info@arfmods.co.uk
+                <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                  info@arfmotors.co.uk
                 </a>
               </p>
             </div>

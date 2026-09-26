@@ -1,4 +1,4 @@
-// Smart product recommendation algorithm for ARFMODS
+// Smart product recommendation algorithm for ARF Motors
 
 import { Product } from "@/types/product";
 

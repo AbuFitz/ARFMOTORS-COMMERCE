@@ -449,8 +449,8 @@ export default function ProductPage() {
                 {product.installationAvailable ? (
                   <>
                     <p className="text-neutral-700">
-                      This part is eligible for mobile fitting by FixNow Mechanics, ARF Automotive
-                      Group&apos;s official fitting division.
+                      This part is eligible for mobile fitting by FixNow Mechanics, our fitting
+                      partner.
                       {product.fittingFrom ? ` Fitting starts from ${formatPrice(product.fittingFrom)}.` : ""}{" "}
                       Check if we cover your location:
                     </p>

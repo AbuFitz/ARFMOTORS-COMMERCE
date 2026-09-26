@@ -15,11 +15,11 @@ import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "ARFMODS Automotive | Premium BMW Retrofits & Styling",
-    template: "%s | ARFMODS Automotive",
+    default: "ARF Motors | Premium BMW Retrofits & Styling",
+    template: "%s | ARF Motors",
   },
   description:
-    "The official BMW retrofit, styling, and performance division of ARF Automotive Group. Curated BMW parts with optional fitting via FixNow Mechanics.",
+    "BMW styling and performance parts from ARF Motors, delivered from UK stock, with optional fitting via FixNow Mechanics.",
   keywords: [
     "BMW retrofit",
     "BMW styling",
@@ -29,24 +29,25 @@ export const metadata: Metadata = {
     "BMW M Performance",
     "BMW parts eBay",
     "BMW parts fitting",
-    "ARF Automotive",
+    "ARF Motors",
+    "ARF Commerce",
     "FixNow Mechanics",
   ],
-  authors: [{ name: "ARFMODS Automotive" }],
-  creator: "ARFMODS Automotive",
-  publisher: "ARF Automotive Group",
+  authors: [{ name: "ARF Motors" }],
+  creator: "ARF Motors",
+  publisher: "ARF Commerce Ltd",
   openGraph: {
     type: "website",
     locale: "en_GB",
-    siteName: "ARFMODS Automotive",
-    title: "ARFMODS Automotive | Premium BMW Retrofits & Styling",
+    siteName: "ARF Motors",
+    title: "ARF Motors | Premium BMW Retrofits & Styling",
     description:
-      "The official BMW retrofit and styling division of ARF Automotive Group. Curated parts with optional fitting via FixNow Mechanics.",
+      "BMW styling and performance parts, with optional fitting via FixNow Mechanics.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ARFMODS Automotive",
-    description: "Premium BMW retrofits & styling. Part of ARF Automotive Group.",
+    title: "ARF Motors",
+    description: "Premium BMW styling and performance parts.",
   },
   robots: {
     index: true,

@@ -112,11 +112,11 @@ const faqs = [
     ],
   },
   {
-    category: "About ARFMODS",
+    category: "About ARF Motors",
     questions: [
       {
-        q: "What is ARF Automotive Group?",
-        a: "ARF Automotive Group is our parent company, bringing together automotive retail, retrofit services, and professional fitting under one trusted organization.",
+        q: "Who runs ARF Motors?",
+        a: "ARF Motors is a trading name of ARF Commerce Ltd, a UK company registered in England and Wales (company number 17432383). We sell BMW parts on this website and on eBay, with fitting available through our partner FixNow Mechanics.",
       },
       {
         q: "Why are some parts imported?",
@@ -124,7 +124,7 @@ const faqs = [
       },
       {
         q: "Are you affiliated with BMW?",
-        a: "No, ARFMODS is an independent aftermarket parts specialist. We're not affiliated with BMW AG or BMW UK, but we specialize exclusively in BMW products.",
+        a: "No, ARF Motors is an independent aftermarket parts specialist. We're not affiliated with BMW AG or BMW UK, but we specialize exclusively in BMW products.",
       },
     ],
   },
@@ -220,10 +220,10 @@ export default function SupportPage() {
               </div>
               <h3 className="font-bold text-lg text-neutral-900 mb-2">Email Us</h3>
               <a
-                href="mailto:info@arfmods.co.uk"
+                href="mailto:info@arfmotors.co.uk"
                 className="text-primary-500 hover:underline font-medium"
               >
-                info@arfmods.co.uk
+                info@arfmotors.co.uk
               </a>
               <p className="text-sm text-neutral-600 mt-1">
                 Typically respond within 24 hours

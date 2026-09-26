@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { sendOrderConfirmationEmail } from '@/lib/email'
+import { getStripe } from '@/lib/stripe'
+import { sendOrderConfirmationEmail, sendFittingJobEmail } from '@/lib/email'
 
 // App Router does NOT auto-parse the body — request.text() gives us the raw body
 // which Stripe needs for signature verification. No config needed here.
@@ -9,12 +10,10 @@ import { sendOrderConfirmationEmail } from '@/lib/email'
 // webhook emails the customer + shop inbox when a payment succeeds.
 
 export async function POST(request: NextRequest) {
-  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
+  const stripe = getStripe()
+  if (!stripe || !process.env.STRIPE_WEBHOOK_SECRET) {
     return NextResponse.json({ error: 'Stripe is not configured' }, { status: 503 })
   }
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2026-01-28.clover',
-  })
 
   const body = await request.text()
   const sig = request.headers.get('stripe-signature')
@@ -60,10 +59,13 @@ export async function POST(request: NextRequest) {
       const metadata = session.metadata ?? {}
       const customerName = session.customer_details?.name || metadata.customerName || ''
 
+      const customerEmail = session.customer_details?.email || session.customer_email || ''
+      const orderNumber = metadata.orderNumber || session.id
+
       await sendOrderConfirmationEmail({
-        to: session.customer_details?.email || session.customer_email || '',
+        to: customerEmail,
         firstName: customerName.split(' ')[0] ?? '',
-        orderNumber: metadata.orderNumber || session.id,
+        orderNumber,
         items,
         discountCode: metadata.discountCode || null,
         discountAmount: (session.total_details?.amount_discount ?? 0) / 100,
@@ -72,6 +74,18 @@ export async function POST(request: NextRequest) {
         deliveryEstimate: metadata.deliveryMessage || '5-7 business days',
         fittingPostcode: metadata.fittingPostcode || null,
       })
+
+      if (metadata.fittingPostcode) {
+        await sendFittingJobEmail({
+          orderNumber,
+          customerName,
+          customerEmail,
+          customerPhone: session.customer_details?.phone || metadata.customerPhone || '',
+          shippingAddress,
+          fittingPostcode: metadata.fittingPostcode,
+          items,
+        })
+      }
     } catch (err) {
       console.error('Error processing paid order:', err)
       return NextResponse.json({ error: 'Processing failed' }, { status: 500 })

@@ -1,3 +1,4 @@
+import { COMPANY } from "@/lib/site-config";
 export default function TermsPage() {
   return (
     <div className="bg-white min-h-screen">
@@ -17,21 +18,21 @@ export default function TermsPage() {
           <div>
             <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">1. Introduction</h2>
             <p className="text-neutral-700 leading-relaxed mb-3">
-              These Terms and Conditions ("Terms") govern your use of the ARFMODS Automotive website (arfmods.co.uk) and the purchase of products and services from us.
+              These Terms and Conditions ("Terms") govern your use of the ARF Motors website (arfmotors.co.uk) and the purchase of products and services from us.
             </p>
             <p className="text-neutral-700 leading-relaxed">
-              ARFMODS Automotive is a trading division of ARF Automotive Group, operating in the United Kingdom. By placing an order or using our services, you agree to be bound by these Terms.
+              ARF Motors is a trading name of {COMPANY.legalName}, a company registered in {COMPANY.registeredIn} (company number {COMPANY.companyNumber}){COMPANY.registeredOffice ? `, whose registered office is at ${COMPANY.registeredOffice}` : ""}. By placing an order or using our services, you agree to be bound by these Terms.
             </p>
           </div>
 
           <div>
             <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">2. Definitions</h2>
             <ul className="list-disc list-inside space-y-2 text-neutral-700 ml-4">
-              <li><strong>"We", "Our", "Us":</strong> ARFMODS Automotive, part of ARF Automotive Group</li>
+              <li><strong>"We", "Our", "Us":</strong> {COMPANY.legalName}, trading as ARF Motors</li>
               <li><strong>"You", "Customer":</strong> The person or entity placing an order</li>
               <li><strong>"Products":</strong> BMW automotive parts, accessories, and upgrades</li>
               <li><strong>"Services":</strong> Fitting of eligible products via FixNow Mechanics</li>
-              <li><strong>"Website":</strong> arfmods.co.uk</li>
+              <li><strong>"Website":</strong> arfmotors.co.uk</li>
             </ul>
           </div>
 
@@ -177,7 +178,7 @@ export default function TermsPage() {
           <div>
             <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">11. Intellectual Property</h2>
             <p className="text-neutral-700 leading-relaxed">
-              All content on this website (including text, images, logos, and design) is owned by ARF Automotive Group. You may not reproduce, distribute, or use our content without permission.
+              All content on this website (including text, images, logos, and design) is owned by {COMPANY.legalName}. You may not reproduce, distribute, or use our content without permission.
             </p>
           </div>
 
@@ -208,12 +209,13 @@ export default function TermsPage() {
               If you have questions about these Terms, contact us:
             </p>
             <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
-              <p className="font-semibold text-neutral-900 mb-2">ARFMODS Automotive</p>
-              <p className="text-neutral-700">Part of ARF Automotive Group</p>
+              <p className="font-semibold text-neutral-900 mb-2">ARF Motors</p>
+              <p className="text-neutral-700">{COMPANY.legalName} (company no. {COMPANY.companyNumber})</p>
+              {COMPANY.registeredOffice && <p className="text-neutral-700">{COMPANY.registeredOffice}</p>}
               <p className="text-neutral-700">
                 Email:{" "}
-                <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                  info@arfmods.co.uk
+                <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                  info@arfmotors.co.uk
                 </a>
               </p>
             </div>

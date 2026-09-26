@@ -82,10 +82,10 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-bold text-lg text-neutral-900 mb-2">Email Us</h3>
                 <a
-                  href="mailto:info@arfmods.co.uk"
+                  href="mailto:info@arfmotors.co.uk"
                   className="text-primary-500 hover:underline font-medium"
                 >
-                  info@arfmods.co.uk
+                  info@arfmotors.co.uk
                 </a>
                 <p className="text-sm text-neutral-600 mt-1">
                   We typically respond within 24 hours

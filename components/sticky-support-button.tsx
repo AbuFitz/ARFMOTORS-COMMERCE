@@ -86,7 +86,7 @@ export function StickySupportButton() {
                 </Link>
 
                 <a
-                  href="mailto:sales@arfmods.uk"
+                  href="mailto:sales@arfmotors.co.uk"
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors group"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-50 group-hover:bg-primary-100 transition-colors">
@@ -94,7 +94,7 @@ export function StickySupportButton() {
                   </div>
                   <div className="flex-1">
                     <p className="font-semibold text-neutral-900 text-sm">Email Direct</p>
-                    <p className="text-xs text-neutral-600">sales@arfmods.uk</p>
+                    <p className="text-xs text-neutral-600">sales@arfmotors.co.uk</p>
                   </div>
                 </a>
               </div>

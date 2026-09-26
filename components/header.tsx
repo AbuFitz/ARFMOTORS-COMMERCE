@@ -6,6 +6,7 @@ import { ShoppingCart, Menu, X, Search, Heart } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/lib/cart-store";
 import { useWishlistStore } from "@/lib/wishlist-store";
+import { useHydrated } from "@/lib/use-hydrated";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -23,8 +24,11 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
   const router = useRouter();
-  const totalItems = useCartStore((state) => state.getTotalItems());
-  const wishlistItems = useWishlistStore((state) => state.getTotalItems());
+  const hydrated = useHydrated();
+  const cartCount = useCartStore((state) => state.getTotalItems());
+  const wishlistCount = useWishlistStore((state) => state.getTotalItems());
+  const totalItems = hydrated ? cartCount : 0;
+  const wishlistItems = hydrated ? wishlistCount : 0;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +50,7 @@ export function Header() {
                 ARF
               </span>
               <span className="text-2xl lg:text-3xl font-display font-bold tracking-tighter text-primary-500">
-                MODS
+                MOTORS
               </span>
             </div>
             <div className="text-[9px] lg:text-[10px] font-mono font-medium text-neutral-600 tracking-[0.2em] uppercase -mt-1">

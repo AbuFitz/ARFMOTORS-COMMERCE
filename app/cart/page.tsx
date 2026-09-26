@@ -11,6 +11,7 @@ import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { CartRecommendations } from "@/components/cart-recommendations";
 import { getProductById } from "@/lib/products";
+import { useHydrated } from "@/lib/use-hydrated";
 
 export default function CartPage() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function CartPage() {
     removeDiscountCode,
   } = useCartStore();
 
+  const hydrated = useHydrated();
   const [codeInput, setCodeInput] = useState("");
   const [codeError, setCodeError] = useState("");
   const [codeSuccess, setCodeSuccess] = useState(false);
@@ -61,6 +63,10 @@ export default function CartPage() {
   const cartProducts = items
     .map(item => getProductById(item.productId))
     .filter(Boolean) as any[];
+
+  if (!hydrated) {
+    return <div className="min-h-screen bg-white" />;
+  }
 
   if (items.length === 0) {
     return (

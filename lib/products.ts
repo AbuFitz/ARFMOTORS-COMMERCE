@@ -1,5 +1,6 @@
 import { Product, ProductFilter } from "@/types/product";
 import { PRODUCTS } from "@/data/products";
+import IMPORTED_PRODUCTS from "@/data/imported-products.json";
 
 // ─── BMW model-category → individual generation codes ────────────────────────
 // Home page passes "3-series"; products store ["F30","F31","G20","G21"].
@@ -14,10 +15,22 @@ const MODEL_CODES: Record<string, string[]> = {
   "x-models":  ["X1", "X2", "X3", "X4", "X5", "X6", "X7"],
 };
 
-// ─── Catalogue helpers (data lives in data/products.ts) ─────────────────────
+// ─── Catalogue helpers ───────────────────────────────────────────────────────
+// Products come from data/products.ts (edited by hand) plus
+// data/imported-products.json (written by `npm run import-products`).
+// An imported product with the same id or slug replaces the hand-written one.
+
+const CATALOGUE: Product[] = (() => {
+  const imported = IMPORTED_PRODUCTS as unknown as Product[];
+  const importedKeys = new Set(imported.flatMap((p) => [p.id, p.slug]));
+  return [
+    ...PRODUCTS.filter((p) => !importedKeys.has(p.id) && !importedKeys.has(p.slug)),
+    ...imported,
+  ];
+})();
 
 export function getAllProducts(): Product[] {
-  return PRODUCTS.filter((p) => p.isActive);
+  return CATALOGUE.filter((p) => p.isActive);
 }
 
 export function getProductBySlug(slug: string): Product | null {

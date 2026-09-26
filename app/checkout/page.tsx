@@ -9,6 +9,7 @@ import { Lock, CreditCard, ArrowLeft, AlertCircle, CheckCircle2 } from "lucide-r
 import { useCartStore } from "@/lib/cart-store";
 import { CheckoutProgress } from "@/components/checkout-progress";
 import { formatPrice } from "@/lib/utils";
+import { useHydrated } from "@/lib/use-hydrated";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -25,16 +26,17 @@ export default function CheckoutPage() {
     phone: "",
   });
 
+  const hydrated = useHydrated();
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (items.length === 0) {
+    if (hydrated && items.length === 0) {
       router.push("/cart");
     }
-  }, [items.length, router]);
+  }, [hydrated, items.length, router]);
 
-  if (items.length === 0) return null;
+  if (!hydrated || items.length === 0) return null;
 
   const subtotal = getSubtotal();
   const discountAmount = getDiscountAmount();

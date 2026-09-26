@@ -130,7 +130,7 @@ export const useCartStore = create<CartStore>()(
       },
     }),
     {
-      name: 'arfmods-cart-storage',
+      name: 'arfmotors-cart-storage',
     }
   )
 );

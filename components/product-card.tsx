@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,7 +17,8 @@ interface ProductCardProps {
 
 export function ProductCard({ product, showQuickView = false }: ProductCardProps) {
   const { addItem, removeItem, isInWishlist } = useWishlistStore();
-  const [isWishlisted, setIsWishlisted] = useState(isInWishlist(product.id));
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  useEffect(() => setIsWishlisted(isInWishlist(product.id)), [isInWishlist, product.id]);
   const [showWishlistFeedback, setShowWishlistFeedback] = useState(false);
   const [imgError, setImgError] = useState(false);
 

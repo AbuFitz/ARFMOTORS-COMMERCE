@@ -1,3 +1,4 @@
+import { COMPANY } from "@/lib/site-config";
 export default function ReturnsPage() {
   return (
     <div className="bg-white min-h-screen">
@@ -17,7 +18,7 @@ export default function ReturnsPage() {
           <div>
             <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">1. Your Consumer Rights</h2>
             <p className="text-neutral-700 leading-relaxed mb-3">
-              ARFMODS Automotive is committed to complying with UK consumer protection law, including the Consumer Rights Act 2015 and the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013.
+              ARF Motors is committed to complying with UK consumer protection law, including the Consumer Rights Act 2015 and the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013.
             </p>
             <p className="text-neutral-700 leading-relaxed">
               This policy outlines your rights to return products and request refunds.
@@ -49,8 +50,8 @@ export default function ReturnsPage() {
             </p>
             <p className="text-neutral-700 leading-relaxed mb-3">
               2.2. To exercise this right, you must inform us of your decision to cancel by email to{" "}
-              <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                info@arfmods.co.uk
+              <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                info@arfmotors.co.uk
               </a>
               , including your order number.
             </p>
@@ -120,8 +121,8 @@ export default function ReturnsPage() {
 
             <p className="text-neutral-700 leading-relaxed mb-3">
               4.1. Contact us immediately at{" "}
-              <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                info@arfmods.co.uk
+              <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                info@arfmotors.co.uk
               </a>{" "}
               if you receive a faulty or incorrect product.
             </p>
@@ -157,8 +158,8 @@ export default function ReturnsPage() {
             <ol className="list-decimal list-inside space-y-3 text-neutral-700 ml-4">
               <li>
                 <strong>Contact us:</strong> Email{" "}
-                <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                  info@arfmods.co.uk
+                <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                  info@arfmotors.co.uk
                 </a>{" "}
                 with your order number and reason for return
               </li>
@@ -278,8 +279,8 @@ export default function ReturnsPage() {
             </p>
             <p className="text-neutral-700 leading-relaxed mb-3">
               12.3. Report transit damage within <strong>48 hours</strong> to{" "}
-              <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                info@arfmods.co.uk
+              <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                info@arfmotors.co.uk
               </a>{" "}
               with photos.
             </p>
@@ -301,12 +302,13 @@ export default function ReturnsPage() {
               For all returns and refund queries, contact us:
             </p>
             <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
-              <p className="font-semibold text-neutral-900 mb-2">ARFMODS Automotive Returns Department</p>
-              <p className="text-neutral-700">Part of ARF Automotive Group</p>
+              <p className="font-semibold text-neutral-900 mb-2">ARF Motors Returns Department</p>
+              <p className="text-neutral-700">{COMPANY.legalName} (company no. {COMPANY.companyNumber})</p>
+              {COMPANY.registeredOffice && <p className="text-neutral-700">{COMPANY.registeredOffice}</p>}
               <p className="text-neutral-700">
                 Email:{" "}
-                <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                  info@arfmods.co.uk
+                <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                  info@arfmotors.co.uk
                 </a>
               </p>
               <p className="text-sm text-neutral-600 mt-2">

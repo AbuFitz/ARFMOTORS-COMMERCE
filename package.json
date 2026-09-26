@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "import-products": "node scripts/import-products.mjs",
+    "test:orders": "next build && node scripts/test-orders.mjs"
   },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.80",

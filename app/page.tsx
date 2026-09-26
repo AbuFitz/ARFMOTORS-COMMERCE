@@ -463,7 +463,7 @@ export default function HomePage() {
             >
               <Image
                 src="/model/4series.jpg"
-                alt="BMW parts from ARFMODS"
+                alt="BMW parts from ARF Motors"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"

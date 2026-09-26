@@ -1,15 +1,29 @@
 // Central store settings. Everything that used to live in the admin dashboard /
 // database (popup copy, discount codes, eBay + fitting links) is configured here.
 
-const EBAY_SELLER = process.env.NEXT_PUBLIC_EBAY_SELLER || "arfmods";
+const EBAY_SELLER = process.env.NEXT_PUBLIC_EBAY_SELLER || "arfmotors";
+
+export const COMPANY = {
+  tradingName: "ARF Motors",
+  legalName: "ARF Commerce Ltd",
+  companyNumber: "17432383",
+  registeredIn: "England and Wales",
+  // Companies House registered office — set NEXT_PUBLIC_REGISTERED_OFFICE to show it on the site
+  registeredOffice: process.env.NEXT_PUBLIC_REGISTERED_OFFICE || "",
+};
+
+/** "ARF Motors is a trading name of ARF Commerce Ltd, registered in England and Wales (company no. 17432383)." */
+export const COMPANY_STATEMENT = `${COMPANY.tradingName} is a trading name of ${COMPANY.legalName}, registered in ${COMPANY.registeredIn} (company no. ${COMPANY.companyNumber})${
+  COMPANY.registeredOffice ? `. Registered office: ${COMPANY.registeredOffice}` : ""
+}.`;
 
 export const SITE_CONFIG = {
-  name: "ARFMODS",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://arfmods.co.uk",
+  name: "ARF Motors",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://arfmotors.co.uk",
   emails: {
-    info: "info@arfmods.co.uk",
-    support: process.env.SUPPORT_EMAIL || "support@arfmods.co.uk",
-    orders: process.env.BUSINESS_EMAIL || "orders@arfmods.co.uk",
+    info: "info@arfmotors.co.uk",
+    support: process.env.SUPPORT_EMAIL || "support@arfmotors.co.uk",
+    orders: process.env.BUSINESS_EMAIL || "orders@arfmotors.co.uk",
   },
   fitting: {
     partner: "FixNow Mechanics",
@@ -62,7 +76,7 @@ export const DISCOUNT_MINIMUM_ORDER = 50;
 
 export const DISCOUNT_CODES: Record<string, number> = {
   WELCOME10: 10,
-  ARFMODS10: 10,
+  ARFMOTORS10: 10,
 };
 
 /** Returns the percentage off for a valid code, or 0 if invalid / below minimum. */

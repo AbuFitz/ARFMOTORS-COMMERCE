@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Building2, Wrench, Target, Award, Users, MapPin } from "lucide-react";
+import { COMPANY } from "@/lib/site-config";
 
 const features = [
   {
@@ -26,7 +27,7 @@ const features = [
     icon: Users,
     title: "Built by Enthusiasts",
     description:
-      "We're BMW owners ourselves. ARFMODS exists because we understand what enthusiasts truly want.",
+      "We're BMW owners ourselves. ARF Motors exists because we understand what enthusiasts truly want.",
   },
 ];
 
@@ -43,11 +44,11 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="font-display text-5xl lg:text-6xl font-bold mb-6">
-              About ARFMODS Automotive
+              About ARF Motors
             </h1>
             <p className="text-xl text-neutral-300 leading-relaxed max-w-2xl mx-auto">
-              The official BMW retrofit and styling division of ARF Automotive Group —
-              where precision engineering meets automotive passion.
+              BMW styling and performance parts, chosen by enthusiasts —
+              sold direct, on eBay, and fitted by FixNow Mechanics.
             </p>
           </motion.div>
         </div>
@@ -61,9 +62,9 @@ export default function AboutPage() {
               Our Mission
             </h2>
             <p className="text-lg text-neutral-700 leading-relaxed">
-              ARFMODS Automotive exists to bring BMW enthusiasts premium retrofit parts and styling
-              upgrades with complete transparency, professional installation options, and the backing
-              of an established automotive group.
+              ARF Motors exists to bring BMW enthusiasts premium retrofit parts and styling
+              upgrades with complete transparency, professional installation options, and clear, honest
+              information on every part.
             </p>
             <p className="text-lg text-neutral-700 leading-relaxed mt-4">
               We bridge the gap between generic marketplace platforms and expensive dealer
@@ -115,15 +116,15 @@ export default function AboutPage() {
         <div className="mx-auto max-w-5xl px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
-              The ARF Automotive Ecosystem
+              Who We Are
             </h2>
             <p className="text-lg text-neutral-600">
-              ARFMODS is part of a professional automotive group built on trust, expertise, and quality.
+              A UK-registered company selling BMW parts online, with trusted local fitting.
             </p>
           </div>
 
           <div className="space-y-8">
-            {/* ARF Automotive Group */}
+            {/* ARF Commerce Ltd */}
             <div className="bg-neutral-900 text-white rounded-2xl p-8">
               <div className="flex items-start gap-4 mb-4">
                 <div className="flex-shrink-0">
@@ -131,19 +132,19 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <h3 className="font-display text-2xl font-bold mb-2">
-                    ARF Automotive Group
+                    {COMPANY.legalName}
                   </h3>
-                  <p className="text-lg text-neutral-300 mb-4">Parent Company</p>
+                  <p className="text-lg text-neutral-300 mb-4">The Company</p>
                   <p className="text-neutral-300 leading-relaxed">
-                    The parent organization bringing together automotive retail, retrofit services,
-                    and professional fitting under one trusted umbrella. ARF Automotive Group ensures
-                    quality standards, supply chain integrity, and customer satisfaction across all divisions.
+                    ARF Motors is a trading name of {COMPANY.legalName}, a company registered in{" "}
+                    {COMPANY.registeredIn} (company number {COMPANY.companyNumber}). Every order on
+                    this website is sold and supported by {COMPANY.legalName}.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* ARFMODS Automotive */}
+            {/* ARF Motors */}
             <div className="bg-primary-50 border-2 border-primary-500 rounded-2xl p-8">
               <div className="flex items-start gap-4 mb-4">
                 <div className="flex-shrink-0">
@@ -151,14 +152,13 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <h3 className="font-display text-2xl font-bold text-neutral-900 mb-2">
-                    ARFMODS Automotive
+                    ARF Motors
                   </h3>
-                  <p className="text-lg text-primary-600 mb-4">BMW Retrofit & Styling Division</p>
+                  <p className="text-lg text-primary-600 mb-4">Our Store</p>
                   <p className="text-neutral-700 leading-relaxed">
-                    The official BMW-focused sub-brand specializing in curated retrofits, styling
-                    upgrades, and performance parts. ARFMODS combines enthusiast knowledge with
-                    group-backed reliability — offering both UK-stocked and imported parts with
-                    complete transparency.
+                    Our BMW parts store, specialising in styling upgrades, lighting, interior and
+                    performance parts. We sell direct on this website and through our eBay store,
+                    with both UK-stocked and imported parts and clear delivery times on every product.
                   </p>
                 </div>
               </div>
@@ -174,11 +174,11 @@ export default function AboutPage() {
                   <h3 className="font-display text-2xl font-bold text-neutral-900 mb-2">
                     FixNow Mechanics
                   </h3>
-                  <p className="text-lg text-neutral-600 mb-4">Official Fitting Division</p>
+                  <p className="text-lg text-neutral-600 mb-4">Our Fitting Partner</p>
                   <p className="text-neutral-700 leading-relaxed mb-4">
-                    The hands-on retrofit arm of ARF Automotive Group. FixNow Mechanics provides
-                    professional mobile installation services for ARFMODS products across London
-                    and surrounding areas.
+                    FixNow Mechanics provide mobile fitting for eligible ARF Motors parts. Tick
+                    &quot;Add fitting&quot; when you order and they&apos;ll contact you to quote and
+                    book a time at your home or work.
                   </p>
                   <div className="flex items-start gap-2 text-sm text-neutral-600">
                     <MapPin className="h-5 w-5 flex-shrink-0 mt-0.5" />

@@ -1,4 +1,4 @@
-// Centralized BMW model compatibility data for ARFMODS
+// Centralized BMW model compatibility data for ARF Motors
 
 export const BMW_MODELS = {
   "1-series": {

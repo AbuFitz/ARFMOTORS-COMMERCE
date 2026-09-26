@@ -13,7 +13,7 @@ interface Tool {
 
 // Get Amazon Associate tag from environment variables
 // Set your tag in .env.local as NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG
-const AMAZON_TAG = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG || "arfmods-21";
+const AMAZON_TAG = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG || "arfmotors-21";
 
 const COMMON_BMW_TOOLS: Tool[] = [
   {

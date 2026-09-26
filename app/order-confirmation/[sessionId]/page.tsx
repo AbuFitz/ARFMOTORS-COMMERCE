@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, Package, Mail, ArrowRight, Clock } from "lucide-react";
-import Stripe from "stripe";
+import { getStripe } from "@/lib/stripe";
 
 async function getOrderFromSession(sessionId: string) {
-  if (!process.env.STRIPE_SECRET_KEY) return null;
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2026-01-28.clover" });
+  const stripe = getStripe();
+  if (!stripe) return null;
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ["line_items"],
@@ -142,8 +142,8 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
 
         <p className="text-center text-xs text-neutral-500 mt-6">
           Questions? Email{" "}
-          <a href="mailto:support@arfmods.co.uk" className="underline hover:text-neutral-700">
-            support@arfmods.co.uk
+          <a href="mailto:support@arfmotors.co.uk" className="underline hover:text-neutral-700">
+            support@arfmotors.co.uk
           </a>
           {" "}or use our{" "}
           <Link href="/contact" className="underline hover:text-neutral-700">
@@ -157,7 +157,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
 
 export async function generateMetadata() {
   return {
-    title: "Order Confirmed | ARFMODS",
+    title: "Order Confirmed | ARF Motors",
     robots: "noindex",
   };
 }

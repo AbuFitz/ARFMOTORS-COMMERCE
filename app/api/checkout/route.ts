@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { getStripe } from '@/lib/stripe'
 import { CartItem } from '@/lib/cart-store'
 import { getProductById } from '@/lib/products'
 import { calculateDiscount } from '@/lib/utils'
@@ -29,12 +30,10 @@ function generateOrderNumber(): string {
 
 export async function POST(request: NextRequest) {
   try {
-    if (!process.env.STRIPE_SECRET_KEY) {
+    const stripe = getStripe()
+    if (!stripe) {
       return NextResponse.json({ error: 'Payments are not configured yet' }, { status: 503 })
     }
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2026-01-28.clover',
-    })
 
     const body: CheckoutRequestBody = await request.json()
     const { items, customerInfo, discountCode } = body
@@ -89,7 +88,7 @@ export async function POST(request: NextRequest) {
     let discounts: Stripe.Checkout.SessionCreateParams.Discount[] = []
     if (discountCode && discountPercent > 0) {
       const code = discountCode.toUpperCase().trim()
-      const couponId = `arfmods_${code.toLowerCase()}_${discountPercent}`
+      const couponId = `arfmotors_${code.toLowerCase()}_${discountPercent}`
       try {
         await stripe.coupons.retrieve(couponId)
       } catch {

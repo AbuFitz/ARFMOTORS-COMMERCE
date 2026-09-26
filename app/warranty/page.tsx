@@ -1,3 +1,4 @@
+import { COMPANY } from "@/lib/site-config";
 export default function WarrantyPage() {
   return (
     <div className="bg-white min-h-screen">
@@ -17,7 +18,7 @@ export default function WarrantyPage() {
           <div>
             <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">1. Overview</h2>
             <p className="text-neutral-700 leading-relaxed mb-3">
-              All products sold by ARFMODS Automotive come with warranty protection. This page explains the types of warranties available, what they cover, and how to make a claim.
+              All products sold by ARF Motors come with warranty protection. This page explains the types of warranties available, what they cover, and how to make a claim.
             </p>
             <p className="text-neutral-700 leading-relaxed">
               Your warranty rights are <strong>in addition to</strong> your statutory rights under UK consumer law.
@@ -128,8 +129,8 @@ export default function WarrantyPage() {
             <ol className="list-decimal list-inside space-y-3 text-neutral-700 ml-4">
               <li>
                 <strong>Contact us:</strong> Email{" "}
-                <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                  info@arfmods.co.uk
+                <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                  info@arfmotors.co.uk
                 </a>{" "}
                 with:
                 <ul className="list-disc list-inside mt-2 ml-6 space-y-1">
@@ -201,7 +202,7 @@ export default function WarrantyPage() {
           <div>
             <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">10. Warranty Transferability</h2>
             <p className="text-neutral-700 leading-relaxed">
-              Manufacturer warranties are <strong>non-transferable</strong>. If you sell your vehicle with ARFMODS parts installed, the warranty does not transfer to the new owner. Installation warranty by FixNow Mechanics also does not transfer.
+              Manufacturer warranties are <strong>non-transferable</strong>. If you sell your vehicle with ARF Motors parts installed, the warranty does not transfer to the new owner. Installation warranty by FixNow Mechanics also does not transfer.
             </p>
           </div>
 
@@ -229,12 +230,13 @@ export default function WarrantyPage() {
               For warranty claims or questions, contact us:
             </p>
             <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
-              <p className="font-semibold text-neutral-900 mb-2">ARFMODS Automotive Warranty Department</p>
-              <p className="text-neutral-700">Part of ARF Automotive Group</p>
+              <p className="font-semibold text-neutral-900 mb-2">ARF Motors Warranty Department</p>
+              <p className="text-neutral-700">{COMPANY.legalName} (company no. {COMPANY.companyNumber})</p>
+              {COMPANY.registeredOffice && <p className="text-neutral-700">{COMPANY.registeredOffice}</p>}
               <p className="text-neutral-700">
                 Email:{" "}
-                <a href="mailto:info@arfmods.co.uk" className="text-primary-500 hover:underline">
-                  info@arfmods.co.uk
+                <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
+                  info@arfmotors.co.uk
                 </a>
               </p>
               <p className="text-sm text-neutral-600 mt-2">

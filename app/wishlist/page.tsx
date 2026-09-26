@@ -5,10 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart, ShoppingCart, Trash2, ArrowRight } from "lucide-react";
 import { useWishlistStore } from "@/lib/wishlist-store";
+import { useHydrated } from "@/lib/use-hydrated";
 import { formatPrice } from "@/lib/utils";
 
 export default function WishlistPage() {
   const { items, removeItem, getTotalItems } = useWishlistStore();
+  const hydrated = useHydrated();
+
+  if (!hydrated) {
+    return <div className="min-h-screen bg-white" />;
+  }
 
   if (items.length === 0) {
     return (

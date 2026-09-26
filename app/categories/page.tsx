@@ -6,6 +6,7 @@ import { getActiveCategories, getProductsByCategory } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "Categories",
+  alternates: { canonical: "/categories" },
   description: "Browse ARF Commerce by category: in-car tech, car accessories, roadside and emergency, and tools.",
 };
 
@@ -26,7 +27,7 @@ export default function CategoriesPage() {
             return (
               <Link
                 key={c.id}
-                href={`/shop?category=${c.id}`}
+                href={`/shop/${c.id}`}
                 className="group grid grid-cols-[120px_1fr] sm:grid-cols-[180px_1fr] overflow-hidden rounded-xl border border-neutral-200 hover:border-neutral-400 transition-colors"
               >
                 <div className="relative bg-neutral-900">

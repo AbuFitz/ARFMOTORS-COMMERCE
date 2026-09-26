@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PolicyPage } from "@/components/policy-page";
 import { COMPANY, SITE_CONFIG } from "@/lib/site-config";
 
-export const metadata: Metadata = { title: "Terms & Conditions" };
+export const metadata: Metadata = { title: "Terms & Conditions", alternates: { canonical: "/terms" } };
 
 export default function TermsPage() {
   return (

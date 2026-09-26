@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PolicyPage } from "@/components/policy-page";
 import { SITE_CONFIG } from "@/lib/site-config";
 
-export const metadata: Metadata = { title: "Returns & Refunds" };
+export const metadata: Metadata = { title: "Returns & Refunds", alternates: { canonical: "/returns" } };
 
 export default function ReturnsPage() {
   return (

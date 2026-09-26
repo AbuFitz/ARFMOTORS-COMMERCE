@@ -1,22 +1,30 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CookieBanner } from "@/components/cookie-banner";
 import { EmailPopup } from "@/components/email-popup";
 import { StickySupportButton } from "@/components/sticky-support-button";
+import { JsonLd } from "@/components/json-ld";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import "@/styles/globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://arfcommerce.co.uk";
 const DESCRIPTION =
   "Car accessories, in-car tech, roadside essentials and tools from ARF Commerce, delivered from the UK. Professional fitting is available on selected products.";
 
+export const viewport: Viewport = { themeColor: "#111214" };
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   title: {
-    default: "ARF Commerce | Online Store",
+    default: "ARF Commerce | Car Accessories, In-Car Tech & Tools",
     template: "%s | ARF Commerce",
   },
   description: DESCRIPTION,
@@ -29,13 +37,15 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: SITE_URL,
     siteName: "ARF Commerce",
-    title: "ARF Commerce | Online Store",
+    title: "ARF Commerce | Car Accessories, In-Car Tech & Tools",
     description: DESCRIPTION,
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630, alt: "ARF Commerce" }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "ARF Commerce",
     description: DESCRIPTION,
+    images: ["/og-default.jpg"],
   },
   robots: {
     index: true,
@@ -59,6 +69,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased bg-neutral-900">
+        <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <div className="flex min-h-screen flex-col bg-white">
           <Header />
           <main className="flex-1">{children}</main>

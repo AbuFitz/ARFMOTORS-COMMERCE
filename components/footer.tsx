@@ -9,7 +9,9 @@ const helpLinks = [
   { name: "Contact us", href: "/contact" },
   { name: "Track an order", href: "/track-order" },
   { name: "Installation", href: "/installation" },
+  { name: "Guides & advice", href: "/blog" },
   { name: "About ARF Commerce", href: "/about" },
+  { name: "Suppliers & brands", href: "/suppliers" },
 ];
 
 const policyLinks = [
@@ -40,7 +42,7 @@ export function Footer() {
   const shopLinks = [
     { name: "All products", href: "/shop" },
     { name: "New arrivals", href: "/shop?sort=newest" },
-    ...getActiveCategories().map((c) => ({ name: c.name, href: `/shop?category=${c.id}` })),
+    ...getActiveCategories().map((c) => ({ name: c.name, href: `/shop/${c.id}` })),
   ];
 
   return (

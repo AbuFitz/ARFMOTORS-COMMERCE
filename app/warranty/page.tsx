@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PolicyPage } from "@/components/policy-page";
 import { SITE_CONFIG } from "@/lib/site-config";
 
-export const metadata: Metadata = { title: "Warranty" };
+export const metadata: Metadata = { title: "Warranty", alternates: { canonical: "/warranty" } };
 
 export default function WarrantyPage() {
   return (

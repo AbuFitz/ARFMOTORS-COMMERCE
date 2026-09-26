@@ -110,7 +110,7 @@ export default function ProductPage() {
           <Breadcrumbs
             items={[
               { label: "Shop", href: "/shop" },
-              { label: categoryName, href: `/shop?category=${product.category}` },
+              { label: categoryName, href: `/shop/${product.category}` },
               { label: product.title, href: `/product/${product.slug}` },
             ]}
           />
@@ -139,7 +139,7 @@ export default function ProductPage() {
           <div className="space-y-5">
             <div>
               <Link
-                href={`/shop?category=${product.category}`}
+                href={`/shop/${product.category}`}
                 className="text-xs sm:text-sm font-medium uppercase tracking-wide text-neutral-500 hover:text-neutral-900"
               >
                 {categoryName}
@@ -413,7 +413,7 @@ export default function ProductPage() {
           <section className="mt-12 sm:mt-16 border-t border-neutral-200 pt-8">
             <div className="mb-5 flex items-end justify-between">
               <h2 className="font-display text-2xl font-bold text-neutral-900">More in {categoryName}</h2>
-              <Link href={`/shop?category=${product.category}`} className="text-sm font-semibold text-neutral-900 hover:text-primary-500">
+              <Link href={`/shop/${product.category}`} className="text-sm font-semibold text-neutral-900 hover:text-primary-500">
                 View all
               </Link>
             </div>

@@ -1,8 +1,6 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import {
   ArrowRight,
   Wrench,
@@ -20,6 +18,13 @@ import { Product } from "@/types/product";
 import { getActiveCategories, getAllProducts, getFeaturedProducts, getNewestProducts } from "@/lib/products";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { formatPrice, calculateDiscount } from "@/lib/utils";
+import { GuideCard } from "@/components/blog/guide-card";
+import { getAllPosts } from "@/lib/blog";
+
+export const metadata: Metadata = {
+  title: { absolute: "ARF Commerce | Car Accessories, In-Car Tech & Tools" },
+  alternates: { canonical: "/" },
+};
 
 // Swipeable row of product cards on mobile and tablet, 4-column grid from lg up
 function ProductRail({ products }: { products: Product[] }) {
@@ -61,6 +66,7 @@ export default function HomePage() {
   const categories = getActiveCategories();
   const heroProducts = getFeaturedProducts(3);
   const fittingProducts = getAllProducts().filter((p) => p.fittingEligible);
+  const guides = getAllPosts().slice(0, 3);
 
   return (
     <div className="bg-white">
@@ -68,7 +74,7 @@ export default function HomePage() {
       <section className="bg-neutral-950 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-7 sm:py-12 lg:py-14">
           <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-500">ARF Commerce</p>
               <h1 className="mt-2 sm:mt-3 font-display text-[1.75rem] sm:text-4xl lg:text-5xl font-bold leading-[1.05] tracking-tight">
                 Products worth buying.
@@ -94,15 +100,10 @@ export default function HomePage() {
                   Browse categories
                 </Link>
               </div>
-            </motion.div>
+            </div>
 
             {/* Featured product preview (desktop) */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="hidden lg:grid grid-cols-3 gap-3"
-            >
+            <div className="hidden lg:grid grid-cols-3 gap-3">
               {heroProducts.map((p, i) => (
                 <Link
                   key={p.id}
@@ -118,7 +119,7 @@ export default function HomePage() {
                   </p>
                 </Link>
               ))}
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -140,7 +141,7 @@ export default function HomePage() {
             {categories.map((c) => (
               <Link
                 key={c.id}
-                href={`/shop?category=${c.id}`}
+                href={`/shop/${c.id}`}
                 className="group relative aspect-[4/3] w-[78%] flex-shrink-0 snap-start overflow-hidden rounded-xl bg-neutral-900 sm:w-[46%] md:w-auto"
               >
                 <Image
@@ -281,6 +282,22 @@ export default function HomePage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <SectionHeading title="New arrivals" subtitle="Recently added to the store" href="/shop?sort=newest" />
             <ProductRail products={newest} />
+          </div>
+        </section>
+      )}
+
+      {/* ─── Guides ────────────────────────────────────────────── */}
+      {guides.length > 0 && (
+        <section className="border-t border-neutral-200 bg-neutral-50 py-10 sm:py-14">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionHeading title="Guides & advice" subtitle="Help choosing and using car tech, accessories and tools" href="/blog" linkText="All guides" />
+            <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-2 scrollbar-hide sm:-mx-6 sm:gap-5 sm:scroll-px-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0 lg:pb-0">
+              {guides.map((g) => (
+                <div key={g.slug} className="w-[80%] flex-shrink-0 snap-start sm:w-[46%] lg:w-auto">
+                  <GuideCard post={g} />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       )}

@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ListChecks, Truck, MessageCircle, Wrench, Store } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, ListChecks, Truck, MessageCircle, Wrench, Store, Handshake } from "lucide-react";
 import { COMPANY, SITE_CONFIG } from "@/lib/site-config";
+import { CATEGORIES } from "@/lib/products";
+import { slotImage } from "@/lib/image-slots";
+import { SlotImage } from "@/components/slot-image";
 
 export const metadata: Metadata = {
   title: "About Us",
+  alternates: { canonical: "/about" },
   description:
-    "ARF Commerce is an independent UK online retailer of car accessories, in-car tech and tools.",
+    "ARF Commerce is an independent UK online retailer of car accessories, in-car tech, roadside kit and tools. Learn how we pick, stock and ship our range.",
 };
 
 const principles = [
@@ -28,77 +33,113 @@ const principles = [
 ];
 
 export default function AboutPage() {
+  const hero = slotImage("about-hero");
+
   return (
     <div className="bg-white">
-      {/* Intro */}
-      <section className="border-b border-neutral-200">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      {/* Hero banner */}
+      <section className="relative isolate overflow-hidden bg-neutral-950 text-white">
+        <Image src={hero.src} alt={hero.alt} fill priority sizes="100vw" className="-z-10 object-cover opacity-70" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-neutral-950 via-neutral-950/80 to-neutral-950/10" />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-28">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-500">About us</p>
-          <h1 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight">
+          <h1 className="mt-3 max-w-2xl font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             Car accessories and tools, sold by a UK retailer
           </h1>
-          <div className="mt-5 space-y-4 text-base sm:text-lg text-neutral-700 leading-relaxed">
+          <p className="mt-4 max-w-xl text-base sm:text-lg text-neutral-300 leading-relaxed">
+            Straightforward products, competitive pricing and dependable customer service.
+          </p>
+        </div>
+      </section>
+
+      {/* Who we are */}
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
+          <div className="space-y-4 text-base sm:text-lg text-neutral-700 leading-relaxed">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-neutral-900">Who we are</h2>
             <p>
-              ARF Commerce is an independent UK online retailer of car accessories, in-car tech and tools. We focus
-              on straightforward products, competitive pricing and dependable customer service.
+              ARF Commerce is an independent UK online retailer of car accessories, in-car tech and tools. We source
+              products that do their job well and sell them at a fair price.
             </p>
             <p>
-              We source and sell dash cams and in-car tech, everyday car accessories, roadside and emergency kit,
-              and tools for the garage. We&apos;ll keep adding to the range as it grows.
+              Our range covers {CATEGORIES.map((c) => c.name.toLowerCase()).join(", ").replace(/, ([^,]*)$/, " and $1")}.
+              We add to it carefully rather than listing everything we can find.
             </p>
             <p>
               We sell through our own online store and selected marketplaces, and eligible products can also be
               professionally installed by our fitting partner, FixNow Mechanics.
             </p>
           </div>
+          <SlotImage id="about-range" className="aspect-[4/3] rounded-2xl" sizes="(min-width: 1024px) 600px, 100vw" />
         </div>
       </section>
 
       {/* How we work */}
-      <section className="py-10 sm:py-14">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <section className="border-y border-neutral-200 bg-neutral-50 py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="font-display text-2xl sm:text-3xl font-bold text-neutral-900">How we work</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {principles.map((p) => (
-              <div key={p.title} className="rounded-xl border border-neutral-200 p-5">
+              <div key={p.title} className="rounded-xl border border-neutral-200 bg-white p-5">
                 <p.icon className="h-5 w-5 text-primary-500" />
                 <h3 className="mt-3 font-semibold text-neutral-900">{p.title}</h3>
                 <p className="mt-1 text-sm text-neutral-600 leading-relaxed">{p.text}</p>
               </div>
             ))}
           </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <figure>
+              <SlotImage id="about-stock" className="aspect-[4/3] rounded-2xl" sizes="(min-width: 640px) 50vw, 100vw" />
+              <figcaption className="mt-2 text-sm text-neutral-500">UK stock, labelled and ready to ship.</figcaption>
+            </figure>
+            <figure>
+              <SlotImage id="about-packing" className="aspect-[4/3] rounded-2xl" sizes="(min-width: 640px) 50vw, 100vw" />
+              <figcaption className="mt-2 text-sm text-neutral-500">Every order packed and checked before it leaves.</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
-      {/* Where to buy + fitting */}
-      <section className="pb-10 sm:pb-14">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl bg-neutral-50 p-5 sm:p-6">
-            <Store className="h-5 w-5 text-neutral-800" />
-            <h3 className="mt-3 font-semibold text-neutral-900">Where we sell</h3>
-            <p className="mt-1 text-sm text-neutral-600 leading-relaxed">
-              This website is our main store. Some of the same products are also listed on our{" "}
-              <a href={SITE_CONFIG.ebay.storeUrl} target="_blank" rel="noopener noreferrer" className="underline">
-                eBay store
-              </a>
-              . Buying here lets you use our discount codes and add fitting to eligible products.
-            </p>
-          </div>
-          <div className="rounded-xl bg-neutral-50 p-5 sm:p-6">
-            <Wrench className="h-5 w-5 text-neutral-800" />
-            <h3 className="mt-3 font-semibold text-neutral-900">Optional fitting</h3>
-            <p className="mt-1 text-sm text-neutral-600 leading-relaxed">
-              Professional fitting is available on selected products through FixNow Mechanics, across{" "}
-              {SITE_CONFIG.fitting.coverage}. We don&apos;t offer servicing or repairs.{" "}
-              <Link href="/installation" className="underline">How installation works</Link>
-            </p>
+      {/* Where we sell + fitting */}
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
+          <SlotImage id="about-fitting" className="aspect-[4/3] rounded-2xl lg:order-2" sizes="(min-width: 1024px) 600px, 100vw" />
+          <div className="space-y-4">
+            <div className="rounded-xl bg-neutral-50 p-5 sm:p-6">
+              <Store className="h-5 w-5 text-neutral-800" />
+              <h3 className="mt-3 font-semibold text-neutral-900">Where we sell</h3>
+              <p className="mt-1 text-sm text-neutral-600 leading-relaxed">
+                This website is our main store. Some of the same products are also listed on our{" "}
+                <a href={SITE_CONFIG.ebay.storeUrl} target="_blank" rel="noopener noreferrer" className="underline">
+                  eBay store
+                </a>
+                . Buying here lets you use our discount codes and add fitting to eligible products.
+              </p>
+            </div>
+            <div className="rounded-xl bg-neutral-50 p-5 sm:p-6">
+              <Wrench className="h-5 w-5 text-neutral-800" />
+              <h3 className="mt-3 font-semibold text-neutral-900">Optional fitting</h3>
+              <p className="mt-1 text-sm text-neutral-600 leading-relaxed">
+                Professional fitting is available on selected products through FixNow Mechanics, across{" "}
+                {SITE_CONFIG.fitting.coverage}. We don&apos;t offer servicing or repairs.{" "}
+                <Link href="/installation" className="underline">How installation works</Link>
+              </p>
+            </div>
+            <div className="rounded-xl bg-neutral-50 p-5 sm:p-6">
+              <Handshake className="h-5 w-5 text-neutral-800" />
+              <h3 className="mt-3 font-semibold text-neutral-900">Suppliers and brands</h3>
+              <p className="mt-1 text-sm text-neutral-600 leading-relaxed">
+                Make car accessories, tech or tools and want them in front of UK drivers?{" "}
+                <Link href="/suppliers" className="underline">Work with us</Link>
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Company details */}
       <section className="border-t border-neutral-200 bg-neutral-50">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12 grid gap-8 md:grid-cols-2 md:items-center">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12 grid gap-8 md:grid-cols-2 md:items-center">
           <div>
             <h2 className="font-display text-xl sm:text-2xl font-bold text-neutral-900">Company details</h2>
             <address className="mt-3 not-italic text-sm text-neutral-700 leading-relaxed">
@@ -119,12 +160,18 @@ export default function AboutPage() {
               </a>
             </address>
           </div>
-          <div className="md:text-right">
+          <div className="flex flex-wrap gap-3 md:justify-end">
             <Link
               href="/shop"
               className="inline-flex items-center gap-2 rounded-lg bg-neutral-900 px-5 py-3 text-sm font-semibold text-white hover:bg-neutral-800 transition-colors"
             >
               Shop products <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 rounded-lg border border-neutral-300 px-5 py-3 text-sm font-semibold text-neutral-900 hover:border-neutral-900 transition-colors"
+            >
+              Read our guides
             </Link>
           </div>
         </div>

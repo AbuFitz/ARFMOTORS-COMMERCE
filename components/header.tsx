@@ -17,8 +17,9 @@ const navigation = [
   { name: "Categories", href: "/categories" },
   { name: "New arrivals", href: "/shop?sort=newest" },
   { name: "Featured", href: "/shop?featured=1" },
-  { name: "In-car tech", href: "/shop?category=in-car-tech" },
+  { name: "In-car tech", href: "/shop/in-car-tech" },
   { name: "Installation", href: "/installation" },
+  { name: "Guides", href: "/blog" },
   { name: "About", href: "/about" },
   { name: "Help", href: "/support" },
 ];
@@ -196,7 +197,7 @@ export function Header() {
                 {categories.map((c) => (
                   <Link
                     key={c.id}
-                    href={`/shop?category=${c.id}`}
+                    href={`/shop/${c.id}`}
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-neutral-600 hover:bg-neutral-50"
                   >

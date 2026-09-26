@@ -125,3 +125,11 @@ Look up and refund orders in the Stripe dashboard.
 | `npm run lint` | ESLint |
 | `npm run import-products -- file.csv` | Import products from CSV |
 | `npm run test:orders` | Runs the checkout + webhook flow against a fake Stripe and email server |
+
+## Content, SEO and images
+
+- **Guides** live in `data/blog/meta.ts` (titles, SEO fields, FAQs) and `data/blog/content.ts` (article bodies), and are served at `/blog/<slug>`.
+- **Category landing pages** are at `/shop/<category>`, with copy in `data/category-content.ts`. Old `/shop?category=` links redirect to them.
+- **SEO:** `app/sitemap.ts`, `app/robots.ts` and `app/manifest.ts`, canonical URLs on every page, and structured data for Organization, WebSite, Product, Article, FAQPage and BreadcrumbList (see `lib/seo.ts`).
+- **Suppliers:** `/suppliers` has an enquiry form that emails `PARTNERSHIPS_EMAIL`.
+- **Images:** see [docs/IMAGE-BRIEF.md](docs/IMAGE-BRIEF.md) for every image slot, where to upload it and what to shoot. Placeholders show until you upload.

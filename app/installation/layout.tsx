@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Professional Installation",
+  alternates: { canonical: "/installation" },
   description:
     "Selected products from ARF Commerce can be professionally installed by our fitting partner, FixNow Mechanics.",
 };

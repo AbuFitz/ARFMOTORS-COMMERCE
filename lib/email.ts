@@ -8,7 +8,7 @@ const NOTIFY_EMAIL =
 
 let resend: Resend | null = null
 
-async function send(message: { to: string; subject: string; html: string; text?: string }) {
+async function send(message: { to: string; subject: string; html: string; text?: string; replyTo?: string }) {
   if (!process.env.RESEND_API_KEY) {
     console.warn(`RESEND_API_KEY not set, skipping email "${message.subject}" to ${message.to}`)
     return
@@ -217,5 +217,48 @@ export async function sendFittingJobEmail(data: FittingJobEmailData): Promise<vo
        <p><strong>Products to fit:</strong></p><ul>${itemsHtml}</ul>`
     ),
     text: `Fitting job ${data.orderNumber}: ${data.customerName}, ${data.customerPhone}, ${data.customerEmail}, postcode ${data.fittingPostcode}. Products: ${fittingItems.map((i) => `${i.title} x${i.quantity}`).join(', ')}`,
+  })
+}
+
+// ============================================================
+// SUPPLIER / DISTRIBUTOR ENQUIRY
+// From the /suppliers page. Goes to the partnerships inbox,
+// with a short acknowledgement to the sender.
+// ============================================================
+export interface SupplierEnquiryData {
+  name: string
+  company: string
+  email: string
+  phone?: string
+  website?: string
+  type: string
+  categories: string[]
+  productCount?: string
+  message: string
+}
+
+export async function sendSupplierEnquiry(data: SupplierEnquiryData): Promise<void> {
+  const row = (label: string, value?: string) =>
+    value ? `<p style="margin:0 0 6px"><strong>${label}:</strong> ${escapeHtml(value)}</p>` : ''
+
+  await send({
+    to: process.env.PARTNERSHIPS_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL || 'info@arfcommerce.co.uk',
+    replyTo: data.email,
+    subject: `Supplier enquiry: ${data.company} (${data.type})`,
+    html: layout(
+      'New supplier enquiry',
+      `${row('Name', data.name)}${row('Company', data.company)}${row('Email', data.email)}${row('Phone', data.phone)}${row('Website', data.website)}
+       ${row('Type', data.type)}${row('Categories', data.categories.join(', '))}${row('Number of products', data.productCount)}
+       <p style="margin:12px 0 4px"><strong>Message:</strong></p><p>${escapeHtml(data.message)}</p>`
+    ),
+  })
+
+  await send({
+    to: data.email,
+    subject: 'Thanks for getting in touch | ARF Commerce',
+    html: layout(
+      `Thanks, ${escapeHtml(data.name)}`,
+      `<p>We've received your enquiry about ${escapeHtml(data.company)} and will review your range. If it's a good fit for our store, we'll be in touch within 5 working days.</p>`
+    ),
   })
 }

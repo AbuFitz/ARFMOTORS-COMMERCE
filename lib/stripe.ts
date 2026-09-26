@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 /**
  * Returns a Stripe client, or null when STRIPE_SECRET_KEY isn't set.
  * STRIPE_API_BASE is only for `npm run test:orders`, which points Stripe at a
- * local fake server — leave it unset in production.
+ * local fake server. Leave it unset in production.
  */
 export function getStripe(): Stripe | null {
   if (!process.env.STRIPE_SECRET_KEY) return null

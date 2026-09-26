@@ -137,7 +137,7 @@ export function ProductImageGallery({ images, title, badges }: ProductImageGalle
         {/* Image counter */}
         {validImages.length > 1 && (
           <p className="text-center text-xs text-neutral-400">
-            {selected + 1} / {validImages.length} — click image to zoom
+            {selected + 1} / {validImages.length} · click image to zoom
           </p>
         )}
       </div>

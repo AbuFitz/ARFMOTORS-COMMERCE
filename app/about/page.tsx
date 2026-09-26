@@ -6,7 +6,7 @@ import { COMPANY, SITE_CONFIG } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "ARF Commerce is an independent UK ecommerce retailer focused on straightforward products, competitive pricing and dependable customer service.",
+    "ARF Commerce is an independent UK online retailer of car accessories, in-car tech and tools.",
 };
 
 const principles = [
@@ -35,21 +35,20 @@ export default function AboutPage() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-500">About us</p>
           <h1 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight">
-            An independent UK online retailer
+            Car accessories and tools, sold by a UK retailer
           </h1>
           <div className="mt-5 space-y-4 text-base sm:text-lg text-neutral-700 leading-relaxed">
             <p>
-              ARF Commerce is an independent UK ecommerce retailer focused on straightforward products, competitive
-              pricing and dependable customer service.
+              ARF Commerce is an independent UK online retailer of car accessories, in-car tech and tools. We focus
+              on straightforward products, competitive pricing and dependable customer service.
             </p>
             <p>
-              We source and sell products across selected categories — currently automotive accessories,
-              electronics and charging, tools and equipment, and home and utility items — and we&apos;ll add more as
-              our range grows.
+              We source and sell dash cams and in-car tech, everyday car accessories, roadside and emergency kit,
+              and tools for the garage. We&apos;ll keep adding to the range as it grows.
             </p>
             <p>
-              We sell through our own online store and selected marketplaces, while eligible automotive products can
-              also be professionally installed through our fitting partner, FixNow Mechanics.
+              We sell through our own online store and selected marketplaces, and eligible products can also be
+              professionally installed by our fitting partner, FixNow Mechanics.
             </p>
           </div>
         </div>
@@ -89,7 +88,7 @@ export default function AboutPage() {
             <Wrench className="h-5 w-5 text-neutral-800" />
             <h3 className="mt-3 font-semibold text-neutral-900">Optional fitting</h3>
             <p className="mt-1 text-sm text-neutral-600 leading-relaxed">
-              Professional fitting is available on selected automotive products through FixNow Mechanics, across{" "}
+              Professional fitting is available on selected products through FixNow Mechanics, across{" "}
               {SITE_CONFIG.fitting.coverage}. We don&apos;t offer servicing or repairs.{" "}
               <Link href="/installation" className="underline">How installation works</Link>
             </p>

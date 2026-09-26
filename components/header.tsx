@@ -17,7 +17,7 @@ const navigation = [
   { name: "Categories", href: "/categories" },
   { name: "New arrivals", href: "/shop?sort=newest" },
   { name: "Featured", href: "/shop?featured=1" },
-  { name: "Automotive", href: "/shop?category=automotive" },
+  { name: "In-car tech", href: "/shop?category=in-car-tech" },
   { name: "Installation", href: "/installation" },
   { name: "About", href: "/about" },
   { name: "Help", href: "/support" },

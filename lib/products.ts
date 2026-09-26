@@ -15,28 +15,28 @@ export interface CategoryInfo {
 
 export const CATEGORIES: CategoryInfo[] = [
   {
-    id: "automotive",
-    name: "Automotive",
-    description: "Dash cams, in-car tech and roadside essentials",
-    image: "/images/categories/automotive.png",
+    id: "in-car-tech",
+    name: "In-Car Tech",
+    description: "Dash cams, reversing cameras, CarPlay and diagnostics",
+    image: "/images/categories/in-car-tech.png",
   },
   {
-    id: "electronics",
-    name: "Electronics & Charging",
-    description: "Chargers, power banks, cables and audio",
-    image: "/images/categories/electronics.png",
+    id: "accessories",
+    name: "Car Accessories",
+    description: "Mounts, chargers, cables and interior accessories",
+    image: "/images/categories/accessories.png",
+  },
+  {
+    id: "roadside",
+    name: "Roadside & Emergency",
+    description: "Jump starters, tyre inflators and breakdown kit",
+    image: "/images/categories/roadside.png",
   },
   {
     id: "tools",
-    name: "Tools & Equipment",
-    description: "Test gear, inflators, lighting and tool kits",
+    name: "Tools & Garage",
+    description: "Tool kits, test equipment and work lights",
     image: "/images/categories/tools.png",
-  },
-  {
-    id: "home",
-    name: "Home & Utility",
-    description: "Practical everyday products for the home",
-    image: "/images/categories/home.png",
   },
 ];
 

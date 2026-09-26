@@ -10,7 +10,7 @@ let resend: Resend | null = null
 
 async function send(message: { to: string; subject: string; html: string; text?: string }) {
   if (!process.env.RESEND_API_KEY) {
-    console.warn(`RESEND_API_KEY not set — skipping email "${message.subject}" to ${message.to}`)
+    console.warn(`RESEND_API_KEY not set, skipping email "${message.subject}" to ${message.to}`)
     return
   }
   resend ??= new Resend(process.env.RESEND_API_KEY)
@@ -108,7 +108,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
 
   await send({
     to: data.to,
-    subject: `Order confirmed – ${data.orderNumber}`,
+    subject: `Order confirmed: ${data.orderNumber}`,
     html,
     text: `Thanks for your order ${data.orderNumber}. Total paid: £${data.total.toFixed(2)}. Estimated delivery: ${data.deliveryEstimate}.`,
   })
@@ -123,7 +123,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
        <table width="100%" cellpadding="0" cellspacing="0">${itemsHtml}</table>
        ${discountHtml}
        <p><strong>Total: £${data.total.toFixed(2)}</strong></p>
-       ${data.fittingPostcode ? `<p><strong>Fitting requested</strong> — pass to FixNow Mechanics (postcode ${escapeHtml(data.fittingPostcode)}).</p>` : ''}
+       ${data.fittingPostcode ? `<p><strong>Fitting requested.</strong> Pass to FixNow Mechanics (postcode ${escapeHtml(data.fittingPostcode)}).</p>` : ''}
        <p>Full payment details are in your Stripe dashboard.</p>`
     ),
   })
@@ -135,7 +135,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
 export async function sendWelcomeEmail(to: string, discountCode: string = 'WELCOME10'): Promise<void> {
   await send({
     to,
-    subject: 'Welcome to ARF Commerce – here’s 10% off',
+    subject: 'Welcome to ARF Commerce: here’s 10% off',
     html: layout(
       'Welcome to ARF Commerce',
       `<p>Thanks for signing up. Here's your code for 10% off your first order (min. £50):</p>
@@ -157,7 +157,7 @@ export async function sendContactAcknowledgement(
 ): Promise<void> {
   await send({
     to,
-    subject: 'We’ve received your message – ARF Commerce',
+    subject: 'We’ve received your message | ARF Commerce',
     html: layout(
       `Thanks, ${escapeHtml(name)}`,
       `<p>We've received your message and will reply within 24 hours.</p>
@@ -194,7 +194,7 @@ export interface FittingJobEmailData {
 export async function sendFittingJobEmail(data: FittingJobEmailData): Promise<void> {
   const to = process.env.FIXNOW_EMAIL
   if (!to) {
-    console.warn(`FIXNOW_EMAIL not set — fitting job for ${data.orderNumber} only sent to the shop inbox`)
+    console.warn(`FIXNOW_EMAIL not set, so the fitting job for ${data.orderNumber} is only sent to the shop inbox`)
     return
   }
 
@@ -205,9 +205,9 @@ export async function sendFittingJobEmail(data: FittingJobEmailData): Promise<vo
 
   await send({
     to,
-    subject: `Fitting job: ${data.orderNumber} – ${data.fittingPostcode}`,
+    subject: `Fitting job: ${data.orderNumber}, ${data.fittingPostcode}`,
     html: layout(
-      `New fitting job – ${escapeHtml(data.orderNumber)}`,
+      `New fitting job: ${escapeHtml(data.orderNumber)}`,
       `<p>A customer has ordered from ARF Commerce and requested professional fitting. Please contact them to confirm the price and book a time once the product has been delivered.</p>
        <p><strong>Customer:</strong> ${escapeHtml(data.customerName)}<br/>
           <strong>Phone:</strong> ${escapeHtml(data.customerPhone || 'not given')}<br/>

@@ -21,9 +21,9 @@ export interface Product {
   deliveryEstimate: string;
   shippingDays?: number; // Number of days for shipping (e.g., 14 for imported items)
   shippingNote?: string; // Custom note like "Made to order" or "Extended lead time"
-  fittingEligible: boolean; // Can be professionally fitted by FixNow Mechanics (automotive items only)
+  fittingEligible: boolean; // Can be professionally fitted by FixNow Mechanics
   fittingFrom?: number; // Optional "fitting from £X" guide price shown to customers
-  compatibility?: string[]; // Optional list of what the product works with (vehicles, devices…)
+  compatibility?: string[]; // Optional list of what the product works with
   compatibilityNotes?: string[];
   ebayListed?: boolean; // Also listed on our eBay store
   ebayItemId?: string; // Optional eBay item number for a direct link to the listing
@@ -39,7 +39,7 @@ export interface Product {
   updatedAt: string;
 }
 
-export type ProductCategory = "automotive" | "electronics" | "tools" | "home";
+export type ProductCategory = "in-car-tech" | "accessories" | "roadside" | "tools";
 
 export type ProductSort = "featured" | "newest" | "price-asc" | "price-desc";
 

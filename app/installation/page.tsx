@@ -40,11 +40,11 @@ export default function InstallationPage() {
             </span>
             <h1 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-neutral-900">Professional installation</h1>
             <p className="mt-3 max-w-xl text-sm sm:text-base text-neutral-600 leading-relaxed">
-              Selected automotive products can be professionally installed by our fitting partner,{" "}
+              Selected products can be professionally installed by our fitting partner,{" "}
               <a href={SITE_CONFIG.fitting.url} target="_blank" rel="noopener noreferrer" className="font-medium text-neutral-900 underline underline-offset-2">
                 FixNow Mechanics
               </a>
-              . Fitting is optional — every product can also be bought on its own for delivery.
+              . Fitting is optional, and every product can also be bought on its own for delivery.
             </p>
           </div>
           <div className="rounded-xl border border-neutral-200 bg-white p-5">

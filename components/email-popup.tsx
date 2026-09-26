@@ -77,7 +77,7 @@ export function EmailPopup() {
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           className="fixed bottom-6 right-6 z-50 w-full max-w-sm"
           role="dialog"
-          aria-label={`Newsletter signup — get ${cfg.discount_percent}% off`}
+          aria-label={`Newsletter signup: get ${cfg.discount_percent}% off`}
         >
           <div className="bg-gradient-to-br from-neutral-900 to-neutral-800 text-white rounded-2xl shadow-2xl overflow-hidden border-2 border-primary-500">
             <button

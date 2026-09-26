@@ -6,7 +6,7 @@ import { getActiveCategories, getProductsByCategory } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "Categories",
-  description: "Browse ARF Commerce by category — automotive, electronics and charging, tools and equipment, and home and utility.",
+  description: "Browse ARF Commerce by category: in-car tech, car accessories, roadside and emergency, and tools.",
 };
 
 export default function CategoriesPage() {

@@ -40,22 +40,22 @@ const COLUMNS = {
 // Keyword guesses used when the file has no (recognised) category column.
 // Order matters: the first match wins.
 const CATEGORY_KEYWORDS = [
-  ["automotive", ["car ", "vehicle", "dash cam", "dashcam", "reversing", "reverse camera", "carplay", "android auto", "obd", "jump starter", "phone mount", "car mount", "12v", "tyre", "tire", "wiper", "number plate"]],
-  ["electronics", ["usb", "charger", "charging", "power bank", "cable", "bluetooth", "earbuds", "headphone", "speaker", "adapter", "hdmi"]],
-  ["tools", ["tool", "multimeter", "inflator", "compressor", "work light", "torch", "drill", "socket", "spanner", "screwdriver", "tape measure"]],
-  ["home", ["kitchen", "home", "sensor light", "motion light", "storage", "cleaning", "scale", "bathroom", "garden"]],
+  ["in-car-tech", ["dash cam", "dashcam", "reversing", "reverse camera", "parking sensor", "carplay", "android auto", "obd", "diagnostic", "hardwire", "head unit", "stereo"]],
+  ["roadside", ["jump starter", "jump pack", "booster", "inflator", "compressor", "tyre gauge", "pressure gauge", "warning triangle", "hi-vis", "tow rope", "emergency", "breakdown", "puncture"]],
+  ["tools", ["tool", "multimeter", "work light", "inspection lamp", "socket", "spanner", "wrench", "screwdriver", "jack", "axle stand", "torque", "ratchet"]],
+  ["accessories", ["mount", "holder", "charger", "cable", "usb", "bluetooth", "aux", "organiser", "organizer", "seat", "mat", "cover", "sun shade", "air freshener", "cleaning", "wiper"]],
 ];
 
-const VALID_CATEGORIES = new Set(["automotive", "electronics", "tools", "home"]);
+const VALID_CATEGORIES = new Set(["in-car-tech", "accessories", "roadside", "tools"]);
 
-/** Map a category cell like "Electronics & Charging" or "Automotive" to a category id. */
+/** Map a category cell like "In-Car Tech" or "Tools & Garage" to a category id. */
 function normaliseCategory(raw) {
-  const v = raw.toLowerCase();
+  const v = raw.toLowerCase().trim();
   if (VALID_CATEGORIES.has(v)) return v;
-  if (v.includes("auto") || v.includes("vehicle") || v.includes("car")) return "automotive";
-  if (v.includes("electr") || v.includes("charg")) return "electronics";
-  if (v.includes("tool") || v.includes("equipment")) return "tools";
-  if (v.includes("home") || v.includes("utility") || v.includes("household")) return "home";
+  if (v.includes("tech") || v.includes("camera") || v.includes("electronic")) return "in-car-tech";
+  if (v.includes("roadside") || v.includes("emergency") || v.includes("breakdown")) return "roadside";
+  if (v.includes("tool") || v.includes("garage") || v.includes("equipment")) return "tools";
+  if (v.includes("accessor") || v.includes("interior") || v.includes("charging")) return "accessories";
   return null;
 }
 
@@ -163,8 +163,7 @@ function main() {
     const category = normaliseCategory(get("category") || "") || guessCategory(title);
     if (!category) uncategorised.push(title);
     const compatibility = splitList(get("compatibility"));
-    // Fitting is only offered on automotive products
-    const fitting = parseBool(get("fitting"), false) && (category ?? "automotive") === "automotive";
+    const fitting = parseBool(get("fitting"), false);
     const salePercent = parseNumber(get("salePercent"));
     const inStockUK = parseBool(get("inStockUK"), true);
     const description = get("description") || title;
@@ -176,7 +175,7 @@ function main() {
       description,
       longDescription: get("longDescription") || undefined,
       images: splitList(get("images")),
-      category: category ?? "home",
+      category: category ?? "accessories",
       compatibility: compatibility.length ? compatibility : undefined,
       price,
       inStockUK,
@@ -203,9 +202,9 @@ function main() {
   const noImages = products.filter((p) => !p.images.length).length;
   console.log(`Imported ${products.length} products into data/imported-products.json`);
   if (skipped.length) console.log(`Skipped ${skipped.length}:\n  ${skipped.join("\n  ")}`);
-  if (noImages) console.log(`${noImages} product(s) have no images — add image URLs or files in public/images/products/`);
+  if (noImages) console.log(`${noImages} product(s) have no images. Add image URLs or files in public/images/products/`);
   if (uncategorised.length)
-    console.log(`${uncategorised.length} product(s) had no recognisable category and were put in "home" — add a Category column:\n  ${uncategorised.join("\n  ")}`);
+    console.log(`${uncategorised.length} product(s) had no recognisable category and were put in "accessories". Add a Category column:\n  ${uncategorised.join("\n  ")}`);
   console.log(`${products.filter((p) => p.fittingEligible).length} product(s) marked for FixNow fitting`);
 }
 

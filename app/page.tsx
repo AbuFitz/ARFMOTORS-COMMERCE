@@ -62,8 +62,8 @@ export default function HomePage() {
                 <span className="text-neutral-400">Service you can rely on.</span>
               </h1>
               <p className="mt-3 sm:mt-4 max-w-lg text-sm sm:text-base text-neutral-300 leading-relaxed">
-                Shop carefully selected products from ARF Commerce, with professional fitting available on eligible
-                automotive items through FixNow Mechanics.
+                Car accessories, in-car tech, roadside essentials and tools. Professional fitting is available on
+                selected products through FixNow Mechanics.
               </p>
               <div className="mt-5 sm:mt-6 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
                 <Link
@@ -174,7 +174,7 @@ export default function HomePage() {
               {
                 icon: ListChecks,
                 title: "A focused range",
-                text: "Products selected for quality, value and everyday use — not thousands of near-identical listings.",
+                text: "Car accessories and tools picked for quality and value, not thousands of near-identical listings.",
               },
               {
                 icon: Info,
@@ -189,7 +189,7 @@ export default function HomePage() {
               {
                 icon: Wrench,
                 title: "Fitting when you need it",
-                text: "Selected automotive products can be professionally installed by our fitting partner.",
+                text: "Selected products can be professionally installed by our fitting partner.",
               },
             ].map((item) => (
               <div key={item.title} className="flex gap-3 rounded-xl bg-white p-4 border border-neutral-200">
@@ -220,7 +220,7 @@ export default function HomePage() {
                   Professional fitting available
                 </h2>
                 <p className="mt-2 text-sm sm:text-base text-neutral-600 leading-relaxed max-w-xl">
-                  Selected automotive products can be professionally installed by our fitting partner, FixNow
+                  Selected products can be professionally installed by our fitting partner, FixNow
                   Mechanics. Tick &quot;Add fitting&quot; on an eligible product, check your postcode, and they&apos;ll
                   contact you to confirm the price and book a time.
                 </p>

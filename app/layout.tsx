@@ -8,7 +8,7 @@ import "@/styles/globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://arfcommerce.co.uk";
 const DESCRIPTION =
-  "Shop carefully selected products from ARF Commerce — automotive accessories, electronics, tools and everyday essentials, delivered from the UK. Professional fitting available on eligible automotive items.";
+  "Car accessories, in-car tech, roadside essentials and tools from ARF Commerce, delivered from the UK. Professional fitting is available on selected products.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

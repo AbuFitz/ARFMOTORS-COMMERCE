@@ -8,7 +8,7 @@ export const COMPANY = {
   legalName: "ARF Commerce Ltd",
   companyNumber: "17432383",
   registeredIn: "England and Wales",
-  // Companies House registered office — set NEXT_PUBLIC_REGISTERED_OFFICE to show it on the site
+  // Companies House registered office. Set NEXT_PUBLIC_REGISTERED_OFFICE to show it on the site
   registeredOffice: process.env.NEXT_PUBLIC_REGISTERED_OFFICE || "",
 };
 
@@ -19,7 +19,7 @@ export const COMPANY_STATEMENT = `${COMPANY.legalName}. Registered in ${COMPANY.
 
 export const SITE_CONFIG = {
   name: "ARF Commerce",
-  tagline: "Carefully selected products, delivered from the UK",
+  tagline: "Car accessories, in-car tech and tools, delivered from the UK",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://arfcommerce.co.uk",
   emails: {
     info: "info@arfcommerce.co.uk",

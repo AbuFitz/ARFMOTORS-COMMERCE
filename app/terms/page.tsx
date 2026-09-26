@@ -24,7 +24,7 @@ export default function TermsPage() {
         <p>
           When you place an order you are offering to buy the products in your cart. We&apos;ll email you to confirm we
           have received it. The contract between us is formed when we dispatch your order. If we can&apos;t accept your
-          order — for example because an item is out of stock or a price was shown incorrectly — we&apos;ll tell you and
+          order, for example because an item is out of stock or a price was shown incorrectly, we&apos;ll tell you and
           refund any payment in full.
         </p>
       </section>

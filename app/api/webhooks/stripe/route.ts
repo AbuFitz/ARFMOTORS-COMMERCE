@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 import { getStripe } from '@/lib/stripe'
 import { sendOrderConfirmationEmail, sendFittingJobEmail } from '@/lib/email'
 
-// App Router does NOT auto-parse the body — request.text() gives us the raw body
+// App Router does NOT auto-parse the body; request.text() gives us the raw body
 // which Stripe needs for signature verification. No config needed here.
 //
 // There is no order database: Stripe is the record of every order, and this

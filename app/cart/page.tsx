@@ -151,7 +151,7 @@ export default function CartPage() {
                         </div>
                         {item.fittingRequested && item.fittingPostcode && (
                           <p className="text-xs text-neutral-500 mt-1">
-                            Fitting at {item.fittingPostcode} — FixNow Mechanics will contact you to book
+                            Fitting at {item.fittingPostcode}. FixNow Mechanics will contact you to book
                           </p>
                         )}
                       </div>
@@ -324,7 +324,7 @@ export default function CartPage() {
                   ✓ Secure checkout powered by Stripe
                 </p>
                 <p className="text-xs text-neutral-600">
-                  ✓ Fitting available on selected automotive products
+                  ✓ Professional fitting available on selected products
                 </p>
                 <p className="text-xs text-neutral-600">
                   ✓ 14-day returns on most items

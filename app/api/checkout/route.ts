@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       const quantity = Math.floor(Number(item.quantity))
       if (!product || !Number.isFinite(quantity) || quantity < 1 || quantity > 20) {
         return NextResponse.json(
-          { error: `"${item.title}" is no longer available — please remove it from your cart` },
+          { error: `"${item.title}" is no longer available. Please remove it from your cart` },
           { status: 400 }
         )
       }

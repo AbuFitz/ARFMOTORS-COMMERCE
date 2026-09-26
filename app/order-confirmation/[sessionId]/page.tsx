@@ -28,7 +28,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
     redirect("/shop");
   }
 
-  const orderNumber = session.metadata?.orderNumber || "—";
+  const orderNumber = session.metadata?.orderNumber || "Pending";
   const customerEmail = session.customer_details?.email || session.customer_email || "";
   const customerName = session.customer_details?.name || "";
   const deliveryMessage = session.metadata?.deliveryMessage || "5-7 business days";

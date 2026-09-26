@@ -159,7 +159,7 @@ export default function ProductPage() {
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
               <span className="inline-flex items-center gap-2 font-medium text-neutral-800">
                 <span className={cn("h-2 w-2 rounded-full", product.inStockUK ? "bg-green-500" : "bg-amber-500")} />
-                {product.inStockUK ? "In stock — ships from the UK" : "Ships from our supplier"}
+                {product.inStockUK ? "In stock, ships from the UK" : "Ships from our supplier"}
               </span>
               <span className="inline-flex items-center gap-2 text-neutral-600">
                 <Truck className="h-4 w-4" />
@@ -187,7 +187,7 @@ export default function ProductPage() {
                     <p className="font-semibold text-neutral-900">Professional fitting available</p>
                     <p className="mt-0.5 text-sm text-neutral-600">
                       This product can be professionally installed by our fitting partner, {SITE_CONFIG.fitting.partner}
-                      {product.fittingFrom ? ` — fitting from ${formatPrice(product.fittingFrom)}` : ""}. The price is
+                      {product.fittingFrom ? `, from ${formatPrice(product.fittingFrom)}` : ""}. The price is
                       confirmed with you before anything is booked, and paid separately.{" "}
                       <Link href="/installation" className="underline underline-offset-2 hover:text-neutral-900">
                         How it works

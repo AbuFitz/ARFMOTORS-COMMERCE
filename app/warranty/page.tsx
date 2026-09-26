@@ -40,7 +40,7 @@ export default function WarrantyPage() {
         <ul>
           <li>normal wear and tear;</li>
           <li>accidental damage, misuse, or use not in line with the instructions;</li>
-          <li>damage caused by incorrect installation (other than fitting carried out by FixNow Mechanics — see below);</li>
+          <li>damage caused by incorrect installation (other than fitting carried out by FixNow Mechanics, covered below);</li>
           <li>items that have been modified or repaired by someone else.</li>
         </ul>
       </section>

@@ -208,7 +208,7 @@ function ShopContent() {
                   onChange={(e) => update({ minPrice: e.target.value ? Number(e.target.value) : undefined })}
                   className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:border-neutral-900 focus:outline-none focus:ring-0"
                 />
-                <span className="text-neutral-400">–</span>
+                <span className="text-sm text-neutral-400">to</span>
                 <input
                   type="number"
                   min={0}

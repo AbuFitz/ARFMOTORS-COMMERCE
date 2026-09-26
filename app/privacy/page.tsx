@@ -28,7 +28,7 @@ export default function PrivacyPage() {
             Basic technical information such as browser type and pages visited, if you allow analytics cookies.
           </li>
         </ul>
-        <p>We don&apos;t see or store your full card details — payments are processed by Stripe.</p>
+        <p>We don&apos;t see or store your full card details. Payments are processed by Stripe.</p>
       </section>
 
       <section>
@@ -46,14 +46,14 @@ export default function PrivacyPage() {
       <section>
         <h2>3. Who we share it with</h2>
         <ul>
-          <li><strong>Stripe</strong> — to take payments.</li>
-          <li><strong>Delivery companies</strong> — to deliver your order.</li>
+          <li><strong>Stripe</strong>, to take payments.</li>
+          <li><strong>Delivery companies</strong>, to deliver your order.</li>
           <li>
-            <strong>FixNow Mechanics</strong> — only if you request fitting: your name, contact details, postcode and the
+            <strong>FixNow Mechanics</strong>, only if you request fitting: your name, contact details, postcode and the
             products to be fitted.
           </li>
-          <li><strong>Resend</strong> — to send order and contact emails.</li>
-          <li><strong>Mailchimp</strong> — to send our newsletter, if you sign up.</li>
+          <li><strong>Resend</strong>, to send order and contact emails.</li>
+          <li><strong>Mailchimp</strong>, to send our newsletter if you sign up.</li>
           <li>Authorities, where we&apos;re required to by law.</li>
         </ul>
         <p>We don&apos;t sell your personal information.</p>
@@ -78,7 +78,7 @@ export default function PrivacyPage() {
       <section>
         <h2>6. Cookies</h2>
         <p>
-          We use essential cookies and browser storage to run the website — for example to remember your cart. We only
+          We use essential cookies and browser storage to run the website, for example to remember your cart. We only
           use analytics or marketing cookies if you accept them in the cookie banner, and you can change your choice at
           any time.
         </p>

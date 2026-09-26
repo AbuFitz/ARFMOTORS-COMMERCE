@@ -80,7 +80,7 @@ export default function ContactPage() {
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="h-6 w-6 text-green-600 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-neutral-900">Thanks — your message has been sent.</p>
+                  <p className="font-semibold text-neutral-900">Thanks, your message has been sent.</p>
                   <p className="mt-1 text-sm text-neutral-600">We&apos;ve emailed you a copy and will reply within 24 hours.</p>
                   <button onClick={() => setSubmitted(false)} className="mt-4 text-sm font-semibold underline">
                     Send another message

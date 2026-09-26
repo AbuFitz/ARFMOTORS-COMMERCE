@@ -123,7 +123,7 @@ export default function TrackOrderPage() {
               <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
                 <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
                 <p className="text-green-800 text-sm">
-                  Thanks — we&apos;ve received your request for order <strong>{orderNumber}</strong> and
+                  Thanks. We&apos;ve received your request for order <strong>{orderNumber}</strong> and
                   will email you at {email} shortly.
                 </p>
               </div>

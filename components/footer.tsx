@@ -60,7 +60,7 @@ export function Footer() {
               />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-neutral-400">
-              {SITE_CONFIG.tagline}. Professional fitting available on selected automotive products through{" "}
+              {SITE_CONFIG.tagline}. Professional fitting available on selected products through{" "}
               <a
                 href={SITE_CONFIG.fitting.url}
                 target="_blank"

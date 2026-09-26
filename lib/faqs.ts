@@ -13,7 +13,7 @@ export const FAQS: FaqGroup[] = [
     questions: [
       {
         q: "How long will delivery take?",
-        a: "Each product page shows an estimated delivery time. Items held in UK stock usually arrive within 1–3 business days. Some items ship from our supplier and take longer — this is always shown before you buy.",
+        a: "Each product page shows an estimated delivery time. Items held in UK stock usually arrive within 1 to 3 business days. Some items ship from our supplier and take longer, and this is always shown before you buy.",
       },
       {
         q: "Do you deliver outside the UK?",
@@ -63,7 +63,7 @@ export const FAQS: FaqGroup[] = [
     questions: [
       {
         q: "Which products can be fitted?",
-        a: "Only selected automotive products — they show a \"Fitting available\" badge. Fitting is optional, and every product can be bought on its own for delivery.",
+        a: "Only selected products, which show a \"Fitting available\" badge. Fitting is optional, and every product can be bought on its own for delivery.",
       },
       {
         q: "Who carries out the fitting?",
@@ -93,7 +93,7 @@ export const FAQS: FaqGroup[] = [
       },
       {
         q: "Can you help me choose a product?",
-        a: "Yes — send us a message with what you need and we'll help you pick the right item before you order.",
+        a: "Yes. Send us a message with what you need and we'll help you pick the right item before you order.",
       },
     ],
   },

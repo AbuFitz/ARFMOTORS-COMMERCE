@@ -100,7 +100,7 @@ async function waitForSite() {
     } catch {}
     await new Promise((r) => setTimeout(r, 500));
   }
-  throw new Error("Site did not start — run `npm run build` first");
+  throw new Error("Site did not start. Run `npm run build` first");
 }
 
 async function postCheckout(body) {
@@ -246,12 +246,12 @@ async function run() {
     assert.deepEqual(to.sort(), ["fixnow@test.local", "orders@test.local", "sam@example.com"].sort(), `emails sent to: ${to.join(", ")}`);
 
     const customer = emails.find((e) => [].concat(e.to)[0] === "sam@example.com");
-    assert.match(customer.subject, /Order confirmed – ARF-/);
+    assert.match(customer.subject, /Order confirmed: ARF-/);
     assert.match(customer.html, /FixNow fitting/);
     assert.match(customer.html, /£235\.08/);
 
     const fixnow = emails.find((e) => [].concat(e.to)[0] === "fixnow@test.local");
-    assert.match(fixnow.subject, /Fitting job: ARF-.* – SW1A 1AA/);
+    assert.match(fixnow.subject, /Fitting job: ARF-.*, SW1A 1AA/);
     assert.match(fixnow.html, /07700 900123/);
     assert.match(fixnow.html, /Front &amp; Rear Dash Cam Kit × 2/);
     assert.doesNotMatch(fixnow.html, /USB-C Cable/, "FixNow should only get the products to fit");

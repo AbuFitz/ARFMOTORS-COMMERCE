@@ -1,11 +1,9 @@
-# ARF Commerce – Online Store
+# ARF Commerce Online Store
 
 Next.js 14 ecommerce site for **ARF Commerce Ltd** (registered in England and Wales, company
-number 17432383), a general UK online retailer. It sells products across several categories
-(automotive, electronics & charging, tools & equipment, home & utility). Selected automotive
-products can have optional professional fitting by FixNow Mechanics.
-Many of the same parts are also listed on our eBay store, and eligible parts can be fitted by
-**FixNow Mechanics**.
+number 17432383), a UK online retailer of car accessories, in-car tech, roadside kit and tools.
+Many of the same products are also listed on our eBay store, and selected products can have
+optional professional fitting by **FixNow Mechanics**.
 
 There is no admin dashboard, CRM or database. Products live in the repo, Stripe holds the
 order records, and emails go out through Resend.
@@ -23,7 +21,7 @@ skipped (with a warning in the logs) until the keys are set.
 
 ## Adding your products
 
-### Option A — import a spreadsheet or eBay export (recommended)
+### Option A: import a spreadsheet or eBay export (recommended)
 
 1. **From eBay:** Seller Hub → Listings → Active → *Download report* (CSV).
    **From a spreadsheet:** fill in [`data/product-import-template.csv`](data/product-import-template.csv)
@@ -37,18 +35,17 @@ skipped (with a warning in the logs) until the keys are set.
 The importer:
 - recognises eBay's columns (Item number, Title, Current price, Available quantity, Custom label)
   as well as the template's columns;
-- matches category names loosely ("Electronics & Charging" → `electronics`), and guesses the
+- matches category names loosely ("In-Car Tech" → `in-car-tech`, "Tools & Garage" → `tools`), and guesses the
   category from the title when there's no Category column;
 - links each product to its eBay listing using the item number;
 - hides products with 0 quantity.
 
-It also reports which products still need images or a category. Fitting is only ever enabled on
-automotive products. eBay exports don't include
+It also reports which products still need images or a category. eBay exports don't include
 fitting info or photos, so add those in the spreadsheet: separate multiple values with `|`, and
 put `yes` in the Fitting column for parts FixNow can fit. Re-running the import replaces the
 whole file.
 
-### Option B — edit by hand
+### Option B: edit by hand
 
 [`data/products.ts`](data/products.ts) holds 17 neutral **demo** products with placeholder images
 (`public/images/products/demo/`). Copy an entry, change it
@@ -57,9 +54,9 @@ one. Delete the sample entries once your real stock is imported.
 
 | Field | Purpose |
 | --- | --- |
-| `category` | `automotive`, `electronics`, `tools` or `home` — add new ones in `lib/products.ts` + `types/product.ts` |
+| `category` | `in-car-tech`, `accessories`, `roadside` or `tools`. Add new ones in `lib/products.ts` and `types/product.ts` |
 | `fittingEligible` | Eligible for FixNow fitting (adds the fitting option + postcode check) |
-| `compatibility` / `compatibilityNotes` | Optional "works with" info — only shown when set |
+| `compatibility` / `compatibilityNotes` | Optional "works with" info, only shown when set |
 | `fittingFrom` | Optional "fitting from £X" guide price |
 | `ebayListed` / `ebayItemId` | Shows "View on eBay" (a direct link when the item number is set) |
 | `isFeatured` | Shown in "Featured Products" on the home page |

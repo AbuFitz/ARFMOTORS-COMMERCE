@@ -12,9 +12,9 @@ export interface CartItem {
   image: string;
   inStockUK: boolean;
   imported: boolean;
-  installationRequested?: boolean;
-  installationPostcode?: string;
-  installationAvailable?: boolean;
+  fittingRequested?: boolean;
+  fittingPostcode?: string;
+  fittingAvailable?: boolean;
 }
 
 interface CartStore {
@@ -24,7 +24,7 @@ interface CartStore {
   addItem: (item: CartItem) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
-  updateInstallation: (productId: string, installation: {
+  updateFitting: (productId: string, fitting: {
     requested: boolean;
     postcode?: string;
     available?: boolean;
@@ -69,14 +69,14 @@ export const useCartStore = create<CartStore>()(
         ),
       })),
 
-      updateInstallation: (productId, installation) => set((state) => ({
+      updateFitting: (productId, fitting) => set((state) => ({
         items: state.items.map((i) =>
           i.productId === productId
             ? {
                 ...i,
-                installationRequested: installation.requested,
-                installationPostcode: installation.postcode,
-                installationAvailable: installation.available,
+                fittingRequested: fitting.requested,
+                fittingPostcode: fitting.postcode,
+                fittingAvailable: fitting.available,
               }
             : i
         ),
@@ -130,7 +130,7 @@ export const useCartStore = create<CartStore>()(
       },
     }),
     {
-      name: 'arfmotors-cart-storage',
+      name: 'arf-commerce-cart',
     }
   )
 );

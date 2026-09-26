@@ -3,7 +3,7 @@ import { sendContactAcknowledgement } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, bmwModel, postcode, message } = await request.json()
+    const { name, email, orderNumber, message } = await request.json()
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'Name, email, and message are required' }, { status: 400 })
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send acknowledgement + notify the shop inbox
-    await sendContactAcknowledgement(email, name, message, { bmwModel, postcode })
+    await sendContactAcknowledgement(email, name, message, { orderNumber })
 
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -99,8 +99,7 @@ export function PostcodeChecker({ onResult }: PostcodeCheckerProps) {
       </AnimatePresence>
 
       <p className="text-xs text-neutral-500">
-        Our fitting service covers London and surrounding regions up to Peterborough.
-        Enter your postcode to check availability.
+        Fitting by FixNow Mechanics covers London and surrounding areas up to Peterborough.
       </p>
     </div>
   );

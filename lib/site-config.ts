@@ -1,10 +1,10 @@
 // Central store settings. Everything that used to live in the admin dashboard /
 // database (popup copy, discount codes, eBay + fitting links) is configured here.
 
-const EBAY_SELLER = process.env.NEXT_PUBLIC_EBAY_SELLER || "arfmotors";
+const EBAY_SELLER = process.env.NEXT_PUBLIC_EBAY_SELLER || "arfcommerce";
 
 export const COMPANY = {
-  tradingName: "ARF Motors",
+  brandName: "ARF Commerce",
   legalName: "ARF Commerce Ltd",
   companyNumber: "17432383",
   registeredIn: "England and Wales",
@@ -12,18 +12,19 @@ export const COMPANY = {
   registeredOffice: process.env.NEXT_PUBLIC_REGISTERED_OFFICE || "",
 };
 
-/** "ARF Motors is a trading name of ARF Commerce Ltd, registered in England and Wales (company no. 17432383)." */
-export const COMPANY_STATEMENT = `${COMPANY.tradingName} is a trading name of ${COMPANY.legalName}, registered in ${COMPANY.registeredIn} (company no. ${COMPANY.companyNumber})${
-  COMPANY.registeredOffice ? `. Registered office: ${COMPANY.registeredOffice}` : ""
-}.`;
+/** "ARF Commerce Ltd. Registered in England and Wales. Company number 17432383." (+ registered office when set) */
+export const COMPANY_STATEMENT = `${COMPANY.legalName}. Registered in ${COMPANY.registeredIn}. Company number ${COMPANY.companyNumber}.${
+  COMPANY.registeredOffice ? ` Registered office: ${COMPANY.registeredOffice}.` : ""
+}`;
 
 export const SITE_CONFIG = {
-  name: "ARF Motors",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://arfmotors.co.uk",
+  name: "ARF Commerce",
+  tagline: "Carefully selected products, delivered from the UK",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://arfcommerce.co.uk",
   emails: {
-    info: "info@arfmotors.co.uk",
-    support: process.env.SUPPORT_EMAIL || "support@arfmotors.co.uk",
-    orders: process.env.BUSINESS_EMAIL || "orders@arfmotors.co.uk",
+    info: "info@arfcommerce.co.uk",
+    support: process.env.SUPPORT_EMAIL || "support@arfcommerce.co.uk",
+    orders: process.env.BUSINESS_EMAIL || "orders@arfcommerce.co.uk",
   },
   fitting: {
     partner: "FixNow Mechanics",
@@ -76,7 +77,7 @@ export const DISCOUNT_MINIMUM_ORDER = 50;
 
 export const DISCOUNT_CODES: Record<string, number> = {
   WELCOME10: 10,
-  ARFMOTORS10: 10,
+  ARF10: 10,
 };
 
 /** Returns the percentage off for a valid code, or 0 if invalid / below minimum. */

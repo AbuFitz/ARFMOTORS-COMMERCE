@@ -51,18 +51,18 @@ export function CartRecommendations({ cartProducts }: CartRecommendationsProps) 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-primary-50 to-white border border-primary-200 rounded-xl p-5"
+          className="bg-neutral-50 border border-neutral-200 rounded-xl p-5"
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="inline-flex items-center justify-center w-10 h-10 bg-primary-500 text-white rounded-lg">
+            <div className="inline-flex items-center justify-center w-10 h-10 bg-neutral-900 text-white rounded-lg">
               <ShoppingCart className="h-5 w-5" />
             </div>
             <div>
               <h3 className="font-display text-lg font-bold text-neutral-900">
-                Add These Popular Items
+                You might also like
               </h3>
               <p className="text-xs text-neutral-600">
-                Budget-friendly upgrades under £100
+                Popular with other customers
               </p>
             </div>
           </div>
@@ -79,7 +79,7 @@ export function CartRecommendations({ cartProducts }: CartRecommendationsProps) 
                 <div className="flex gap-3 items-center">
                   <div className="relative w-16 h-16 flex-shrink-0 rounded-md overflow-hidden bg-neutral-100">
                     <Image
-                      src={rec.product.images[0] || "/images/placeholder.jpg"}
+                      src={rec.product.images[0] || "/images/placeholder.png"}
                       alt={rec.product.title}
                       fill
                       className="object-cover"
@@ -100,7 +100,7 @@ export function CartRecommendations({ cartProducts }: CartRecommendationsProps) 
                   </div>
                   <button
                     onClick={() => handleQuickAdd(rec.product)}
-                    className="flex-shrink-0 inline-flex items-center gap-1.5 bg-primary-500 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary-600 transition-colors shadow-sm"
+                    className="flex-shrink-0 inline-flex items-center gap-1.5 bg-neutral-900 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-neutral-800 transition-colors shadow-sm"
                   >
                     <Plus className="h-4 w-4" />
                     Add

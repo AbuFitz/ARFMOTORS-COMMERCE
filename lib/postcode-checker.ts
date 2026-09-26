@@ -53,14 +53,14 @@ export function checkPostcodeCoverage(postcode: string): PostcodeCheckResult {
   if (COVERED_AREAS.includes(area)) {
     return {
       isAvailable: true,
-      message: "Great news! FixNow Mechanics can install this part at your location.",
+      message: "Good news — FixNow Mechanics cover your area for fitting.",
       postcode: cleanPostcode,
     };
   }
 
   return {
     isAvailable: false,
-    message: "Unfortunately, our fitting service isn't available in your area yet — but you can still order this part for delivery.",
+    message: "Fitting isn't available in your area yet, but you can still order this product for delivery.",
     postcode: cleanPostcode,
   };
 }

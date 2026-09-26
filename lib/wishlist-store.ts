@@ -47,7 +47,7 @@ export const useWishlistStore = create<WishlistStore>()(
       getTotalItems: () => get().items.length,
     }),
     {
-      name: 'arfmotors-wishlist-storage',
+      name: 'arf-commerce-wishlist',
     }
   )
 );

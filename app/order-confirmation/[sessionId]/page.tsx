@@ -88,7 +88,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
                 <ol className="mt-2 space-y-1 text-sm text-neutral-600 list-decimal list-inside">
                   <li>We prepare and pack your order</li>
                   <li>You receive a dispatch email with tracking</li>
-                  <li>Your parts arrive at the delivery address</li>
+                  <li>Your order arrives at your delivery address</li>
                   {fittingRequested && (
                     <li>FixNow Mechanics contacts you to confirm your fitting price and book a time</li>
                   )}
@@ -142,8 +142,8 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
 
         <p className="text-center text-xs text-neutral-500 mt-6">
           Questions? Email{" "}
-          <a href="mailto:support@arfmotors.co.uk" className="underline hover:text-neutral-700">
-            support@arfmotors.co.uk
+          <a href="mailto:support@arfcommerce.co.uk" className="underline hover:text-neutral-700">
+            support@arfcommerce.co.uk
           </a>
           {" "}or use our{" "}
           <Link href="/contact" className="underline hover:text-neutral-700">
@@ -157,7 +157,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
 
 export async function generateMetadata() {
   return {
-    title: "Order Confirmed | ARF Motors",
+    title: "Order confirmed",
     robots: "noindex",
   };
 }

@@ -59,10 +59,10 @@ export async function POST(request: NextRequest) {
       }
       const unitPrice = calculateDiscount(product.price, product.discountType, product.discountValue)
       const fitting =
-        product.installationAvailable &&
-        Boolean(item.installationRequested) &&
-        item.installationAvailable !== false
-      lines.push({ product, quantity, unitPrice, fitting, postcode: item.installationPostcode ?? '' })
+        product.fittingEligible &&
+        Boolean(item.fittingRequested) &&
+        item.fittingAvailable !== false
+      lines.push({ product, quantity, unitPrice, fitting, postcode: item.fittingPostcode ?? '' })
     }
 
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = lines.map((line) => ({
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
     let discounts: Stripe.Checkout.SessionCreateParams.Discount[] = []
     if (discountCode && discountPercent > 0) {
       const code = discountCode.toUpperCase().trim()
-      const couponId = `arfmotors_${code.toLowerCase()}_${discountPercent}`
+      const couponId = `arf_${code.toLowerCase()}_${discountPercent}`
       try {
         await stripe.coupons.retrieve(couponId)
       } catch {

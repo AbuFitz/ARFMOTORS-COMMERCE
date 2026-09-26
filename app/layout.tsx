@@ -6,48 +6,36 @@ import { EmailPopup } from "@/components/email-popup";
 import { StickySupportButton } from "@/components/sticky-support-button";
 import "@/styles/globals.css";
 
-/**
- * Note: Google Fonts (Inter & Outfit) are loaded via CDN in production
- * to avoid build-time network dependencies. System fonts used as fallbacks.
- *
- * To enable Google Fonts in production, uncomment the link in the <head> below.
- */
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://arfcommerce.co.uk";
+const DESCRIPTION =
+  "Shop carefully selected products from ARF Commerce — automotive accessories, electronics, tools and everyday essentials, delivered from the UK. Professional fitting available on eligible automotive items.";
 
 export const metadata: Metadata = {
-  title: {
-    default: "ARF Motors | Premium BMW Retrofits & Styling",
-    template: "%s | ARF Motors",
+  metadataBase: new URL(SITE_URL),
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
-  description:
-    "BMW styling and performance parts from ARF Motors, delivered from UK stock, with optional fitting via FixNow Mechanics.",
-  keywords: [
-    "BMW retrofit",
-    "BMW styling",
-    "BMW performance parts",
-    "BMW upgrades",
-    "BMW parts UK",
-    "BMW M Performance",
-    "BMW parts eBay",
-    "BMW parts fitting",
-    "ARF Motors",
-    "ARF Commerce",
-    "FixNow Mechanics",
-  ],
-  authors: [{ name: "ARF Motors" }],
-  creator: "ARF Motors",
+  title: {
+    default: "ARF Commerce | Online Store",
+    template: "%s | ARF Commerce",
+  },
+  description: DESCRIPTION,
+  applicationName: "ARF Commerce",
+  authors: [{ name: "ARF Commerce Ltd" }],
+  creator: "ARF Commerce Ltd",
   publisher: "ARF Commerce Ltd",
   openGraph: {
     type: "website",
     locale: "en_GB",
-    siteName: "ARF Motors",
-    title: "ARF Motors | Premium BMW Retrofits & Styling",
-    description:
-      "BMW styling and performance parts, with optional fitting via FixNow Mechanics.",
+    url: SITE_URL,
+    siteName: "ARF Commerce",
+    title: "ARF Commerce | Online Store",
+    description: DESCRIPTION,
   },
   twitter: {
-    card: "summary_large_image",
-    title: "ARF Motors",
-    description: "Premium BMW styling and performance parts.",
+    card: "summary",
+    title: "ARF Commerce",
+    description: DESCRIPTION,
   },
   robots: {
     index: true,
@@ -63,7 +51,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Premium Fonts - Space Grotesk, Rajdhani, JetBrains Mono */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

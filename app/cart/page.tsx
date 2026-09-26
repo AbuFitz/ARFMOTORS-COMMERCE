@@ -79,13 +79,13 @@ export default function CartPage() {
             Your cart is empty
           </h1>
           <p className="text-neutral-600 mb-8">
-            Start shopping and add some premium BMW parts to your cart.
+            Browse the shop and add something to get started.
           </p>
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 bg-neutral-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
           >
-            Continue Shopping
+            Continue shopping
             <ArrowRight className="h-5 w-5" />
           </Link>
         </div>
@@ -99,7 +99,7 @@ export default function CartPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="font-display text-4xl font-bold text-neutral-900 mb-2">
-            Shopping Cart
+            Your cart
           </h1>
           <p className="text-neutral-600">{getTotalItems()} items</p>
         </div>
@@ -120,7 +120,7 @@ export default function CartPage() {
                   {/* Image */}
                   <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-100">
                     <Image
-                      src={item.image || "/images/placeholder.jpg"}
+                      src={item.image || "/images/placeholder.png"}
                       alt={item.title}
                       fill
                       className="object-cover"
@@ -139,22 +139,19 @@ export default function CartPage() {
                         </Link>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {item.inStockUK && (
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                              UK Stock
+                            <span className="text-xs bg-neutral-100 text-neutral-700 px-2 py-1 rounded-full">
+                              In stock
                             </span>
                           )}
-                          {item.installationRequested && (
-                            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                              FixNow Fitting Requested
+                          {item.fittingRequested && (
+                            <span className="text-xs bg-neutral-900 text-white px-2 py-1 rounded-full">
+                              + Professional fitting
                             </span>
                           )}
                         </div>
-                        {item.installationRequested && item.installationPostcode && (
+                        {item.fittingRequested && item.fittingPostcode && (
                           <p className="text-xs text-neutral-500 mt-1">
-                            Fitting postcode: {item.installationPostcode}
-                            {item.installationAvailable
-                              ? " ✓ Available"
-                              : " ✗ Not available"}
+                            Fitting at {item.fittingPostcode} — FixNow Mechanics will contact you to book
                           </p>
                         )}
                       </div>
@@ -318,7 +315,7 @@ export default function CartPage() {
                 href="/shop"
                 className="block text-center text-sm text-primary-500 hover:underline"
               >
-                Continue Shopping
+                Continue shopping
               </Link>
 
               {/* Additional info */}
@@ -327,10 +324,10 @@ export default function CartPage() {
                   ✓ Secure checkout powered by Stripe
                 </p>
                 <p className="text-xs text-neutral-600">
-                  ✓ FixNow fitting available on eligible parts
+                  ✓ Fitting available on selected automotive products
                 </p>
                 <p className="text-xs text-neutral-600">
-                  ✓ Manufacturer warranty included
+                  ✓ 14-day returns on most items
                 </p>
               </div>
             </div>

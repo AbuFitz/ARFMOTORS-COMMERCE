@@ -1,7 +1,9 @@
-# ARF Motors – BMW Parts Store
+# ARF Commerce – Online Store
 
-Next.js 14 ecommerce site for ARF Motors, a trading name of **ARF Commerce Ltd** (registered in
-England and Wales, company no. 17432383). The site sells BMW styling and performance parts direct.
+Next.js 14 ecommerce site for **ARF Commerce Ltd** (registered in England and Wales, company
+number 17432383), a general UK online retailer. It sells products across several categories
+(automotive, electronics & charging, tools & equipment, home & utility). Selected automotive
+products can have optional professional fitting by FixNow Mechanics.
 Many of the same parts are also listed on our eBay store, and eligible parts can be fitted by
 **FixNow Mechanics**.
 
@@ -35,24 +37,29 @@ skipped (with a warning in the logs) until the keys are set.
 The importer:
 - recognises eBay's columns (Item number, Title, Current price, Available quantity, Custom label)
   as well as the template's columns;
-- guesses the category and BMW chassis codes (F30, G20, X5…) from the title when they aren't given;
+- matches category names loosely ("Electronics & Charging" → `electronics`), and guesses the
+  category from the title when there's no Category column;
 - links each product to its eBay listing using the item number;
 - hides products with 0 quantity.
 
-It also reports which products still need images or BMW models. eBay exports don't include
+It also reports which products still need images or a category. Fitting is only ever enabled on
+automotive products. eBay exports don't include
 fitting info or photos, so add those in the spreadsheet: separate multiple values with `|`, and
 put `yes` in the Fitting column for parts FixNow can fit. Re-running the import replaces the
 whole file.
 
 ### Option B — edit by hand
 
-[`data/products.ts`](data/products.ts) holds the 14 sample products. Copy an entry, change it
+[`data/products.ts`](data/products.ts) holds 17 neutral **demo** products with placeholder images
+(`public/images/products/demo/`). Copy an entry, change it
 and redeploy. If an imported product has the same `id` or `slug`, it replaces the hand-written
 one. Delete the sample entries once your real stock is imported.
 
 | Field | Purpose |
 | --- | --- |
-| `installationAvailable` | Eligible for FixNow fitting (adds the fitting option + postcode check) |
+| `category` | `automotive`, `electronics`, `tools` or `home` — add new ones in `lib/products.ts` + `types/product.ts` |
+| `fittingEligible` | Eligible for FixNow fitting (adds the fitting option + postcode check) |
+| `compatibility` / `compatibilityNotes` | Optional "works with" info — only shown when set |
 | `fittingFrom` | Optional "fitting from £X" guide price |
 | `ebayListed` / `ebayItemId` | Shows "View on eBay" (a direct link when the item number is set) |
 | `isFeatured` | Shown in "Featured Products" on the home page |
@@ -67,7 +74,7 @@ Put product photos in `public/images/products/` and reference them as
 | What | Where |
 | --- | --- |
 | Brand name, contact emails, FixNow link, eBay store | [`lib/site-config.ts`](lib/site-config.ts) + env vars |
-| Discount codes (`WELCOME10`, `ARFMOTORS10`) and £50 minimum | `lib/site-config.ts` |
+| Discount codes (`WELCOME10`, `ARF10`) and £50 minimum | `lib/site-config.ts` |
 | Newsletter popup text | `lib/site-config.ts` |
 | FixNow fitting postcode areas | [`lib/postcode-checker.ts`](lib/postcode-checker.ts) |
 
@@ -92,8 +99,8 @@ Look up and refund orders in the Stripe dashboard.
    UK law requires the company name, number and registered office on the site. The name and
    number are already shown in the footer, policies and emails.
 2. **Domain and brand:** set `NEXT_PUBLIC_SITE_URL`, `BUSINESS_EMAIL`, `SUPPORT_EMAIL` and
-   `ADMIN_NOTIFICATION_EMAIL`. The defaults assume `arfmotors.co.uk`. The contact addresses shown
-   on the policy pages are also `@arfmotors.co.uk`; search and replace them if your domain differs.
+   `ADMIN_NOTIFICATION_EMAIL`. The defaults assume `arfcommerce.co.uk`; the public contact address
+   shown in the footer and on the Contact page is `SITE_CONFIG.emails.info` in `lib/site-config.ts`.
 3. **eBay:** set `NEXT_PUBLIC_EBAY_SELLER` to your eBay username (and optionally
    `NEXT_PUBLIC_EBAY_STORE_URL`).
 4. **Products:** import your stock (see above) and add photos.

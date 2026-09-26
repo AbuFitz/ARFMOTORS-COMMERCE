@@ -18,7 +18,7 @@ export function ProductImageGallery({ images, title, badges }: ProductImageGalle
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const validImages = images.filter(Boolean);
-  const current = validImages[selected] || "/images/placeholder.jpg";
+  const current = validImages[selected] || "/images/placeholder.png";
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);

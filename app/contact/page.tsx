@@ -1,18 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, MapPin, Clock } from "lucide-react";
+import Link from "next/link";
+import { Mail, Clock, HelpCircle, CheckCircle2 } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/site-config";
+
+const inputClass =
+  "w-full px-4 py-3 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:border-neutral-900 focus:ring-0 transition-colors";
+const labelClass = "block text-sm font-semibold text-neutral-900 mb-1.5";
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    carModel: "",
-    postcode: "",
-    message: "",
-  });
-
+  const [formData, setFormData] = useState({ name: "", email: "", orderNumber: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,21 +24,12 @@ export default function ContactPage() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          bmwModel: formData.carModel,
-          postcode: formData.postcode,
-          message: formData.message,
-        }),
+        body: JSON.stringify(formData),
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Submission failed");
-
       setSubmitted(true);
-      setFormData({ name: "", email: "", carModel: "", postcode: "", message: "" });
-      setTimeout(() => setSubmitted(false), 6000);
+      setFormData({ name: "", email: "", orderNumber: "", message: "" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
@@ -49,213 +38,105 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Hero */}
-      <section className="relative bg-neutral-900 text-white py-20">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20" />
-        </div>
-        <div className="relative mx-auto max-w-4xl px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="font-display text-5xl lg:text-6xl font-bold mb-6">Get in Touch</h1>
-            <p className="text-xl text-neutral-300 leading-relaxed max-w-2xl mx-auto">
-              Have questions about our products, fitting, or an order?
-              Send us a message and we'll get back to you within 24 hours.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <div className="bg-white">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <h1 className="font-display text-3xl sm:text-4xl font-bold text-neutral-900">Contact us</h1>
+        <p className="mt-2 text-sm sm:text-base text-neutral-600">
+          Questions about a product, an order or fitting? Send us a message.
+        </p>
 
-      {/* Contact Form & Info */}
-      <section className="py-16 lg:py-24 overflow-x-hidden">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-            {/* Contact Info Sidebar */}
-            <div className="space-y-8">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_2fr]">
+          <aside className="space-y-5 text-sm">
+            <div className="flex gap-3">
+              <Mail className="h-5 w-5 text-primary-500 flex-shrink-0" />
               <div>
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-500 text-white rounded-lg mb-4">
-                  <Mail className="h-6 w-6" />
-                </div>
-                <h3 className="font-bold text-lg text-neutral-900 mb-2">Email Us</h3>
-                <a
-                  href="mailto:info@arfmotors.co.uk"
-                  className="text-primary-500 hover:underline font-medium"
-                >
-                  info@arfmotors.co.uk
+                <p className="font-semibold text-neutral-900">Email</p>
+                <a href={`mailto:${SITE_CONFIG.emails.info}`} className="text-neutral-700 hover:underline">
+                  {SITE_CONFIG.emails.info}
                 </a>
-                <p className="text-sm text-neutral-600 mt-1">
-                  We typically respond within 24 hours
-                </p>
               </div>
-
+            </div>
+            <div className="flex gap-3">
+              <Clock className="h-5 w-5 text-primary-500 flex-shrink-0" />
               <div>
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-neutral-900 text-white rounded-lg mb-4">
-                  <Clock className="h-6 w-6" />
-                </div>
-                <h3 className="font-bold text-lg text-neutral-900 mb-2">Response Times</h3>
-                <div className="text-neutral-700 space-y-1 text-sm">
-                  <p>Monday - Friday: Same day response</p>
-                  <p>Saturday: Within 24 hours</p>
-                  <p>Sunday: Within 48 hours</p>
-                </div>
+                <p className="font-semibold text-neutral-900">Response time</p>
+                <p className="text-neutral-700">We aim to reply within 24 hours on working days.</p>
               </div>
-
+            </div>
+            <div className="flex gap-3">
+              <HelpCircle className="h-5 w-5 text-primary-500 flex-shrink-0" />
               <div>
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-neutral-900 text-white rounded-lg mb-4">
-                  <MapPin className="h-6 w-6" />
-                </div>
-                <h3 className="font-bold text-lg text-neutral-900 mb-2">Fitting Area</h3>
-                <p className="text-neutral-700 text-sm">
-                  FixNow fitting available across London and surrounding regions up to Peterborough.
+                <p className="font-semibold text-neutral-900">Quick answers</p>
+                <p className="text-neutral-700">
+                  Delivery, returns and fitting questions are covered in our{" "}
+                  <Link href="/support" className="underline">help centre</Link>.
                 </p>
               </div>
             </div>
+          </aside>
 
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <div className="bg-neutral-50 rounded-2xl p-8 lg:p-10">
-                <h2 className="font-display text-3xl font-bold text-neutral-900 mb-2">
-                  Send Us a Message
-                </h2>
-                <p className="text-neutral-600 mb-8">
-                  Fill out the form below and we'll get back to you as soon as possible.
-                </p>
-
-                {submitted && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-green-800 font-medium">
-                      ✓ Message sent! Check your email for a confirmation. We'll be in touch within 24 hours.
-                    </p>
-                  </div>
-                )}
-
-                {error && (
-                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-red-700 text-sm">{error}</p>
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-bold text-neutral-900 mb-2">
-                      Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                      placeholder="Your full name"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-bold text-neutral-900 mb-2">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                      placeholder="your.email@example.com"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="carModel" className="block text-sm font-bold text-neutral-900 mb-2">
-                        BMW Model
-                      </label>
-                      <input
-                        type="text"
-                        id="carModel"
-                        value={formData.carModel}
-                        onChange={(e) => setFormData({ ...formData, carModel: e.target.value })}
-                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                        placeholder="e.g., F30"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="postcode" className="block text-sm font-bold text-neutral-900 mb-2">
-                        Postcode
-                      </label>
-                      <input
-                        type="text"
-                        id="postcode"
-                        value={formData.postcode}
-                        onChange={(e) => setFormData({ ...formData, postcode: e.target.value.toUpperCase() })}
-                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                        placeholder="SW1A 1AA"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-bold text-neutral-900 mb-2">
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      required
-                      rows={6}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none transition-all"
-                      placeholder="Tell us about your enquiry..."
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-neutral-900 text-white py-4 rounded-lg font-bold text-lg hover:bg-primary-500 transition-colors disabled:bg-neutral-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
-                    {isSubmitting ? (
-                      <>Sending...</>
-                    ) : (
-                      <>
-                        <Mail className="h-5 w-5" />
-                        Send Message
-                      </>
-                    )}
+          <div className="rounded-2xl border border-neutral-200 p-5 sm:p-8">
+            {submitted ? (
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="h-6 w-6 text-green-600 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-neutral-900">Thanks — your message has been sent.</p>
+                  <p className="mt-1 text-sm text-neutral-600">We&apos;ve emailed you a copy and will reply within 24 hours.</p>
+                  <button onClick={() => setSubmitted(false)} className="mt-4 text-sm font-semibold underline">
+                    Send another message
                   </button>
-
-                  <p className="text-xs text-neutral-500 text-center">
-                    We typically respond within 24 hours during business days
-                  </p>
-                </form>
+                </div>
               </div>
-            </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="name" className={labelClass}>Name *</label>
+                    <input id="name" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className={inputClass} />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className={labelClass}>Email *</label>
+                    <input id="email" type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className={inputClass} />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="orderNumber" className={labelClass}>
+                    Order number <span className="font-normal text-neutral-500">(if you have one)</span>
+                  </label>
+                  <input
+                    id="orderNumber"
+                    value={formData.orderNumber}
+                    onChange={(e) => setFormData({ ...formData, orderNumber: e.target.value.toUpperCase() })}
+                    className={`${inputClass} font-mono`}
+                    placeholder="ARF-XXXXXXXX"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="message" className={labelClass}>Message *</label>
+                  <textarea
+                    id="message"
+                    required
+                    minLength={10}
+                    rows={6}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className={`${inputClass} resize-none`}
+                    placeholder="How can we help?"
+                  />
+                </div>
+                {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-800">{error}</p>}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full rounded-lg bg-neutral-900 py-3 font-semibold text-white hover:bg-neutral-800 transition-colors disabled:bg-neutral-400"
+                >
+                  {isSubmitting ? "Sending…" : "Send message"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
-      </section>
-
-      {/* FAQ Link */}
-      <section className="py-16 lg:py-24 bg-neutral-50">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
-          <h2 className="font-display text-3xl font-bold text-neutral-900 mb-4">
-            Looking for Quick Answers?
-          </h2>
-          <p className="text-lg text-neutral-600 mb-8">
-            Check our FAQ page for common questions about delivery, installation, returns, and more.
-          </p>
-          <a
-            href="/faq"
-            className="inline-flex items-center gap-2 bg-neutral-900 text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-500 transition-colors"
-          >
-            View FAQ
-          </a>
-        </div>
-      </section>
+      </div>
     </div>
   );
 }

@@ -10,8 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Premium ARFMODS palette - inspired by precision engineering
-        // Gunmetal grays, carbon blacks, and performance orange accents
+        // ARF Commerce palette: dark neutrals with a #EF4F35 accent
         primary: {
           50: '#fef4f0',
           100: '#fde7dc',

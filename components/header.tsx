@@ -1,219 +1,235 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { ShoppingCart, Menu, X, Search, Heart } from "lucide-react";
+import { ShoppingCart, Menu, X, Search, Heart, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/lib/cart-store";
 import { useWishlistStore } from "@/lib/wishlist-store";
 import { useHydrated } from "@/lib/use-hydrated";
+import { getActiveCategories } from "@/lib/products";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Shop", href: "/shop" },
-  { name: "Fitting", href: "/#fitting" },
+  { name: "Shop all", href: "/shop" },
+  { name: "Categories", href: "/categories" },
+  { name: "New arrivals", href: "/shop?sort=newest" },
+  { name: "Featured", href: "/shop?featured=1" },
+  { name: "Automotive", href: "/shop?category=automotive" },
+  { name: "Installation", href: "/installation" },
   { name: "About", href: "/about" },
-  { name: "Support", href: "/support" },
+  { name: "Help", href: "/support" },
 ];
+
+function SearchForm({ onDone, autoFocus = false }: { onDone?: () => void; autoFocus?: boolean }) {
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+
+  return (
+    <form
+      role="search"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!query.trim()) return;
+        router.push(`/shop?search=${encodeURIComponent(query.trim())}`);
+        setQuery("");
+        onDone?.();
+      }}
+      className="relative w-full"
+    >
+      <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
+      <input
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search products"
+        aria-label="Search products"
+        autoFocus={autoFocus}
+        className="w-full rounded-lg border border-neutral-200 bg-neutral-50 py-2.5 pl-10 pr-4 text-sm text-neutral-900 placeholder-neutral-400 focus:border-neutral-900 focus:bg-white focus:outline-none focus:ring-0 transition-colors"
+      />
+    </form>
+  );
+}
+
+function CountBadge({ count }: { count: number }) {
+  if (count <= 0) return null;
+  return (
+    <motion.span
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-primary-500 text-[10px] font-bold text-white"
+    >
+      {count}
+    </motion.span>
+  );
+}
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
   const hydrated = useHydrated();
   const cartCount = useCartStore((state) => state.getTotalItems());
   const wishlistCount = useWishlistStore((state) => state.getTotalItems());
   const totalItems = hydrated ? cartCount : 0;
   const wishlistItems = hydrated ? wishlistCount : 0;
+  const categories = getActiveCategories();
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/shop?search=${encodeURIComponent(searchQuery)}`);
-      setSearchOpen(false);
-      setSearchQuery("");
-    }
-  };
+  const isActive = (href: string) => !href.includes("?") && pathname === href;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8" aria-label="Global">
-        {/* Logo */}
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 group">
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl lg:text-3xl font-display font-bold tracking-tighter text-neutral-900 group-hover:text-primary-500 transition-colors">
-                ARF
-              </span>
-              <span className="text-2xl lg:text-3xl font-display font-bold tracking-tighter text-primary-500">
-                MOTORS
-              </span>
-            </div>
-            <div className="text-[9px] lg:text-[10px] font-mono font-medium text-neutral-600 tracking-[0.2em] uppercase -mt-1">
-              BMW Performance
-            </div>
-          </Link>
+    <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+      {/* Main row */}
+      <div className="mx-auto flex max-w-7xl items-center gap-4 lg:gap-8 px-4 sm:px-6 lg:px-8 h-16 lg:h-[72px]">
+        <Link href="/" className="flex-shrink-0" aria-label="ARF Commerce home">
+          <Image
+            src="/logo.svg"
+            alt="ARF Commerce"
+            width={1131}
+            height={438}
+            priority
+            unoptimized
+            className="h-9 lg:h-11 w-auto"
+          />
+        </Link>
+
+        {/* Desktop search */}
+        <div className="hidden md:block flex-1 max-w-xl">
+          <SearchForm />
         </div>
 
-        {/* Mobile menu button */}
-        <div className="flex items-center gap-3 lg:hidden">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <button
             type="button"
-            onClick={() => setSearchOpen(!searchOpen)}
-            className="p-2 text-neutral-700 hover:text-primary-500 transition-colors"
+            onClick={() => setMobileSearchOpen((v) => !v)}
+            className="md:hidden p-2 text-neutral-700 hover:text-neutral-900"
+            aria-label="Search"
           >
             <Search className="h-5 w-5" />
           </button>
-          <Link href="/wishlist" className="relative p-2">
-            <Heart className="h-5 w-5 text-neutral-700" />
-            {wishlistItems > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary-500 text-[10px] font-bold text-white">
-                {wishlistItems}
-              </span>
-            )}
+          <Link href="/wishlist" className="relative p-2 text-neutral-700 hover:text-neutral-900" aria-label="Wishlist">
+            <Heart className="h-5 w-5" />
+            <CountBadge count={wishlistItems} />
           </Link>
-          <Link href="/cart" className="relative p-2">
-            <ShoppingCart className="h-5 w-5 text-neutral-700" />
-            {totalItems > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary-500 text-[10px] font-bold text-white">
-                {totalItems}
-              </span>
-            )}
+          <Link
+            href="/cart"
+            className="relative flex items-center gap-2 p-2 lg:pl-3 lg:pr-4 lg:rounded-lg lg:bg-neutral-900 lg:text-white lg:hover:bg-neutral-800 text-neutral-700 transition-colors"
+            aria-label="Cart"
+          >
+            <ShoppingCart className="h-5 w-5" />
+            <span className="hidden lg:inline text-sm font-semibold">Cart</span>
+            <CountBadge count={totalItems} />
           </Link>
           <button
             type="button"
-            className="p-2 text-neutral-700"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="xl:hidden p-2 text-neutral-700"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
+      </div>
 
-        {/* Desktop navigation */}
-        <div className="hidden lg:flex lg:gap-x-8">
+      {/* Desktop navigation row */}
+      <nav className="hidden xl:block border-t border-neutral-100" aria-label="Main">
+        <div className="mx-auto flex max-w-7xl items-center gap-7 px-8 h-11">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary-500",
-                pathname === item.href
-                  ? "text-neutral-900 font-semibold"
-                  : "text-neutral-600"
+                "relative text-sm font-medium transition-colors hover:text-neutral-900",
+                isActive(item.href) ? "text-neutral-900" : "text-neutral-600",
+                isActive(item.href) &&
+                  "after:absolute after:-bottom-[13px] after:left-0 after:right-0 after:h-0.5 after:bg-primary-500"
               )}
             >
               {item.name}
             </Link>
           ))}
         </div>
-
-        {/* Desktop actions */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 lg:items-center">
-          {/* Search button */}
-          <button
-            onClick={() => setSearchOpen(!searchOpen)}
-            className="p-2 text-neutral-700 hover:text-primary-500 transition-colors"
-          >
-            <Search className="h-5 w-5" />
-          </button>
-
-          {/* Wishlist */}
-          <Link href="/wishlist" className="relative p-2">
-            <Heart className="h-5 w-5 text-neutral-700 hover:text-primary-500 transition-colors" />
-            {wishlistItems > 0 && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-500 text-xs font-bold text-white"
-              >
-                {wishlistItems}
-              </motion.span>
-            )}
-          </Link>
-
-          {/* Cart */}
-          <Link href="/cart" className="relative p-2">
-            <ShoppingCart className="h-5 w-5 text-neutral-700 hover:text-primary-500 transition-colors" />
-            {totalItems > 0 && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-500 text-xs font-bold text-white"
-              >
-                {totalItems}
-              </motion.span>
-            )}
-          </Link>
-        </div>
       </nav>
 
-      {/* Search Bar */}
+      {/* Mobile search */}
       <AnimatePresence>
-        {searchOpen && (
+        {mobileSearchOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-neutral-200 bg-neutral-50"
+            className="md:hidden overflow-hidden border-t border-neutral-100"
           >
-            <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
-              <form onSubmit={handleSearch} className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search for BMW parts, products, or categories..."
-                  className="w-full px-4 py-3 pr-12 rounded-lg border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  autoFocus
-                />
-                <button
-                  type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-neutral-600 hover:text-primary-500 transition-colors"
-                >
-                  <Search className="h-5 w-5" />
-                </button>
-              </form>
-              <p className="text-xs text-neutral-600 mt-2">
-                Try: "angel eyes", "carbon spoiler", "exhaust", "interior trim"
-              </p>
+            <div className="px-4 py-3">
+              <SearchForm autoFocus onDone={() => setMobileSearchOpen(false)} />
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Mobile menu */}
+      {/* Mobile / tablet menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-neutral-200"
+            className="xl:hidden overflow-hidden border-t border-neutral-200 bg-white"
           >
-            <div className="space-y-1 px-6 py-4">
-              {navigation.map((item) => (
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4 grid gap-6 sm:grid-cols-2">
+              <div>
+                <p className="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-neutral-400">Shop</p>
+                {navigation.slice(0, 4).map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-neutral-800 hover:bg-neutral-50"
+                  >
+                    {item.name}
+                    <ChevronRight className="h-4 w-4 text-neutral-300" />
+                  </Link>
+                ))}
+                {categories.map((c) => (
+                  <Link
+                    key={c.id}
+                    href={`/shop?category=${c.id}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-neutral-600 hover:bg-neutral-50"
+                  >
+                    {c.name}
+                    <span className="text-xs text-neutral-400">{c.count}</span>
+                  </Link>
+                ))}
+              </div>
+              <div>
+                <p className="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-neutral-400">ARF Commerce</p>
+                {navigation.slice(5).map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      "flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium hover:bg-neutral-50",
+                      isActive(item.href) ? "text-neutral-900 bg-neutral-50" : "text-neutral-800"
+                    )}
+                  >
+                    {item.name}
+                    <ChevronRight className="h-4 w-4 text-neutral-300" />
+                  </Link>
+                ))}
                 <Link
-                  key={item.name}
-                  href={item.href}
+                  href="/track-order"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={cn(
-                    "block rounded-lg px-3 py-2 text-base font-medium transition-colors",
-                    pathname === item.href
-                      ? "bg-neutral-100 text-neutral-900"
-                      : "text-neutral-700 hover:bg-neutral-50"
-                  )}
+                  className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-neutral-800 hover:bg-neutral-50"
                 >
-                  {item.name}
+                  Track an order
+                  <ChevronRight className="h-4 w-4 text-neutral-300" />
                 </Link>
-              ))}
+              </div>
             </div>
           </motion.div>
         )}

@@ -1,227 +1,116 @@
-import { COMPANY } from "@/lib/site-config";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { PolicyPage } from "@/components/policy-page";
+import { COMPANY, SITE_CONFIG } from "@/lib/site-config";
+
+export const metadata: Metadata = { title: "Terms & Conditions" };
+
 export default function TermsPage() {
   return (
-    <div className="bg-white min-h-screen">
-      {/* Hero */}
-      <section className="bg-neutral-900 text-white py-16">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8">
-          <h1 className="font-display text-5xl font-bold mb-4">Terms & Conditions</h1>
-          <p className="text-lg text-neutral-300">
-            Last updated: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-          </p>
-        </div>
+    <PolicyPage
+      title="Terms & conditions"
+      current="/terms"
+      intro={
+        <p>
+          These terms apply to orders placed on this website. The website is operated by {COMPANY.legalName}, a company
+          registered in {COMPANY.registeredIn} (company number {COMPANY.companyNumber})
+          {COMPANY.registeredOffice ? `, registered office ${COMPANY.registeredOffice}` : ""}. In these terms, &quot;we&quot;,
+          &quot;us&quot; and &quot;ARF Commerce&quot; mean {COMPANY.legalName}.
+        </p>
+      }
+    >
+      <section>
+        <h2>1. Ordering</h2>
+        <p>
+          When you place an order you are offering to buy the products in your cart. We&apos;ll email you to confirm we
+          have received it. The contract between us is formed when we dispatch your order. If we can&apos;t accept your
+          order — for example because an item is out of stock or a price was shown incorrectly — we&apos;ll tell you and
+          refund any payment in full.
+        </p>
       </section>
 
-      {/* Content */}
-      <section className="py-16">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8 space-y-8">
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">1. Introduction</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              These Terms and Conditions ("Terms") govern your use of the ARF Motors website (arfmotors.co.uk) and the purchase of products and services from us.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              ARF Motors is a trading name of {COMPANY.legalName}, a company registered in {COMPANY.registeredIn} (company number {COMPANY.companyNumber}){COMPANY.registeredOffice ? `, whose registered office is at ${COMPANY.registeredOffice}` : ""}. By placing an order or using our services, you agree to be bound by these Terms.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">2. Definitions</h2>
-            <ul className="list-disc list-inside space-y-2 text-neutral-700 ml-4">
-              <li><strong>"We", "Our", "Us":</strong> {COMPANY.legalName}, trading as ARF Motors</li>
-              <li><strong>"You", "Customer":</strong> The person or entity placing an order</li>
-              <li><strong>"Products":</strong> BMW automotive parts, accessories, and upgrades</li>
-              <li><strong>"Services":</strong> Fitting of eligible products via FixNow Mechanics</li>
-              <li><strong>"Website":</strong> arfmotors.co.uk</li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">3. Orders and Acceptance</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              3.1. When you place an order through our website, you are making an offer to purchase products/services.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              3.2. We will send you an order confirmation email acknowledging receipt of your order. This does not constitute acceptance.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              3.3. A contract is formed when we dispatch the products or confirm the service booking.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              3.4. We reserve the right to refuse any order at our discretion (e.g., due to stock unavailability, pricing errors, or suspected fraud).
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">4. Pricing and Payment</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              4.1. All prices are in British Pounds Sterling (GBP) and include VAT at the applicable rate.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              4.2. Delivery charges are additional and displayed at checkout.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              4.3. We reserve the right to change prices at any time. Your order will be charged at the price displayed at the time of purchase.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              4.4. If a pricing error occurs, we will contact you before processing the order.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              4.5. Payment is processed securely via Stripe. We do not store your card details.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">5. Product Descriptions and Compatibility</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              5.1. We strive to ensure product descriptions and images are accurate. However, we do not guarantee that descriptions are error-free or that images precisely represent the product.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              5.2. BMW model compatibility information is provided as a guide. You are responsible for verifying that products fit your specific vehicle before purchasing.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              5.3. If you are unsure about compatibility, contact us before ordering.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">6. Delivery</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              6.1. <strong>UK Stock Items:</strong> Dispatched within 1 working day. Delivery typically 1-3 working days.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              6.2. <strong>Imported Items:</strong> Delivery typically 10-14 working days from order confirmation.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              6.3. Delivery estimates are not guaranteed. We are not liable for delays caused by couriers or customs.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              6.4. Risk passes to you upon delivery. Ensure someone is available to sign for the package.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              6.5. If a delivery fails due to incorrect address information provided by you, re-delivery charges may apply.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">7. Fitting Services (FixNow Mechanics)</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              7.1. Fitting is available for eligible products (marked on the product page) via FixNow Mechanics in London and surrounding areas (up to Peterborough).
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              7.2. You must provide a valid postcode to check availability before booking.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              7.3. Fitting is priced and paid separately from your parts order. Any guide price shown is confirmed before work is booked.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              7.4. You must provide access to your vehicle and a safe working environment.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              7.5. Fitting services are subject to separate terms provided by FixNow Mechanics.
-            </p>
-            <p className="text-neutral-700 leading-relaxed mt-3">
-              7.6. Products bought through our eBay store are sold under eBay&apos;s terms and policies. FixNow fitting can still be arranged by contacting us.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">8. Consumer Rights (UK)</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              8.1. Under the Consumer Rights Act 2015, goods must be:
-            </p>
-            <ul className="list-disc list-inside space-y-2 text-neutral-700 ml-4 mb-3">
-              <li>Of satisfactory quality</li>
-              <li>Fit for purpose</li>
-              <li>As described</li>
-            </ul>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              8.2. If goods are faulty, you may be entitled to a repair, replacement, or refund. See our Returns & Refunds Policy for details.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              8.3. You have a 14-day cooling-off period to cancel your order (subject to exclusions). See Returns Policy.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">9. Warranty</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              9.1. Products are covered by the manufacturer's warranty (typically 12-24 months).
-            </p>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              9.2. Warranty claims must be made in accordance with the manufacturer's terms.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              9.3. Warranty does not cover damage caused by improper installation, misuse, or modifications.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">10. Limitation of Liability</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              10.1. We are not liable for:
-            </p>
-            <ul className="list-disc list-inside space-y-2 text-neutral-700 ml-4 mb-3">
-              <li>Incorrect fitment due to inaccurate vehicle information provided by you</li>
-              <li>Damage caused during self-installation</li>
-              <li>Consequential losses (e.g., loss of use, towing costs)</li>
-              <li>Delays in delivery caused by third parties</li>
-            </ul>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              10.2. Our total liability for any claim shall not exceed the amount you paid for the product or service.
-            </p>
-            <p className="text-neutral-700 leading-relaxed">
-              10.3. Nothing in these Terms excludes liability for death/personal injury caused by negligence or fraudulent misrepresentation.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">11. Intellectual Property</h2>
-            <p className="text-neutral-700 leading-relaxed">
-              All content on this website (including text, images, logos, and design) is owned by {COMPANY.legalName}. You may not reproduce, distribute, or use our content without permission.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">12. Force Majeure</h2>
-            <p className="text-neutral-700 leading-relaxed">
-              We are not liable for delays or failures caused by events beyond our reasonable control (e.g., natural disasters, strikes, pandemics, supplier issues).
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">13. Governing Law</h2>
-            <p className="text-neutral-700 leading-relaxed">
-              These Terms are governed by the laws of England and Wales. Any disputes will be subject to the exclusive jurisdiction of the courts of England and Wales.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">14. Changes to Terms</h2>
-            <p className="text-neutral-700 leading-relaxed">
-              We may update these Terms from time to time. Changes will be posted on this page with an updated date. Continued use of our services constitutes acceptance of the updated Terms.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl font-bold text-neutral-900 mb-4">15. Contact Us</h2>
-            <p className="text-neutral-700 leading-relaxed mb-3">
-              If you have questions about these Terms, contact us:
-            </p>
-            <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
-              <p className="font-semibold text-neutral-900 mb-2">ARF Motors</p>
-              <p className="text-neutral-700">{COMPANY.legalName} (company no. {COMPANY.companyNumber})</p>
-              {COMPANY.registeredOffice && <p className="text-neutral-700">{COMPANY.registeredOffice}</p>}
-              <p className="text-neutral-700">
-                Email:{" "}
-                <a href="mailto:info@arfmotors.co.uk" className="text-primary-500 hover:underline">
-                  info@arfmotors.co.uk
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
+      <section>
+        <h2>2. Prices and payment</h2>
+        <p>
+          Prices are shown in pounds sterling. Payment is taken at checkout by our payment provider, Stripe. We never
+          see or store your full card details. Discount codes are subject to the conditions shown with them, including
+          any minimum order value, and cannot be exchanged for cash.
+        </p>
       </section>
-    </div>
+
+      <section>
+        <h2>3. Product information</h2>
+        <p>
+          We aim to describe every product accurately, including what it works with. Images are for illustration and
+          packaging may differ. Where a product lists compatibility information, please check it against your own
+          vehicle or device before ordering, and contact us if you&apos;re unsure.
+        </p>
+      </section>
+
+      <section>
+        <h2>4. Delivery</h2>
+        <ul>
+          <li>We currently deliver to UK addresses only.</li>
+          <li>Estimated delivery times are shown on each product page and are estimates, not guarantees.</li>
+          <li>Items that ship from our supplier take longer to arrive; this is shown before you buy.</li>
+          <li>Risk in the products passes to you on delivery.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>5. Returns and faulty items</h2>
+        <p>
+          You can cancel and return most items within 14 days of delivery, and you have legal rights if something is
+          faulty. See our <Link href="/returns">returns policy</Link> and <Link href="/warranty">warranty information</Link>.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Professional fitting</h2>
+        <ul>
+          <li>
+            Fitting is an optional service available only on products marked as eligible, and only within the coverage
+            area ({SITE_CONFIG.fitting.coverage}).
+          </li>
+          <li>
+            Fitting is carried out by our fitting partner, FixNow Mechanics, who will contact you to confirm the price
+            and book a time. Any &quot;fitting from&quot; price shown is a guide.
+          </li>
+          <li>Fitting is priced and paid for separately from your ARF Commerce order.</li>
+          <li>
+            The fitting work is provided by FixNow Mechanics under their own terms. Our responsibility is for the
+            products we sell you.
+          </li>
+          <li>We do not provide vehicle servicing, repairs or diagnostics.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>7. Marketplace orders</h2>
+        <p>
+          Some products are also sold through our eBay store. Orders placed on eBay are also subject to eBay&apos;s own
+          terms and policies.
+        </p>
+      </section>
+
+      <section>
+        <h2>8. Our liability</h2>
+        <p>
+          We are responsible for loss or damage you suffer that is a foreseeable result of us breaking these terms or
+          failing to use reasonable care. We are not responsible for loss that is not foreseeable, or for business
+          losses. Nothing in these terms limits our liability for death or personal injury caused by our negligence,
+          for fraud, or for anything else that cannot be limited by law, and nothing affects your statutory rights.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. General</h2>
+        <p>
+          We may update these terms from time to time; the version in force when you place your order applies. These
+          terms are governed by the law of England and Wales. If you live in Scotland or Northern Ireland you may also
+          bring proceedings in your local courts.
+        </p>
+      </section>
+    </PolicyPage>
   );
 }

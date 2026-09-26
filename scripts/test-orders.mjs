@@ -183,12 +183,12 @@ async function run() {
     const { status, body } = await postCheckout({
       items: [
         {
-          productId: "arf-001", slug: "m-performance-carbon-fibre-mirror-caps", title: "Mirror caps",
+          productId: "arf-auto-001", slug: "front-rear-dash-cam-kit", title: "Dash cam",
           price: 1, discountedPrice: 1, quantity: 2, image: "", inStockUK: true, imported: false,
-          installationRequested: true, installationPostcode: "SW1A 1AA", installationAvailable: true,
+          fittingRequested: true, fittingPostcode: "SW1A 1AA", fittingAvailable: true,
         },
         {
-          productId: "arf-013", slug: "m-logo-aluminium-tyre-valve-caps", title: "Valve caps",
+          productId: "arf-elec-003", slug: "braided-usb-c-cable-2m-2-pack", title: "Cable",
           price: 0.01, quantity: 1, image: "", inStockUK: true, imported: false,
         },
       ],
@@ -199,10 +199,10 @@ async function run() {
     assert.match(body.sessionUrl, /checkout\.stripe\.test/);
 
     const { params } = checkoutSessions.at(-1);
-    assert.equal(params["line_items[0][price_data][unit_amount]"], "11699", "mirror caps should be £116.99 (10% sale)");
+    assert.equal(params["line_items[0][price_data][unit_amount]"], "11699", "dash cam should be £116.99 (10% sale)");
     assert.equal(params["line_items[0][quantity]"], "2");
     assert.equal(params["line_items[0][price_data][product_data][metadata][fitting]"], "true");
-    assert.equal(params["line_items[1][price_data][unit_amount]"], "1299", "valve caps should be £12.99");
+    assert.equal(params["line_items[1][price_data][unit_amount]"], "1299", "cable should be £12.99");
     assert.equal(params["line_items[1][price_data][product_data][metadata][fitting]"], "false");
     assert.equal(params["metadata[fittingPostcode]"], "SW1A 1AA");
     assert.equal(params["metadata[discountCode]"], "WELCOME10");
@@ -223,7 +223,7 @@ async function run() {
   await test("checkout ignores invalid discount codes and orders under the £50 minimum", async () => {
     const before = checkoutSessions.length;
     const { status } = await postCheckout({
-      items: [{ productId: "arf-013", title: "Valve caps", price: 12.99, quantity: 1 }],
+      items: [{ productId: "arf-elec-003", title: "Cable", price: 12.99, quantity: 1 }],
       customerInfo,
       discountCode: "WELCOME10",
     });
@@ -253,8 +253,8 @@ async function run() {
     const fixnow = emails.find((e) => [].concat(e.to)[0] === "fixnow@test.local");
     assert.match(fixnow.subject, /Fitting job: ARF-.* – SW1A 1AA/);
     assert.match(fixnow.html, /07700 900123/);
-    assert.match(fixnow.html, /M Performance Style Carbon Fibre Mirror Caps × 2/);
-    assert.doesNotMatch(fixnow.html, /Valve Caps/, "FixNow should only get the parts to fit");
+    assert.match(fixnow.html, /Front &amp; Rear Dash Cam Kit × 2/);
+    assert.doesNotMatch(fixnow.html, /USB-C Cable/, "FixNow should only get the products to fit");
   });
 
   await test("paid order without fitting only emails the customer and the shop", async () => {

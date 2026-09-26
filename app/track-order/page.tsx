@@ -77,7 +77,7 @@ export default function TrackOrderPage() {
               <h2 className="font-display text-xl font-bold text-neutral-900 mb-2">Ordered on our website</h2>
               <p className="text-sm text-neutral-600">
                 Your tracking number and courier link are emailed as soon as your order is dispatched.
-                Check your inbox (and spam folder) for an email from ARF Motors.
+                Check your inbox (and spam folder) for an email from ARF Commerce.
               </p>
             </div>
             <div className="bg-neutral-50 rounded-2xl p-6">
@@ -101,7 +101,7 @@ export default function TrackOrderPage() {
               <h2 className="font-display text-xl font-bold text-neutral-900 mb-2">Fitting booked</h2>
               <p className="text-sm text-neutral-600">
                 If you added fitting, FixNow Mechanics will contact you within 24 hours of your order to
-                confirm the price and book a time once your parts arrive.
+                confirm the price and book a time once your order arrives.
               </p>
             </div>
           </div>

@@ -8,6 +8,9 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [{ source: '/faq', destination: '/support', permanent: true }];
+  },
 };
 
 export default nextConfig;

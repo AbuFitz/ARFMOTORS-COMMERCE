@@ -300,7 +300,7 @@ export default function CheckoutPage() {
                     <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-100">
                       {item.image && (
                         <Image
-                          src={item.image}
+                          src={item.image || "/images/placeholder.png"}
                           alt={item.title}
                           fill
                           className="object-cover"
@@ -312,8 +312,8 @@ export default function CheckoutPage() {
                         {item.title}
                       </p>
                       <p className="text-xs text-neutral-500 mt-0.5">Qty: {item.quantity}</p>
-                      {item.installationRequested && (
-                        <p className="text-xs text-blue-600 mt-0.5">+ FixNow fitting</p>
+                      {item.fittingRequested && (
+                        <p className="text-xs text-neutral-500 mt-0.5">+ Professional fitting (quoted separately)</p>
                       )}
                     </div>
                     <div className="text-sm font-semibold text-neutral-900 flex-shrink-0">

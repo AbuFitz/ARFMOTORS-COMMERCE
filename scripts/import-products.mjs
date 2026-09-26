@@ -9,7 +9,7 @@
 //
 // Column names are matched loosely (case/spacing/punctuation ignored), so
 // "Current price", "price" and "Price (£)" all work. Anything the file doesn't
-// provide is guessed from the title (BMW chassis codes, category) or defaulted.
+// provide is guessed from the title (category) or defaulted.
 // Re-running the import replaces data/imported-products.json completely.
 
 import fs from "node:fs";
@@ -22,7 +22,7 @@ const COLUMNS = {
   sku: ["customlabelsku", "customlabel", "sku", "id"],
   quantity: ["availablequantity", "quantity", "quantityavailable", "stock"],
   category: ["category", "storecategory"],
-  models: ["bmwmodels", "models", "fits", "compatiblemodels", "compatibility"],
+  compatibility: ["compatibility", "workswith", "fits", "compatiblewith", "compatiblemodels"],
   description: ["description", "shortdescription", "subtitle"],
   longDescription: ["longdescription", "fulldescription"],
   images: ["images", "imageurls", "image", "imageurl", "pictureurl", "pictureurls", "photos"],
@@ -37,19 +37,27 @@ const COLUMNS = {
   features: ["features"],
 };
 
+// Keyword guesses used when the file has no (recognised) category column.
+// Order matters: the first match wins.
 const CATEGORY_KEYWORDS = [
-  ["lighting", ["led", "light", "lamp", "angel eye", "halo", "headlight", "tail light", "rear light", "bulb", "xenon", "drl"]],
-  ["interior", ["interior", "trim", "steering wheel", "gear", "shift", "seat", "floor mat", "ambient", "dashboard", "paddle"]],
-  ["audio", ["carplay", "android auto", "speaker", "audio", "stereo", "screen", "head unit", "subwoofer"]],
-  ["wheels-tyres", ["wheel", "alloy", "tyre", "tire", "bolt", "spacer", "centre cap", "center cap"]],
-  ["performance", ["exhaust", "intake", "air filter", "downpipe", "intercooler", "tips", "brake", "suspension", "coilover", "strut brace"]],
-  ["exterior", ["spoiler", "diffuser", "grille", "grill", "mirror", "splitter", "lip", "side skirt", "bumper", "carbon", "badge", "kidney", "wing"]],
-  ["accessories", ["valve cap", "key", "cover", "cleaning", "tool"]],
+  ["automotive", ["car ", "vehicle", "dash cam", "dashcam", "reversing", "reverse camera", "carplay", "android auto", "obd", "jump starter", "phone mount", "car mount", "12v", "tyre", "tire", "wiper", "number plate"]],
+  ["electronics", ["usb", "charger", "charging", "power bank", "cable", "bluetooth", "earbuds", "headphone", "speaker", "adapter", "hdmi"]],
+  ["tools", ["tool", "multimeter", "inflator", "compressor", "work light", "torch", "drill", "socket", "spanner", "screwdriver", "tape measure"]],
+  ["home", ["kitchen", "home", "sensor light", "motion light", "storage", "cleaning", "scale", "bathroom", "garden"]],
 ];
 
-const VALID_CATEGORIES = new Set([
-  "interior", "exterior", "lighting", "oem-plus", "performance", "wheels-tyres", "audio", "accessories",
-]);
+const VALID_CATEGORIES = new Set(["automotive", "electronics", "tools", "home"]);
+
+/** Map a category cell like "Electronics & Charging" or "Automotive" to a category id. */
+function normaliseCategory(raw) {
+  const v = raw.toLowerCase();
+  if (VALID_CATEGORIES.has(v)) return v;
+  if (v.includes("auto") || v.includes("vehicle") || v.includes("car")) return "automotive";
+  if (v.includes("electr") || v.includes("charg")) return "electronics";
+  if (v.includes("tool") || v.includes("equipment")) return "tools";
+  if (v.includes("home") || v.includes("utility") || v.includes("household")) return "home";
+  return null;
+}
 
 // ─── CSV parsing (handles quotes, commas and newlines inside quotes) ─────────
 function parseCsv(text) {
@@ -100,19 +108,12 @@ function splitList(v) {
   return v.split(/[|;\n]|,(?=\s*\S)/).map((s) => s.trim()).filter(Boolean);
 }
 
-function guessModels(title) {
-  const codes = new Set();
-  for (const m of title.toUpperCase().matchAll(/\b([EFG]\d{2})\b/g)) codes.add(m[1]);
-  for (const m of title.toUpperCase().matchAll(/\bX([1-7])\b/g)) codes.add(`X${m[1]}`);
-  return [...codes];
-}
-
 function guessCategory(title) {
   const t = title.toLowerCase();
   for (const [category, words] of CATEGORY_KEYWORDS) {
     if (words.some((w) => t.includes(w))) return category;
   }
-  return "accessories";
+  return null;
 }
 
 function main() {
@@ -142,6 +143,7 @@ function main() {
   const products = [];
   const slugs = new Set();
   const skipped = [];
+  const uncategorised = [];
 
   rows.slice(1).forEach((cells, i) => {
     const get = (key) => (colIndex[key] !== undefined ? (cells[colIndex[key]] ?? "").trim() : undefined);
@@ -158,10 +160,11 @@ function main() {
 
     const ebayItemId = (get("ebayItemId") || "").replace(/[^0-9]/g, "") || undefined;
     const quantity = parseNumber(get("quantity"));
-    const rawCategory = (get("category") || "").toLowerCase().replace(/\s*&\s*/g, "-").replace(/\s+/g, "-");
-    const category = VALID_CATEGORIES.has(rawCategory) ? rawCategory : guessCategory(title);
-    const models = splitList(get("models"));
-    const fitting = parseBool(get("fitting"), false);
+    const category = normaliseCategory(get("category") || "") || guessCategory(title);
+    if (!category) uncategorised.push(title);
+    const compatibility = splitList(get("compatibility"));
+    // Fitting is only offered on automotive products
+    const fitting = parseBool(get("fitting"), false) && (category ?? "automotive") === "automotive";
     const salePercent = parseNumber(get("salePercent"));
     const inStockUK = parseBool(get("inStockUK"), true);
     const description = get("description") || title;
@@ -173,13 +176,13 @@ function main() {
       description,
       longDescription: get("longDescription") || undefined,
       images: splitList(get("images")),
-      bmwModels: models.length ? models : guessModels(title),
-      category,
+      category: category ?? "home",
+      compatibility: compatibility.length ? compatibility : undefined,
       price,
       inStockUK,
       imported: !inStockUK,
       deliveryEstimate: get("delivery") || (inStockUK ? "1-3 business days" : "10-14 business days"),
-      installationAvailable: fitting,
+      fittingEligible: fitting,
       fittingFrom: fitting ? parseNumber(get("fittingFrom")) : undefined,
       discountType: salePercent ? "percentage" : "none",
       discountValue: salePercent || 0,
@@ -198,12 +201,12 @@ function main() {
   fs.writeFileSync(out, JSON.stringify(products, null, 2) + "\n");
 
   const noImages = products.filter((p) => !p.images.length).length;
-  const noModels = products.filter((p) => !p.bmwModels.length).length;
   console.log(`Imported ${products.length} products into data/imported-products.json`);
   if (skipped.length) console.log(`Skipped ${skipped.length}:\n  ${skipped.join("\n  ")}`);
   if (noImages) console.log(`${noImages} product(s) have no images — add image URLs or files in public/images/products/`);
-  if (noModels) console.log(`${noModels} product(s) have no BMW models — add a "BMW Models" column or edit the JSON`);
-  console.log(`${products.filter((p) => p.installationAvailable).length} product(s) marked for FixNow fitting`);
+  if (uncategorised.length)
+    console.log(`${uncategorised.length} product(s) had no recognisable category and were put in "home" — add a Category column:\n  ${uncategorised.join("\n  ")}`);
+  console.log(`${products.filter((p) => p.fittingEligible).length} product(s) marked for FixNow fitting`);
 }
 
 main();

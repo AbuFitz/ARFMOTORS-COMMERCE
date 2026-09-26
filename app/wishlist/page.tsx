@@ -27,7 +27,7 @@ export default function WishlistPage() {
             Your wishlist is empty
           </h1>
           <p className="text-neutral-600 mb-8">
-            Save your favorite BMW parts and accessories for later.
+            Save products you like and come back to them later.
           </p>
           <Link
             href="/shop"
@@ -65,7 +65,7 @@ export default function WishlistPage() {
               <Link href={`/product/${item.slug}`}>
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-neutral-100 mb-4">
                   <Image
-                    src={item.image || "/images/placeholder.jpg"}
+                    src={item.image || "/images/placeholder.png"}
                     alt={item.title}
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-300"

@@ -27,7 +27,7 @@ export function StickySupportButton() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsExpanded(true)}
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-500 text-white shadow-2xl hover:bg-primary-600 transition-colors"
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-900 text-white shadow-2xl hover:bg-neutral-800 transition-colors"
               aria-label="Open support menu"
             >
               <MessageCircle className="h-6 w-6" />
@@ -41,14 +41,14 @@ export function StickySupportButton() {
               className="bg-white rounded-2xl shadow-2xl border border-neutral-200 overflow-hidden min-w-[280px]"
             >
               {/* Header */}
-              <div className="bg-primary-500 p-4 flex items-center justify-between">
+              <div className="bg-neutral-900 p-4 flex items-center justify-between">
                 <div>
-                  <h3 className="font-bold text-white text-lg">Need Help?</h3>
-                  <p className="text-primary-100 text-sm">We're here for you</p>
+                  <h3 className="font-bold text-white text-lg">Need help?</h3>
+                  <p className="text-neutral-300 text-sm">We're here for you</p>
                 </div>
                 <button
                   onClick={() => setIsExpanded(false)}
-                  className="text-white hover:bg-primary-600 rounded-full p-1.5 transition-colors"
+                  className="text-white hover:bg-neutral-700 rounded-full p-1.5 transition-colors"
                   aria-label="Close support menu"
                 >
                   <X className="h-5 w-5" />
@@ -66,7 +66,7 @@ export function StickySupportButton() {
                     <Mail className="h-5 w-5 text-primary-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-neutral-900 text-sm">Contact Us</p>
+                    <p className="font-semibold text-neutral-900 text-sm">Contact us</p>
                     <p className="text-xs text-neutral-600">Send a message</p>
                   </div>
                 </Link>
@@ -80,21 +80,21 @@ export function StickySupportButton() {
                     <Phone className="h-5 w-5 text-primary-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-neutral-900 text-sm">Get Support</p>
-                    <p className="text-xs text-neutral-600">FAQs & guides</p>
+                    <p className="font-semibold text-neutral-900 text-sm">Help centre</p>
+                    <p className="text-xs text-neutral-600">Delivery, returns & fitting</p>
                   </div>
                 </Link>
 
                 <a
-                  href="mailto:sales@arfmotors.co.uk"
+                  href="mailto:info@arfcommerce.co.uk"
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors group"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-50 group-hover:bg-primary-100 transition-colors">
                     <MessageCircle className="h-5 w-5 text-primary-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-neutral-900 text-sm">Email Direct</p>
-                    <p className="text-xs text-neutral-600">sales@arfmotors.co.uk</p>
+                    <p className="font-semibold text-neutral-900 text-sm">Email us</p>
+                    <p className="text-xs text-neutral-600">info@arfcommerce.co.uk</p>
                   </div>
                 </a>
               </div>

@@ -16,9 +16,23 @@ import {
   MapPin,
 } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
+import { Product } from "@/types/product";
 import { getActiveCategories, getAllProducts, getFeaturedProducts, getNewestProducts } from "@/lib/products";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { formatPrice, calculateDiscount } from "@/lib/utils";
+
+// Swipeable row of product cards on mobile and tablet, 4-column grid from lg up
+function ProductRail({ products }: { products: Product[] }) {
+  return (
+    <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-2 scrollbar-hide sm:-mx-6 sm:scroll-px-6 sm:px-6 sm:gap-5 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 lg:pb-0">
+      {products.map((product) => (
+        <div key={product.id} className="w-[62%] flex-shrink-0 snap-start sm:w-[40%] md:w-[30%] lg:w-auto">
+          <ProductCard product={product} />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function SectionHeading({ title, subtitle, href, linkText }: { title: string; subtitle?: string; href?: string; linkText?: string }) {
   return (
@@ -113,11 +127,7 @@ export default function HomePage() {
       <section className="py-10 sm:py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="Featured products" href="/shop?featured=1" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-            {featured.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <ProductRail products={featured} />
         </div>
       </section>
 
@@ -125,24 +135,25 @@ export default function HomePage() {
       <section className="pb-10 sm:pb-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading title="Shop by category" href="/categories" linkText="All categories" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+          {/* Swipeable row on mobile, grid from md up */}
+          <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-2 scrollbar-hide md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
             {categories.map((c) => (
               <Link
                 key={c.id}
                 href={`/shop?category=${c.id}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-900"
+                className="group relative aspect-[4/3] w-[78%] flex-shrink-0 snap-start overflow-hidden rounded-xl bg-neutral-900 sm:w-[46%] md:w-auto"
               >
                 <Image
                   src={c.image}
                   alt=""
                   fill
-                  sizes="(max-width: 1024px) 50vw, 25vw"
+                  sizes="(max-width: 768px) 80vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
                   <h3 className="font-display text-base sm:text-lg font-bold text-white">{c.name}</h3>
-                  <p className="hidden sm:block text-xs text-neutral-300 line-clamp-1">{c.description}</p>
+                  <p className="text-xs text-neutral-300 line-clamp-1">{c.description}</p>
                   <p className="mt-1 text-[11px] text-neutral-400">
                     {c.count} {c.count === 1 ? "product" : "products"}
                   </p>
@@ -269,11 +280,7 @@ export default function HomePage() {
         <section className="pb-10 sm:pb-14">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <SectionHeading title="New arrivals" subtitle="Recently added to the store" href="/shop?sort=newest" />
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-              {newest.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <ProductRail products={newest} />
           </div>
         </section>
       )}

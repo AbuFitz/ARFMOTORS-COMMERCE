@@ -20,6 +20,7 @@ import { SITE_CONFIG } from "@/lib/site-config";
 import { formatPrice, calculateDiscount } from "@/lib/utils";
 import { GuideCard } from "@/components/blog/guide-card";
 import { getAllPosts } from "@/lib/blog";
+import { uploadedSlotImage } from "@/lib/image-slots";
 
 export const metadata: Metadata = {
   title: { absolute: "ARF Commerce | Car Accessories, In-Car Tech & Tools" },
@@ -67,6 +68,7 @@ export default function HomePage() {
   const heroProducts = getFeaturedProducts(3);
   const fittingProducts = getAllProducts().filter((p) => p.fittingEligible);
   const guides = getAllPosts().slice(0, 3);
+  const whyImage = uploadedSlotImage("about-stock");
 
   return (
     <div className="bg-white">
@@ -180,8 +182,13 @@ export default function HomePage() {
             >
               About us <ArrowRight className="h-4 w-4" />
             </Link>
+            {whyImage && (
+              <div className="relative mt-6 aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900">
+                <Image src={whyImage.src} alt={whyImage.alt} fill sizes="(min-width: 1024px) 400px, 100vw" className="object-cover" />
+              </div>
+            )}
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:content-center">
             {[
               {
                 icon: ListChecks,

@@ -11,45 +11,59 @@ export interface ImageSlot {
   /** Recommended size in pixels (width x height) */
   size: string;
   brief: string;
+  /** Uploaded images to borrow (in order) before falling back to the placeholder. */
+  fallback?: string[];
 }
 
-const slot = (upload: string, placeholderId: string, alt: string, size: string, brief: string): ImageSlot => ({
+const slot = (upload: string, placeholderId: string, alt: string, size: string, brief: string, fallback?: string[]): ImageSlot => ({
   upload,
   placeholder: `/images/placeholders/${placeholderId}.jpg`,
   alt,
   size,
   brief,
+  fallback,
 });
 
 export const IMAGE_SLOTS = {
   // ─── About page ───────────────────────────────────────────
-  "about-hero": slot("/images/about/hero.jpg", "about-hero", "ARF Commerce products ready to dispatch", "2400 x 1000",
+  "about-hero": slot("/images/about/hero.jpg", "about-hero", "An ARF Commerce order being taped up for dispatch", "2400 x 1000",
     "Wide banner. Your range laid out or stacked neatly, dark background, brand orange accent lighting. Leave the left third fairly plain for the headline."),
   "about-range": slot("/images/about/range.jpg", "about-range", "A selection of car accessories and tools sold by ARF Commerce", "1600 x 1200",
     "Flat lay from above of 6 to 10 products across the four categories: dash cam, phone mount, jump starter, tool kit."),
-  "about-packing": slot("/images/about/packing.jpg", "about-packing", "An order being packed for delivery", "1600 x 1200",
+  "about-packing": slot("/images/about/packing.jpg", "about-packing", "An order being labelled and packed at the dispatch desk", "1600 x 1200",
     "Hands packing an order into a branded or plain box, with a packing slip visible. Warm, real, not staged-looking."),
-  "about-stock": slot("/images/about/stock.jpg", "about-stock", "Stock on shelves ready to ship", "1600 x 1200",
+  "about-stock": slot("/images/about/stock.jpg", "about-stock", "Scanning ARF Commerce stock in the warehouse", "1600 x 1200",
     "Shelving or storage with boxed stock, labelled and organised. Shows you hold real UK stock."),
   "about-fitting": slot("/images/about/fitting.jpg", "about-fitting", "A dash cam being professionally fitted", "1600 x 1200",
     "A FixNow Mechanics technician fitting a dash cam or routing a cable behind trim. Close-up of hands and tools."),
 
   // ─── Suppliers page ───────────────────────────────────────
   "suppliers-hero": slot("/images/suppliers/hero.jpg", "suppliers-hero", "Boxed products in a warehouse ready to be listed", "2400 x 1000",
-    "Wide banner. Pallets or cartons of product, or a shelf of boxed stock. Dark, moody lighting with an orange accent. Leave the left side calm for the headline."),
+    "Wide banner. Pallets or cartons of product, or a shelf of boxed stock. Dark, moody lighting with an orange accent. Leave the left side calm for the headline.", ["/images/about/stock.jpg"]),
   "suppliers-listing": slot("/images/suppliers/listing.jpg", "suppliers-listing", "Product photography for an online listing", "1600 x 1200",
-    "A product being photographed on a clean background, or a laptop showing a product page. Shows you create proper listings."),
+    "A product being photographed on a clean background, or a laptop showing a product page. Shows you create proper listings.", ["/images/about/packing.jpg"]),
   "suppliers-dispatch": slot("/images/suppliers/dispatch.jpg", "suppliers-dispatch", "Parcels packed and ready for courier collection", "1600 x 1200",
-    "A stack of packed parcels with shipping labels, or a courier collection."),
+    "A stack of packed parcels with shipping labels, or a courier collection.", ["/images/about/hero.jpg"]),
   "suppliers-fitting": slot("/images/suppliers/fitting.jpg", "suppliers-fitting", "An in-car product being installed", "1600 x 1200",
-    "An automotive product being fitted in a car: dash cam, reversing camera or wiring. Shows the fitting network behind your listings."),
+    "An automotive product being fitted in a car: dash cam, reversing camera or wiring. Shows the fitting network behind your listings.", ["/images/about/fitting.jpg", "/images/categories/in-car-tech.png"]),
 } satisfies Record<string, ImageSlot>;
 
 export type ImageSlotId = keyof typeof IMAGE_SLOTS;
 
-/** The uploaded image for a slot, or its branded placeholder. */
+/** The uploaded image for a slot (or a borrowed one), else its branded placeholder. */
 export function slotImage(id: ImageSlotId): { src: string; alt: string; uploaded: boolean } {
-  const s = IMAGE_SLOTS[id];
+  const s: ImageSlot = IMAGE_SLOTS[id];
   const uploaded = findPublicImage(s.upload);
-  return { src: uploaded ?? s.placeholder, alt: s.alt, uploaded: Boolean(uploaded) };
+  if (uploaded) return { src: uploaded, alt: s.alt, uploaded: true };
+  for (const f of s.fallback ?? []) {
+    const found = findPublicImage(f);
+    if (found) return { src: found, alt: s.alt, uploaded: true };
+  }
+  return { src: s.placeholder, alt: s.alt, uploaded: false };
+}
+
+/** Like slotImage, but null when nothing real has been uploaded (for optional sections). */
+export function uploadedSlotImage(id: ImageSlotId): { src: string; alt: string } | null {
+  const img = slotImage(id);
+  return img.uploaded ? img : null;
 }

@@ -8,15 +8,19 @@ Every image slot on the site, where to upload it and what to shoot.
 
 ## About page (`/about`)
 
+`range.jpg` and `fitting.jpg` are optional: their sections only appear once uploaded.
+
 | Upload to | Size (px) | What to shoot |
 |---|---|---|
-| `public/images/about/hero.jpg` | 2400 x 1000 | Wide banner. Your range laid out or stacked neatly, dark background, orange accent lighting. Keep the left third plain, because the headline sits there. |
+| `public/images/about/hero.jpg` ✅ uploaded | 1600 x 1000 | Wide banner. Your range laid out or stacked neatly, dark background, orange accent lighting. Keep the left third plain, because the headline sits there. |
 | `public/images/about/range.jpg` | 1600 x 1200 | Flat lay from above of 6 to 10 products across the four categories: dash cam, phone mount, jump starter, tool kit. |
-| `public/images/about/stock.jpg` | 1600 x 1200 | Shelving with boxed stock, labelled and organised. Shows you hold real UK stock. |
-| `public/images/about/packing.jpg` | 1600 x 1200 | Hands packing an order into a box, with a packing slip visible. Warm and real, not staged. |
+| `public/images/about/stock.jpg` ✅ uploaded | 1600 x 1200 | Shelving with boxed stock, labelled and organised. Shows you hold real UK stock. |
+| `public/images/about/packing.jpg` ✅ uploaded | 1600 x 1200 | Hands packing an order into a box, with a packing slip visible. Warm and real, not staged. |
 | `public/images/about/fitting.jpg` | 1600 x 1200 | A FixNow Mechanics technician fitting a dash cam or routing a cable behind trim. Close-up of hands and tools. |
 
 ## Suppliers page (`/suppliers`)
+
+Until these are uploaded, the page borrows the About photos (warehouse for the hero, packing desk for listings, dispatch for dispatch) and the in-car tech photo for fitting.
 
 | Upload to | Size (px) | What to shoot |
 |---|---|---|

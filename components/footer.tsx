@@ -53,8 +53,8 @@ export function Footer() {
               <Image
                 src="/logo-white.svg"
                 alt="ARF Commerce"
-                width={1131}
-                height={438}
+                width={1381}
+                height={524}
                 unoptimized
                 className="h-10 lg:h-12 w-auto"
               />

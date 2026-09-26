@@ -87,11 +87,11 @@ export function Header() {
           <Image
             src="/logo.svg"
             alt="ARF Commerce"
-            width={1131}
-            height={438}
+            width={1381}
+            height={524}
             priority
             unoptimized
-            className="h-9 lg:h-11 w-auto"
+            className="h-10 lg:h-12 w-auto"
           />
         </Link>
 

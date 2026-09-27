@@ -71,10 +71,11 @@ export function Header() {
   const openDrawer = useDrawerStore((s) => s.openDrawer);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const megaTimer = useRef<ReturnType<typeof setTimeout>>();
   const hoverOpenedAt = useRef(0);
+  const headerRef = useRef<HTMLElement>(null);
+  const [menuTop, setMenuTop] = useState(64);
 
   const isActive = (href: string) => pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
   const shopActive = pathname === "/shop" || pathname.startsWith("/shop/") || pathname.startsWith("/product/") || pathname === "/categories";
@@ -82,7 +83,6 @@ export function Header() {
   // Close everything when the page changes
   useEffect(() => {
     setDrawerOpen(false);
-    setSearchOpen(false);
     setMegaOpen(false);
   }, [pathname]);
 
@@ -91,8 +91,7 @@ export function Header() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
       setDrawerOpen(false);
-      setSearchOpen(false);
-      setMegaOpen(false);
+        setMegaOpen(false);
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
@@ -127,7 +126,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white">
+      <header ref={headerRef} className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:h-[76px] lg:gap-8 lg:px-8">
           {/* Logo */}
           <Link href="/" aria-label="ARF Commerce home" className="flex-shrink-0">
@@ -167,24 +166,12 @@ export function Header() {
 
           {/* Right side */}
           <div className="ml-auto flex items-center gap-1 sm:gap-2">
-            <SearchForm className="hidden w-56 md:block xl:w-72" />
-            <button
-              type="button"
-              onClick={() => {
-                setDrawerOpen(false);
-                setSearchOpen((v) => !v);
-              }}
-              aria-label={searchOpen ? "Close search" : "Search"}
-              aria-expanded={searchOpen}
-              className="flex h-10 w-10 items-center justify-center rounded-full text-neutral-800 hover:bg-neutral-100 md:hidden"
-            >
-              {searchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
-            </button>
+            <SearchForm className="hidden w-56 lg:block xl:w-72" />
             <button
               type="button"
               onClick={() => openDrawer("wishlist")}
               aria-label="Wishlist"
-              className="relative hidden h-10 w-10 items-center justify-center rounded-full text-neutral-800 transition-colors hover:bg-neutral-100 sm:flex"
+              className="relative flex h-10 w-10 items-center justify-center rounded-full text-neutral-800 transition-colors hover:bg-neutral-100"
             >
               <Heart className="h-5 w-5" />
               <CountDot count={wishlistItems} />
@@ -202,34 +189,18 @@ export function Header() {
             <button
               type="button"
               onClick={() => {
-                setSearchOpen(false);
-                setDrawerOpen(true);
+                if (headerRef.current) setMenuTop(Math.round(headerRef.current.getBoundingClientRect().bottom));
+                setDrawerOpen((v) => !v);
               }}
-              aria-label="Open menu"
+              aria-label={drawerOpen ? "Close menu" : "Open menu"}
               aria-expanded={drawerOpen}
               aria-controls="mobile-menu"
               className="flex h-10 w-10 items-center justify-center rounded-full text-neutral-900 hover:bg-neutral-100 lg:hidden"
             >
-              <Menu className="h-6 w-6" />
+              {drawerOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
-
-        {/* Mobile search */}
-        <AnimatePresence>
-          {searchOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden border-t border-neutral-100 md:hidden"
-            >
-              <div className="px-4 py-3">
-                <SearchForm autoFocus onDone={() => setSearchOpen(false)} />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Desktop shop menu */}
         <AnimatePresence>
@@ -250,9 +221,6 @@ export function Header() {
                     <Link key={c.id} href={`/shop/${c.id}`} className="group">
                       <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-900">
                         <Image src={c.image} alt="" fill sizes="240px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                        <span className="absolute bottom-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white text-neutral-900 shadow transition-colors group-hover:bg-primary-500 group-hover:text-white">
-                          <ArrowRight className="h-4 w-4" />
-                        </span>
                       </div>
                       <p className="mt-2.5 text-sm font-semibold text-neutral-900 group-hover:text-primary-600">{c.name}</p>
                       <p className="line-clamp-1 text-xs text-neutral-500">{c.description}</p>
@@ -285,101 +253,84 @@ export function Header() {
         </AnimatePresence>
       </header>
 
-      {/* Mobile drawer */}
+      {/* Mobile menu: opens below the header, so the header's logo and icons stay in view */}
       <AnimatePresence>
         {drawerOpen && (
-          <>
-            <motion.button
-              type="button"
-              aria-label="Close menu"
-              tabIndex={-1}
-              onClick={() => setDrawerOpen(false)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[60] bg-neutral-950/50 lg:hidden"
-            />
-            <motion.aside
-              id="mobile-menu"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Menu"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "tween", duration: 0.25 }}
-              className="fixed inset-y-0 right-0 z-[61] flex w-[88%] max-w-sm flex-col bg-white shadow-2xl lg:hidden"
-            >
-              <div className="flex h-16 items-center justify-between border-b border-neutral-100 px-4">
-                <Image src="/logo.png" alt="ARF Commerce" width={1484} height={559} sizes="120px" className="h-8 w-auto" />
-                <button type="button" onClick={() => setDrawerOpen(false)} aria-label="Close menu" className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-neutral-100">
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
+          <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18 }}
+            style={{ top: menuTop }}
+            className="fixed inset-x-0 bottom-0 z-[49] flex flex-col overflow-y-auto overscroll-contain bg-white lg:hidden"
+          >
+            <div className="flex-1 px-4 pb-8 pt-4 sm:px-6">
+              <SearchForm onDone={() => setDrawerOpen(false)} />
 
-              <div className="flex-1 overflow-y-auto overscroll-contain px-4 pb-6 pt-4">
-                <SearchForm onDone={() => setDrawerOpen(false)} />
-
-                <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-neutral-400">Shop by category</p>
-                <div className="mt-3 grid grid-cols-2 gap-3">
-                  {categories.map((c) => (
+              <p className="mt-7 px-1 text-xs font-semibold uppercase tracking-[0.16em] text-neutral-400">Shop</p>
+              <ul className="mt-2">
+                <li>
+                  <Link
+                    href="/shop"
+                    onClick={() => setDrawerOpen(false)}
+                    className={cn("flex items-center justify-between rounded-xl px-3 py-3.5 text-lg font-semibold", pathname === "/shop" ? "bg-neutral-100 text-neutral-900" : "text-neutral-900")}
+                  >
+                    Shop all products
+                    <ArrowRight className="h-5 w-5 text-primary-500" />
+                  </Link>
+                </li>
+                {categories.map((c) => (
+                  <li key={c.id}>
                     <Link
-                      key={c.id}
                       href={`/shop/${c.id}`}
                       onClick={() => setDrawerOpen(false)}
-                      className={cn("group relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-900", isActive(`/shop/${c.id}`) && "ring-2 ring-primary-500")}
+                      className={cn(
+                        "flex items-center justify-between rounded-xl px-3 py-3 text-base font-medium",
+                        isActive(`/shop/${c.id}`) ? "bg-neutral-100 text-neutral-900" : "text-neutral-800"
+                      )}
                     >
-                      <Image src={c.image} alt="" fill sizes="45vw" className="object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                      <span className="absolute inset-x-2.5 bottom-2 text-[13px] font-semibold leading-tight text-white">{c.name}</span>
+                      {c.name}
+                      <span className="flex items-center gap-2 text-sm text-neutral-400">
+                        {c.count}
+                        <ChevronRight className="h-4 w-4 text-neutral-300" />
+                      </span>
                     </Link>
-                  ))}
-                </div>
-                <Link
-                  href="/shop"
-                  onClick={() => setDrawerOpen(false)}
-                  className="mt-3 flex items-center justify-between rounded-xl bg-neutral-900 px-4 py-3.5 text-sm font-semibold text-white"
-                >
-                  Shop all products <ArrowRight className="h-4 w-4" />
-                </Link>
+                  </li>
+                ))}
+              </ul>
 
-                <nav aria-label="Menu" className="mt-6 divide-y divide-neutral-100 border-y border-neutral-100">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setDrawerOpen(false);
-                      openDrawer("wishlist");
-                    }}
-                    className="flex w-full items-center justify-between py-3.5 text-[15px] font-medium text-neutral-900"
-                  >
-                    <span className="flex items-center gap-2">
-                      Wishlist
-                      {wishlistItems > 0 && <span className="rounded-full bg-primary-500 px-1.5 text-[11px] font-bold text-white">{wishlistItems}</span>}
-                    </span>
-                    <ChevronRight className="h-4 w-4 text-neutral-300" />
-                  </button>
-                  {[...LINKS, { name: "Track an order", href: "/track-order" }].map((l) => (
+              <div className="my-5 h-px bg-neutral-100" />
+
+              <p className="px-1 text-xs font-semibold uppercase tracking-[0.16em] text-neutral-400">ARF Commerce</p>
+              <ul className="mt-2 grid grid-cols-2 gap-2">
+                {[...LINKS, { name: "Track an order", href: "/track-order" }, { name: "Contact", href: "/contact" }].map((l) => (
+                  <li key={l.href}>
                     <Link
-                      key={l.href}
                       href={l.href}
                       onClick={() => setDrawerOpen(false)}
-                      className={cn("flex items-center justify-between py-3.5 text-[15px] font-medium", isActive(l.href) ? "text-primary-600" : "text-neutral-900")}
+                      className={cn(
+                        "block rounded-xl border px-3.5 py-3 text-sm font-medium transition-colors",
+                        isActive(l.href) ? "border-neutral-900 bg-neutral-900 text-white" : "border-neutral-200 text-neutral-800 hover:border-neutral-400"
+                      )}
                     >
                       {l.name}
-                      <ChevronRight className="h-4 w-4 text-neutral-300" />
                     </Link>
-                  ))}
-                </nav>
-              </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              <div className="border-t border-neutral-100 px-4 py-4 text-sm text-neutral-600">
-                Questions?{" "}
-                <a href={`mailto:${SITE_CONFIG.emails.support}`} className="font-medium text-neutral-900 underline">
-                  {SITE_CONFIG.emails.support}
-                </a>
-              </div>
-            </motion.aside>
-          </>
+            <div className="border-t border-neutral-100 bg-neutral-50 px-4 py-4 text-sm text-neutral-600 sm:px-6">
+              Questions? Email{" "}
+              <a href={`mailto:${SITE_CONFIG.emails.support}`} className="font-medium text-neutral-900 underline underline-offset-2">
+                {SITE_CONFIG.emails.support}
+              </a>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

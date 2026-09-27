@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CookieBanner } from "@/components/cookie-banner";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { CartDrawer } from "@/components/cart-drawer";
 import { WishlistDrawer } from "@/components/wishlist-drawer";
 import { StickySupportButton } from "@/components/sticky-support-button";
@@ -72,6 +73,7 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-neutral-900">
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <div className="flex min-h-screen flex-col bg-white">
+          <AnnouncementBar />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

@@ -2,7 +2,7 @@
 //
 // Frame sizes (make artwork at exactly these sizes and it fits with no cropping):
 //   desktop  2400 x 480 px  (5:1)  shown on tablets and up, max 1216 x 243 on screen
-//   mobile   1200 x 400 px  (3:1)  shown edge to edge on phones, about 390 x 130
+//   mobile   1200 x 480 px  (5:2)  shown edge to edge on phones, about 390 x 156
 //
 // Upload to /public/images/banners/ and list the files below. `mobile` is
 // optional: without it phones show the desktop artwork scaled to fit.

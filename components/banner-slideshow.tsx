@@ -96,16 +96,16 @@ export function BannerSlideshow({ banners }: { banners: Banner[] }) {
             aria-hidden={i === n || undefined}
             tabIndex={i === n ? -1 : undefined}
             aria-label={`${b.label}: slide ${(i % n) + 1} of ${n}`}
-            className="relative block w-full flex-shrink-0 snap-start aspect-[3/1] sm:aspect-[5/1]"
+            className="relative block w-full flex-shrink-0 snap-start aspect-[5/2] sm:aspect-[5/1]"
           >
-            {/* Phones: dedicated 3:1 artwork, or the desktop artwork scaled to fit */}
+            {/* Phones: dedicated 5:2 artwork, or the desktop artwork kept to its left edge (where the text is) */}
             <span className="absolute inset-0 sm:hidden">
               <Image
                 src={b.mobile ?? b.desktop}
                 alt={i === n ? "" : b.alt}
                 fill
                 sizes="100vw"
-                className="object-cover"
+                className={b.mobile ? "object-cover" : "object-cover object-left"}
               />
             </span>
             {/* Tablet and desktop: 5:1 artwork */}

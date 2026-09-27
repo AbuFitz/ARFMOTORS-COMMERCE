@@ -166,9 +166,6 @@ export default function HomePage() {
                 <p className="line-clamp-1 text-xs text-neutral-300">{c.description}</p>
                 <p className="mt-1 text-[11px] text-neutral-400">{c.count} {c.count === 1 ? "product" : "products"}</p>
               </div>
-              <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-neutral-900 shadow-md transition-colors group-hover:bg-primary-500 group-hover:text-white sm:h-10 sm:w-10">
-                <ArrowRight className="h-4 w-4 -rotate-45 transition-transform duration-300 group-hover:rotate-0" />
-              </span>
             </Link>
           ))}
         </div>

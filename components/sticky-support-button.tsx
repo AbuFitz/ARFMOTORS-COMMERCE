@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { HelpCircle, LifeBuoy, Mail, MessageCircle, X } from "lucide-react";
+import { CircleHelp, Mail, MessageCircle, Send, X } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -26,8 +26,8 @@ export function StickySupportButton() {
   const onProduct = pathname.startsWith("/product/");
 
   const options = [
-    { href: "/support", icon: LifeBuoy, title: "Help centre", text: "Delivery, returns and fitting" },
-    { href: "/contact", icon: MessageCircle, title: "Contact us", text: "Send us a message" },
+    { href: "/support", icon: CircleHelp, title: "Help centre", text: "Delivery, returns and fitting" },
+    { href: "/contact", icon: Send, title: "Contact us", text: "Send us a message" },
     { href: `mailto:${SITE_CONFIG.emails.info}`, icon: Mail, title: "Email us", text: SITE_CONFIG.emails.info },
   ];
 
@@ -87,7 +87,7 @@ export function StickySupportButton() {
           aria-label={open ? "Close help" : "Need help?"}
           className="flex h-12 items-center gap-2 rounded-full bg-neutral-900 px-3.5 text-white shadow-xl transition-colors hover:bg-neutral-800 sm:px-4"
         >
-          {open ? <X className="h-5 w-5" /> : <HelpCircle className="h-5 w-5" />}
+          {open ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
           <span className="hidden text-sm font-semibold sm:inline">{open ? "Close" : "Help"}</span>
         </button>
       </div>

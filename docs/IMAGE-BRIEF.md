@@ -64,7 +64,7 @@ Make each banner in two sizes. Artwork at exactly these sizes fits with no cropp
 | Version | Size (px) | Shown at | Safe zone for text and logos |
 |---|---|---|---|
 | Desktop and tablet | **2400 x 480** (5:1) | up to 1216 x 243 | 180 px in from the left and right (the slideshow arrows sit there), 40 px from top and bottom. Headline at least 90 px tall, small text at least 40 px. |
-| Mobile | **1200 x 400** (3:1) | about 390 x 130, edge to edge | 60 px in from the sides, 32 px from top and bottom. Headline at least 80 px, small text at least 40 px. Use fewer words than desktop. |
+| Mobile | **1200 x 480** (5:2) | about 390 x 156, edge to edge | 60 px in from the sides, 32 px from top and bottom. Headline at least 80 px, small text at least 40 px. Use fewer words than desktop. |
 
 Upload to `public/images/banners/` (for example `supply-and-fit-desktop.jpg` and `supply-and-fit-mobile.jpg`), then set `desktop` and `mobile` for that slide in `lib/banners.ts` and delete its `position` line. Export as JPG at about 80% quality, under 400 KB.
 

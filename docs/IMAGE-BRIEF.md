@@ -59,11 +59,14 @@ Already uploaded to `public/images/categories/` (in-car-tech, accessories, roads
 
 ## Homepage banner slideshow
 
-| Upload to | Size (px) | Notes |
-|---|---|---|
-| `public/images/banners/*.jpg` | 2172 x 724 (3:1) | Keep text away from the top and bottom 17%: desktop shows a 4.5:1 centre crop; mobile shows the full banner. Add each banner to `lib/banners.ts` with its link. Current: supply-and-fit, offers-and-savings, trusted-ordering. |
+Make each banner in two sizes. Artwork at exactly these sizes fits with no cropping. Templates with safe zones are in `docs/banner-templates/`.
 
-Marketing photos get a gentle colour grade by default, and hero backgrounds a light 1px blur. Pass `soft={false}` to `SlotImage` for real photography.
+| Version | Size (px) | Shown at | Safe zone for text and logos |
+|---|---|---|---|
+| Desktop and tablet | **2400 x 480** (5:1) | up to 1216 x 243 | 180 px in from the left and right (the slideshow arrows sit there), 40 px from top and bottom. Headline at least 90 px tall, small text at least 40 px. |
+| Mobile | **1200 x 400** (3:1) | about 390 x 130, edge to edge | 60 px in from the sides, 32 px from top and bottom. Headline at least 80 px, small text at least 40 px. Use fewer words than desktop. |
+
+Upload to `public/images/banners/` (for example `supply-and-fit-desktop.jpg` and `supply-and-fit-mobile.jpg`), then set `desktop` and `mobile` for that slide in `lib/banners.ts` and delete its `position` line. Export as JPG at about 80% quality, under 400 KB.
 
 ## Social sharing and icons
 

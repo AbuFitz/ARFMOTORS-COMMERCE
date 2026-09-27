@@ -91,20 +91,34 @@ export function BannerSlideshow({ banners }: { banners: Banner[] }) {
       <div ref={track} className="flex snap-x snap-mandatory overflow-x-auto scrollbar-hide bg-neutral-100 sm:rounded-2xl">
         {slides.map((b, i) => (
           <Link
-            key={`${b.src}-${i}`}
+            key={`${b.desktop}-${i}`}
             href={b.href}
             aria-hidden={i === n || undefined}
             tabIndex={i === n ? -1 : undefined}
             aria-label={`${b.label}: slide ${(i % n) + 1} of ${n}`}
-            className="relative block w-full flex-shrink-0 snap-start aspect-[3/1] sm:aspect-[9/2]"
+            className="relative block w-full flex-shrink-0 snap-start aspect-[3/1] sm:aspect-[5/1]"
           >
-            <Image
-              src={b.src}
-              alt={i === n ? "" : b.alt}
-              fill
-              sizes="(min-width: 1280px) 1216px, 100vw"
-              className="object-cover object-center"
-            />
+            {/* Phones: dedicated 3:1 artwork, or the desktop artwork scaled to fit */}
+            <span className="absolute inset-0 sm:hidden">
+              <Image
+                src={b.mobile ?? b.desktop}
+                alt={i === n ? "" : b.alt}
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
+            </span>
+            {/* Tablet and desktop: 5:1 artwork */}
+            <span className="absolute inset-0 hidden sm:block">
+              <Image
+                src={b.desktop}
+                alt={i === n ? "" : b.alt}
+                fill
+                sizes="(min-width: 1280px) 1216px, 100vw"
+                className="object-cover"
+                style={b.position ? { objectPosition: b.position } : undefined}
+              />
+            </span>
           </Link>
         ))}
       </div>
@@ -130,7 +144,7 @@ export function BannerSlideshow({ banners }: { banners: Banner[] }) {
           <div className="mt-3 flex justify-center gap-2">
             {banners.map((b, i) => (
               <button
-                key={b.src}
+                key={b.desktop}
                 type="button"
                 onClick={() => goTo(i)}
                 aria-label={`Show slide ${i + 1}`}

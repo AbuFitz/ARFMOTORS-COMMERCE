@@ -99,8 +99,8 @@ export default function AboutPage() {
 
       {/* Who we are */}
       <section className="py-10 sm:py-12">
-        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
-          <div className="space-y-3 text-base text-neutral-700 leading-relaxed">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl space-y-3 text-base text-neutral-700 leading-relaxed">
             <h2 className="font-display text-2xl font-bold text-neutral-900">Who we are</h2>
             <p>
               We&apos;re an independent UK retailer of car accessories, in-car tech and tools. We source products that
@@ -115,17 +115,6 @@ export default function AboutPage() {
               We sell through this website and selected marketplaces, and eligible products can also be professionally
               installed by our fitting partner, {SITE_CONFIG.fitting.partner}.
             </p>
-          </div>
-          <div className="relative">
-            <SlotImage
-              id="about-stock"
-              className="aspect-[16/9] rounded-2xl shadow-xl ring-1 ring-black/5 lg:aspect-[2/1]"
-              sizes="(min-width: 1024px) 600px, 100vw"
-            />
-            <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-neutral-950/85 px-3.5 py-2 text-xs font-semibold text-white backdrop-blur sm:text-sm">
-              <span className="h-2 w-2 rounded-full bg-primary-500" />
-              UK stock, ready to ship
-            </div>
           </div>
         </div>
       </section>

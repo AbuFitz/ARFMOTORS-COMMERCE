@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CookieBanner } from "@/components/cookie-banner";
-import { EmailPopup } from "@/components/email-popup";
+import { CartDrawer } from "@/components/cart-drawer";
+import { WishlistDrawer } from "@/components/wishlist-drawer";
 import { StickySupportButton } from "@/components/sticky-support-button";
 import { JsonLd } from "@/components/json-ld";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
@@ -76,7 +77,8 @@ export default function RootLayout({
           <Footer />
         </div>
         <CookieBanner />
-        <EmailPopup />
+        <CartDrawer />
+        <WishlistDrawer />
         <StickySupportButton />
       </body>
     </html>

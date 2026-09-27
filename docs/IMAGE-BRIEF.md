@@ -51,7 +51,7 @@ All 9 heroes are uploaded. Still to do: the inline `1.jpg` photos, plus higher r
 
 | Upload to | Size (px) | Notes |
 |---|---|---|
-| `public/images/products/<slug>.jpg` or a URL in the product data | 1200 x 1200 (square) | The demo catalogue uses Creative Commons photos from Wikimedia Commons, credited on `/credits` (`data/image-credits.ts`). Replace them with photos of the exact products you sell, then delete the matching credit. Clean light background, product centred, plus 2 to 4 extra angles. |
+| `public/images/products/<slug>.jpg` or a URL in the product data | 1200 x 1200 (square) | The demo catalogue uses Creative Commons photos from Wikimedia Commons, listed in `docs/DEMO-PHOTO-CREDITS.md`. Replace them all with photos of the exact products you sell before launch. Clean light background, product centred, plus 2 to 4 extra angles. |
 
 ## Categories
 

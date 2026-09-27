@@ -20,6 +20,7 @@ import {
   Link2,
 } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
+import { useDrawerStore } from "@/lib/drawer-store";
 import { PostcodeChecker } from "@/components/postcode-checker";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -37,6 +38,7 @@ export default function ProductPage() {
 
   const product = useMemo(() => getProductBySlug(slug), [slug]);
   const addItem = useCartStore((state) => state.addItem);
+  const openDrawer = useDrawerStore((state) => state.openDrawer);
 
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<TabType>("description");
@@ -92,7 +94,7 @@ export default function ProductPage() {
       fittingPostcode: fittingData.available ? fittingData.postcode : undefined,
       fittingAvailable: fittingData.available,
     });
-    router.push("/cart");
+    openDrawer("cart");
   };
 
   const tabs: { id: TabType; label: string; icon: typeof Package; show: boolean }[] = [

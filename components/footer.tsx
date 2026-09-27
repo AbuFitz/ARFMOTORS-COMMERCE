@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail } from "lucide-react";
+import { CookieSettingsLink } from "@/components/cookie-settings-link";
 import { SITE_CONFIG, COMPANY } from "@/lib/site-config";
 import { getActiveCategories } from "@/lib/products";
 
@@ -19,10 +20,9 @@ const policyLinks = [
   { name: "Warranty", href: "/warranty" },
   { name: "Terms & conditions", href: "/terms" },
   { name: "Privacy policy", href: "/privacy" },
-  { name: "Image credits", href: "/credits" },
 ];
 
-function LinkColumn({ title, links }: { title: string; links: { name: string; href: string }[] }) {
+function LinkColumn({ title, links, extra }: { title: string; links: { name: string; href: string }[]; extra?: React.ReactNode }) {
   return (
     <div>
       <h3 className="text-xs font-semibold text-white uppercase tracking-wider">{title}</h3>
@@ -34,6 +34,7 @@ function LinkColumn({ title, links }: { title: string; links: { name: string; hr
             </Link>
           </li>
         ))}
+        {extra && <li>{extra}</li>}
       </ul>
     </div>
   );
@@ -58,7 +59,7 @@ export function Footer() {
                 width={1484}
                 height={559}
                 sizes="200px"
-                className="h-10 lg:h-12 w-auto"
+                className="h-12 lg:h-14 w-auto"
               />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-neutral-400">
@@ -89,7 +90,11 @@ export function Footer() {
             <LinkColumn title="Help" links={helpLinks} />
           </div>
           <div className="col-span-2 sm:col-span-1 lg:col-span-2">
-            <LinkColumn title="Policies" links={policyLinks} />
+            <LinkColumn
+              title="Policies"
+              links={policyLinks}
+              extra={<CookieSettingsLink className="text-sm text-neutral-400 hover:text-white transition-colors" />}
+            />
           </div>
         </div>
 

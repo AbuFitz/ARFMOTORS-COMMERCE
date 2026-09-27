@@ -16,7 +16,7 @@ import { Product } from "@/types/product";
 //  isFeatured       shown in "Featured products"
 // ============================================================
 
-// Demo photos are Creative Commons images (see data/image-credits.ts). Replace
+// Demo photos are Creative Commons images (see docs/DEMO-PHOTO-CREDITS.md). Replace
 // them with your own product photos before launch.
 const demo = (slug: string) => [`/images/products/${slug}.jpg`];
 

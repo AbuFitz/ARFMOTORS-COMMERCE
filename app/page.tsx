@@ -47,7 +47,7 @@ function Section({ children, className, tone = "white" }: { children: React.Reac
   return (
     <section
       className={cn(
-        "py-10 sm:py-14",
+        "py-12 sm:py-14 lg:py-16",
         tone === "grey" && "border-y border-neutral-200 bg-neutral-50",
         tone === "dark" && "bg-neutral-950 text-white",
         className
@@ -60,7 +60,7 @@ function Section({ children, className, tone = "white" }: { children: React.Reac
 
 function SectionHeading({ title, subtitle, href, linkText, dark = false }: { title: string; subtitle?: string; href?: string; linkText?: string; dark?: boolean }) {
   return (
-    <div className="mb-5 flex items-end justify-between gap-4 sm:mb-6">
+    <div className="mb-6 flex items-end justify-between gap-4 sm:mb-8">
       <div>
         <h2 className={cn("font-display text-2xl font-bold sm:text-3xl", dark ? "text-white" : "text-neutral-900")}>{title}</h2>
         {subtitle && <p className={cn("mt-1 text-sm", dark ? "text-neutral-400" : "text-neutral-600")}>{subtitle}</p>}
@@ -166,21 +166,24 @@ export default function HomePage() {
                 <p className="line-clamp-1 text-xs text-neutral-300">{c.description}</p>
                 <p className="mt-1 text-[11px] text-neutral-400">{c.count} {c.count === 1 ? "product" : "products"}</p>
               </div>
+              <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-neutral-900 shadow-md transition-colors group-hover:bg-primary-500 group-hover:text-white sm:h-10 sm:w-10">
+                <ArrowRight className="h-4 w-4 -rotate-45 transition-transform duration-300 group-hover:rotate-0" />
+              </span>
             </Link>
           ))}
         </div>
       </Section>
 
       {/* ─── Featured ─────────────────────────────────────────── */}
-      <Section className="pt-0 sm:pt-0">
-        <SectionHeading title="Featured products" href="/shop?featured=1" />
+      <Section>
+        <SectionHeading title="Featured products" href="/shop" linkText="View all products" />
         <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
           {featured.map((p) => <ProductCard key={p.id} product={p} />)}
         </div>
       </Section>
 
       {/* ─── Banners ──────────────────────────────────────────── */}
-      <Section className="pt-0 sm:pt-0">
+      <Section>
         {/* Edge to edge on mobile, rounded card from sm up */}
         <div className="-mx-4 sm:mx-0">
           <BannerSlideshow banners={BANNERS} />

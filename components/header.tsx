@@ -3,40 +3,41 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { ShoppingCart, Menu, X, Search, Heart, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, ChevronDown, ChevronRight, Heart, Menu, Package, Search, ShoppingCart, Wrench, X } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
 import { useWishlistStore } from "@/lib/wishlist-store";
 import { useHydrated } from "@/lib/use-hydrated";
 import { getActiveCategories } from "@/lib/products";
+import { SITE_CONFIG } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { useDrawerStore } from "@/lib/drawer-store";
 
-// Secondary links, shown on the right of the desktop nav and in the menu
-const infoNav = [
+const LINKS = [
   { name: "Installation", href: "/installation" },
   { name: "Guides", href: "/blog" },
   { name: "About", href: "/about" },
   { name: "Help", href: "/support" },
 ];
 
-function SearchForm({ onDone, autoFocus = false }: { onDone?: () => void; autoFocus?: boolean }) {
+function SearchForm({ onDone, autoFocus = false, className }: { onDone?: () => void; autoFocus?: boolean; className?: string }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
-
   return (
     <form
       role="search"
+      className={cn("relative", className)}
       onSubmit={(e) => {
         e.preventDefault();
-        if (!query.trim()) return;
-        router.push(`/shop?search=${encodeURIComponent(query.trim())}`);
+        const q = query.trim();
+        if (!q) return;
+        router.push(`/shop?search=${encodeURIComponent(q)}`);
         setQuery("");
         onDone?.();
       }}
-      className="relative w-full"
     >
-      <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
+      <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
       <input
         type="search"
         value={query}
@@ -44,261 +45,343 @@ function SearchForm({ onDone, autoFocus = false }: { onDone?: () => void; autoFo
         placeholder="Search products"
         aria-label="Search products"
         autoFocus={autoFocus}
-        className="w-full rounded-lg border border-neutral-200 bg-neutral-50 py-2.5 pl-10 pr-4 text-sm text-neutral-900 placeholder-neutral-400 focus:border-neutral-900 focus:bg-white focus:outline-none focus:ring-0 transition-colors"
+        className="w-full rounded-full border border-neutral-200 bg-neutral-50 py-2.5 pl-10 pr-4 text-sm text-neutral-900 placeholder-neutral-400 transition-colors focus:border-neutral-900 focus:bg-white focus:outline-none focus:ring-0"
       />
     </form>
   );
 }
 
-function CountBadge({ count }: { count: number }) {
+function CountDot({ count, className }: { count: number; className?: string }) {
   if (count <= 0) return null;
   return (
-    <motion.span
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-primary-500 text-[10px] font-bold text-white"
-    >
+    <span className={cn("absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary-500 px-1 text-[10px] font-bold text-white", className)}>
       {count}
-    </motion.span>
+    </span>
   );
 }
 
 export function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const pathname = usePathname();
   const hydrated = useHydrated();
-  const cartCount = useCartStore((state) => state.getTotalItems());
-  const wishlistCount = useWishlistStore((state) => state.getTotalItems());
-  const totalItems = hydrated ? cartCount : 0;
+  const cartCount = useCartStore((s) => s.getTotalItems());
+  const wishlistCount = useWishlistStore((s) => s.getTotalItems());
+  const cartItems = hydrated ? cartCount : 0;
   const wishlistItems = hydrated ? wishlistCount : 0;
   const categories = getActiveCategories();
-  const shopNav = [{ name: "Shop all", href: "/shop" }, ...categories.map((c) => ({ name: c.name, href: `/shop/${c.id}` }))];
+  const openDrawer = useDrawerStore((s) => s.openDrawer);
 
-  const isActive = (href: string) => !href.includes("?") && pathname === href;
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [megaOpen, setMegaOpen] = useState(false);
+  const megaTimer = useRef<ReturnType<typeof setTimeout>>();
+  const hoverOpenedAt = useRef(0);
 
-  // Close the menu and search whenever the page changes (links, back button, search)
+  const isActive = (href: string) => pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
+  const shopActive = pathname === "/shop" || pathname.startsWith("/shop/") || pathname.startsWith("/product/") || pathname === "/categories";
+
+  // Close everything when the page changes
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setMobileSearchOpen(false);
+    setDrawerOpen(false);
+    setSearchOpen(false);
+    setMegaOpen(false);
   }, [pathname]);
 
-  // While the menu is open: Escape closes it and the page behind doesn't scroll
+  // Escape closes any open panel; the drawer locks page scroll
   useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMobileMenuOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setDrawerOpen(false);
+      setSearchOpen(false);
+      setMegaOpen(false);
+    };
     document.addEventListener("keydown", onKey);
-    const overflow = document.body.style.overflow;
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = overflow;
+      document.body.style.overflow = prev;
     };
-  }, [mobileMenuOpen]);
+  }, [drawerOpen]);
 
-  const toggleMenu = () => {
-    setMobileSearchOpen(false);
-    setMobileMenuOpen((v) => !v);
+  useEffect(() => () => clearTimeout(megaTimer.current), []);
+  const openMega = () => {
+    clearTimeout(megaTimer.current);
+    setMegaOpen((was) => {
+      if (!was) hoverOpenedAt.current = Date.now();
+      return true;
+    });
   };
-  const toggleSearch = () => {
-    setMobileMenuOpen(false);
-    setMobileSearchOpen((v) => !v);
+  // A click straight after hovering shouldn't close the menu the hover just opened
+  const clickMega = () => {
+    if (Date.now() - hoverOpenedAt.current < 600) return setMegaOpen(true);
+    setMegaOpen((v) => !v);
+  };
+  const closeMegaSoon = () => {
+    clearTimeout(megaTimer.current);
+    megaTimer.current = setTimeout(() => setMegaOpen(false), 150);
   };
 
   return (
     <>
-    {/* Tap outside the menu to close it */}
-    {mobileMenuOpen && (
-      <button
-        type="button"
-        aria-label="Close menu"
-        tabIndex={-1}
-        onClick={() => setMobileMenuOpen(false)}
-        className="lg:hidden fixed inset-0 z-[45] bg-neutral-950/40"
-      />
-    )}
-
-    <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
-      {/* Main row */}
-      <div className="mx-auto flex max-w-7xl items-center gap-4 lg:gap-8 px-4 sm:px-6 lg:px-8 h-16 lg:h-[72px]">
-        <Link href="/" className="flex-shrink-0" aria-label="ARF Commerce home">
-          <Image
-            src="/logo.png"
-            alt="ARF Commerce"
-            width={1484}
-            height={559}
-            priority
-            sizes="200px"
-            className="h-10 lg:h-12 w-auto"
-          />
-        </Link>
-
-        {/* Desktop search */}
-        <div className="hidden md:block flex-1 max-w-xl">
-          <SearchForm />
-        </div>
-
-        <div className="ml-auto flex items-center gap-1 sm:gap-2">
-          <button
-            type="button"
-            onClick={toggleSearch}
-            className="md:hidden p-2 text-neutral-700 hover:text-neutral-900"
-            aria-label={mobileSearchOpen ? "Close search" : "Search"}
-            aria-expanded={mobileSearchOpen}
-          >
-            <Search className="h-5 w-5" />
-          </button>
-          <Link href="/wishlist" className="relative p-2 text-neutral-700 hover:text-neutral-900" aria-label="Wishlist">
-            <Heart className="h-5 w-5" />
-            <CountBadge count={wishlistItems} />
+      <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white">
+        <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:h-[76px] lg:gap-8 lg:px-8">
+          {/* Logo */}
+          <Link href="/" aria-label="ARF Commerce home" className="flex-shrink-0">
+            <Image src="/logo.png" alt="ARF Commerce" width={1484} height={559} priority sizes="200px" className="h-9 w-auto lg:h-11" />
           </Link>
-          <Link
-            href="/cart"
-            className="relative flex items-center gap-2 p-2 lg:pl-3 lg:pr-4 lg:rounded-lg lg:bg-neutral-900 lg:text-white lg:hover:bg-neutral-800 text-neutral-700 transition-colors"
-            aria-label="Cart"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            <span className="hidden lg:inline text-sm font-semibold">Cart</span>
-            <CountBadge count={totalItems} />
-          </Link>
-          <button
-            type="button"
-            className="lg:hidden p-2 text-neutral-700"
-            onClick={toggleMenu}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-menu"
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-      </div>
 
-      {/* Desktop navigation row: shop links left, information right */}
-      <nav className="hidden lg:block border-t border-neutral-100" aria-label="Main">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-8 h-11">
-          <div className="flex items-center gap-5 xl:gap-7">
-            {shopNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
+          {/* Desktop links */}
+          <nav aria-label="Main" className="hidden h-full items-center gap-1 lg:flex">
+            <div className="relative flex h-full items-center" onMouseEnter={openMega} onMouseLeave={closeMegaSoon}>
+              <button
+                type="button"
+                onClick={clickMega}
+                aria-expanded={megaOpen}
+                aria-controls="shop-menu"
                 className={cn(
-                  "relative whitespace-nowrap text-sm font-semibold transition-colors hover:text-neutral-900",
-                  isActive(item.href) ? "text-neutral-900" : "text-neutral-700",
-                  isActive(item.href) &&
-                    "after:absolute after:-bottom-[13px] after:left-0 after:right-0 after:h-0.5 after:bg-primary-500"
+                  "inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                  megaOpen || shopActive ? "bg-neutral-900 text-white" : "text-neutral-900 hover:bg-neutral-100"
                 )}
               >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-          <div className="flex items-center gap-4 xl:gap-6">
-            {infoNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "whitespace-nowrap text-sm transition-colors hover:text-neutral-900",
-                  isActive(item.href) ? "font-medium text-neutral-900" : "text-neutral-600"
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile search */}
-      <AnimatePresence>
-        {mobileSearchOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="md:hidden overflow-hidden border-t border-neutral-100"
-          >
-            <div className="px-4 py-3">
-              <SearchForm autoFocus onDone={() => setMobileSearchOpen(false)} />
+                Shop
+                <ChevronDown className={cn("h-4 w-4 transition-transform", megaOpen && "rotate-180")} />
+              </button>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={cn(
+                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                  isActive(l.href) ? "bg-neutral-100 text-neutral-900" : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                )}
+              >
+                {l.name}
+              </Link>
+            ))}
+          </nav>
 
-      {/* Mobile / tablet menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            id="mobile-menu"
-            className="lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-neutral-200 bg-white"
-          >
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4 grid gap-6 sm:grid-cols-2">
-              <div>
-                <p className="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-neutral-400">Shop</p>
-                {[{ name: "Shop all", href: "/shop" }].map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={cn(
-                      "flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium hover:bg-neutral-50",
-                      isActive(item.href) ? "bg-neutral-50 text-neutral-900" : "text-neutral-800"
-                    )}
-                  >
-                    {item.name}
-                    <ChevronRight className="h-4 w-4 text-neutral-300" />
-                  </Link>
-                ))}
-                {categories.map((c) => (
-                  <Link
-                    key={c.id}
-                    href={`/shop/${c.id}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={cn(
-                      "flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-neutral-50",
-                      isActive(`/shop/${c.id}`) ? "bg-neutral-50 font-medium text-neutral-900" : "text-neutral-600"
-                    )}
-                  >
-                    {c.name}
-                    <span className="text-xs text-neutral-400">{c.count}</span>
-                  </Link>
-                ))}
+          {/* Right side */}
+          <div className="ml-auto flex items-center gap-1 sm:gap-2">
+            <SearchForm className="hidden w-56 md:block xl:w-72" />
+            <button
+              type="button"
+              onClick={() => {
+                setDrawerOpen(false);
+                setSearchOpen((v) => !v);
+              }}
+              aria-label={searchOpen ? "Close search" : "Search"}
+              aria-expanded={searchOpen}
+              className="flex h-10 w-10 items-center justify-center rounded-full text-neutral-800 hover:bg-neutral-100 md:hidden"
+            >
+              {searchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            </button>
+            <button
+              type="button"
+              onClick={() => openDrawer("wishlist")}
+              aria-label="Wishlist"
+              className="relative hidden h-10 w-10 items-center justify-center rounded-full text-neutral-800 transition-colors hover:bg-neutral-100 sm:flex"
+            >
+              <Heart className="h-5 w-5" />
+              <CountDot count={wishlistItems} />
+            </button>
+            <button
+              type="button"
+              onClick={() => openDrawer("cart")}
+              aria-label="Cart"
+              className="relative flex h-10 items-center gap-2 rounded-full px-2.5 text-neutral-800 transition-colors hover:bg-neutral-100 lg:bg-neutral-900 lg:px-4 lg:text-white lg:hover:bg-neutral-800"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              <span className="hidden text-sm font-semibold lg:inline">Cart</span>
+              <CountDot count={cartItems} className="right-0 lg:static lg:h-5 lg:min-w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchOpen(false);
+                setDrawerOpen(true);
+              }}
+              aria-label="Open menu"
+              aria-expanded={drawerOpen}
+              aria-controls="mobile-menu"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-neutral-900 hover:bg-neutral-100 lg:hidden"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile search */}
+        <AnimatePresence>
+          {searchOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden border-t border-neutral-100 md:hidden"
+            >
+              <div className="px-4 py-3">
+                <SearchForm autoFocus onDone={() => setSearchOpen(false)} />
               </div>
-              <div>
-                <p className="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-neutral-400">ARF Commerce</p>
-                {infoNav.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={cn(
-                      "flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium hover:bg-neutral-50",
-                      isActive(item.href) ? "text-neutral-900 bg-neutral-50" : "text-neutral-800"
-                    )}
-                  >
-                    {item.name}
-                    <ChevronRight className="h-4 w-4 text-neutral-300" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Desktop shop menu */}
+        <AnimatePresence>
+          {megaOpen && (
+            <motion.div
+              id="shop-menu"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.15 }}
+              onMouseEnter={openMega}
+              onMouseLeave={closeMegaSoon}
+              className="absolute inset-x-0 top-full hidden border-b border-neutral-200 bg-white shadow-xl lg:block"
+            >
+              <div className="mx-auto grid max-w-7xl grid-cols-[1fr_260px] gap-8 px-8 py-8">
+                <div className="grid grid-cols-4 gap-4">
+                  {categories.map((c) => (
+                    <Link key={c.id} href={`/shop/${c.id}`} className="group">
+                      <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-900">
+                        <Image src={c.image} alt="" fill sizes="240px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <span className="absolute bottom-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white text-neutral-900 shadow transition-colors group-hover:bg-primary-500 group-hover:text-white">
+                          <ArrowRight className="h-4 w-4" />
+                        </span>
+                      </div>
+                      <p className="mt-2.5 text-sm font-semibold text-neutral-900 group-hover:text-primary-600">{c.name}</p>
+                      <p className="line-clamp-1 text-xs text-neutral-500">{c.description}</p>
+                    </Link>
+                  ))}
+                </div>
+                <div className="border-l border-neutral-200 pl-8">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Browse</p>
+                  <ul className="mt-3 space-y-1">
+                    {[
+                      { name: "All products", href: "/shop", icon: Package },
+                      { name: "Featured products", href: "/shop?featured=1", icon: ChevronRight },
+                      { name: "Fitting available", href: "/shop?fitting=1", icon: Wrench },
+                    ].map((l) => (
+                      <li key={l.href}>
+                        <Link href={l.href} onClick={() => setMegaOpen(false)} className="flex items-center gap-2.5 rounded-lg px-2 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-50">
+                          <l.icon className="h-4 w-4 text-primary-500" />
+                          {l.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/shop" onClick={() => setMegaOpen(false)} className="mt-5 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-neutral-800">
+                    Shop all products <ArrowRight className="h-4 w-4" />
                   </Link>
-                ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {drawerOpen && (
+          <>
+            <motion.button
+              type="button"
+              aria-label="Close menu"
+              tabIndex={-1}
+              onClick={() => setDrawerOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[60] bg-neutral-950/50 lg:hidden"
+            />
+            <motion.aside
+              id="mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween", duration: 0.25 }}
+              className="fixed inset-y-0 right-0 z-[61] flex w-[88%] max-w-sm flex-col bg-white shadow-2xl lg:hidden"
+            >
+              <div className="flex h-16 items-center justify-between border-b border-neutral-100 px-4">
+                <Image src="/logo.png" alt="ARF Commerce" width={1484} height={559} sizes="120px" className="h-8 w-auto" />
+                <button type="button" onClick={() => setDrawerOpen(false)} aria-label="Close menu" className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-neutral-100">
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto overscroll-contain px-4 pb-6 pt-4">
+                <SearchForm onDone={() => setDrawerOpen(false)} />
+
+                <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-neutral-400">Shop by category</p>
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  {categories.map((c) => (
+                    <Link
+                      key={c.id}
+                      href={`/shop/${c.id}`}
+                      onClick={() => setDrawerOpen(false)}
+                      className={cn("group relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-900", isActive(`/shop/${c.id}`) && "ring-2 ring-primary-500")}
+                    >
+                      <Image src={c.image} alt="" fill sizes="45vw" className="object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                      <span className="absolute inset-x-2.5 bottom-2 text-[13px] font-semibold leading-tight text-white">{c.name}</span>
+                    </Link>
+                  ))}
+                </div>
                 <Link
-                  href="/track-order"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-neutral-800 hover:bg-neutral-50"
+                  href="/shop"
+                  onClick={() => setDrawerOpen(false)}
+                  className="mt-3 flex items-center justify-between rounded-xl bg-neutral-900 px-4 py-3.5 text-sm font-semibold text-white"
                 >
-                  Track an order
-                  <ChevronRight className="h-4 w-4 text-neutral-300" />
+                  Shop all products <ArrowRight className="h-4 w-4" />
                 </Link>
+
+                <nav aria-label="Menu" className="mt-6 divide-y divide-neutral-100 border-y border-neutral-100">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDrawerOpen(false);
+                      openDrawer("wishlist");
+                    }}
+                    className="flex w-full items-center justify-between py-3.5 text-[15px] font-medium text-neutral-900"
+                  >
+                    <span className="flex items-center gap-2">
+                      Wishlist
+                      {wishlistItems > 0 && <span className="rounded-full bg-primary-500 px-1.5 text-[11px] font-bold text-white">{wishlistItems}</span>}
+                    </span>
+                    <ChevronRight className="h-4 w-4 text-neutral-300" />
+                  </button>
+                  {[...LINKS, { name: "Track an order", href: "/track-order" }].map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      onClick={() => setDrawerOpen(false)}
+                      className={cn("flex items-center justify-between py-3.5 text-[15px] font-medium", isActive(l.href) ? "text-primary-600" : "text-neutral-900")}
+                    >
+                      {l.name}
+                      <ChevronRight className="h-4 w-4 text-neutral-300" />
+                    </Link>
+                  ))}
+                </nav>
               </div>
-            </div>
-          </motion.div>
+
+              <div className="border-t border-neutral-100 px-4 py-4 text-sm text-neutral-600">
+                Questions?{" "}
+                <a href={`mailto:${SITE_CONFIG.emails.support}`} className="font-medium text-neutral-900 underline">
+                  {SITE_CONFIG.emails.support}
+                </a>
+              </div>
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
-
-    </header>
     </>
   );
 }

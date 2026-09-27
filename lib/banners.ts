@@ -21,9 +21,10 @@ export interface Banner {
 
 export const BANNERS: Banner[] = [
   {
+    // 1916 x 821 artwork: desktop shows the headline and subtitle strip
     desktop: "/images/banners/supply-and-fit.jpg",
-    position: "50% 56%",
-    alt: "FixNow Mechanics x ARF Commerce Supply & Fit Partnership. Products supplied by ARF Commerce, installation support through FixNow Mechanics.",
+    position: "50% 62%",
+    alt: "FixNow Mechanics x ARF Commerce Supply & Fit Partnership. Products supplied by ARF Commerce with fitting support through FixNow Mechanics.",
     href: "/installation",
     label: "How installation works",
   },
